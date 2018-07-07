@@ -6,18 +6,23 @@ $params = array_merge(
     require __DIR__ . '/params-local.php'
 );
 
-return [
+$config = [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => require __DIR__ . '/../../common/config/modules.php',
     'components' => [
+    	'db' => require __DIR__ . '/../../common/config/db.php',
         'request' => [
             'csrfParam' => '_csrf-backend',
+	        'baseUrl' => '/admin',
+	        'parsers' => [
+		        'application/json' => 'yii\web\JsonParser',
+	        ]
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\BaseUser',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
@@ -37,14 +42,53 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            /*'rules' => [
+            	'' => 'site/index',
+            	'/login' => 'site/login',
+            	'/logout' => 'site/logout',
+            ],*/
+	        'rules' => [
+		       
+	        ],
         ],
-        */
     ],
     'params' => $params,
 ];
+
+if (YII_ENV_DEV) {
+	// configuration adjustments for 'dev' environment
+	$config['bootstrap'][] = 'debug';
+	$config['modules']['debug'] = [
+		'class' => 'yii\debug\Module',
+		// uncomment the following to add your IP if you are not connecting from localhost.
+		//'allowedIPs' => ['127.0.0.1', '::1'],
+	];
+	
+	$config['bootstrap'][] = 'gii';
+	$config['modules']['gii'] = [
+		'class' => 'yii\gii\Module',
+		// uncomment the following to add your IP if you are not connecting from localhost.
+		//'allowedIPs' => ['127.0.0.1', '::1'],
+		'generators' => [
+			'migrik'=>[
+				'class'=>\insolita\migrik\gii\StructureGenerator::class,
+				'templates'=>
+					[
+						'custom'=>'@backend/gii/templates/migrator_schema'
+					]
+			],
+			'migrikdata'=>[
+				'class'=>\insolita\migrik\gii\DataGenerator::class,
+				'templates'=>
+					[
+						'custom'=>'@backend/gii/templates/migrator_data'
+					]
+			],
+		]
+	];
+}
+
+return $config;

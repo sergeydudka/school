@@ -38,18 +38,32 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+    
+    $menu = new \modules\menu\controllers\DefaultController('menu', new \modules\menu\Module('menu'),[]);
+    
+    foreach ($menu->prepareDataProvider() as $module => $controllers) {
+        
+        $items = [];
+        
+        foreach ($controllers as $class => $params) {
+            $name = \yii\helpers\Inflector::camel2id(str_replace('Controller', '', $class));
+            
+            if ($name == 'default') {
+	            continue;
+            }
+	        
+            $items[] = [
+	            'label' => ucfirst($name),
+                'url' => ['/' . $module . '/' . $name]
+            ];
+        }
+	    $menuItems[] = [
+		    'label' => ucfirst($module),
+		    'url' => ['/' . $module],
+            'items' => $items,
+        ];
     }
+    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,

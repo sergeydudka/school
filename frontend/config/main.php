@@ -6,17 +6,22 @@ $params = array_merge(
     require __DIR__ . '/params-local.php'
 );
 
-return [
+$config = [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+	'aliases' => [
+	
+	],
+	'modules' => require __DIR__ . '/../../common/config/modules.php',
     'components' => [
+	    'db' => require __DIR__ . '/../../common/config/db.php',
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\BaseUser',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
@@ -36,14 +41,15 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+            	'' => 'site/frontend/index'
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
+
+return $config;
