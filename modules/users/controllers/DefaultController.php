@@ -2,9 +2,13 @@
 
 namespace modules\users\controllers;
 
+use common\classes\ApiController;
+
 /**
- * Default controller for the `article` module
+ * Default controller for the `adminmenu` module
  */
-class DefaultController extends UserController {
-	public $modelClass = 'modules\users\models\User';
+class DefaultController extends ApiController {
+	
+	
+	public $modelClass = 'Users';
 }

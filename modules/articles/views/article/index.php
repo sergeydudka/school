@@ -27,8 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             //'description:ntext',
             'created_at',
             'updated_at',
-            'created_by',
-            'updated_by',
             'status',
             //'article_group_id',
 
@@ -41,6 +39,34 @@ $this->params['breadcrumbs'][] = $this->title;
                    return $group ? $group->title : '---';
                 },
             ],
+	
+	        [
+		        'attribute' => 'created_by',
+		        'value' => function ($model) {
+			        return $model->created->username;
+		        }
+	        ],
+	
+	        [
+		        'attribute' => 'updated_by',
+		        'value' => function ($model) {
+			        return $model->updated->username;
+		        }
+	        ],
+	
+	        [
+		        'attribute' => 'difficult_id',
+		        'value' => function ($model) {
+			        return $model->difficult->title;
+		        }
+	        ],
+	
+	        [
+		        'attribute' => 'language_id',
+		        'value' => function ($model) {
+			        return $model->language->title;
+		        }
+	        ],
             
             ['class' => 'yii\grid\ActionColumn'],
         ],

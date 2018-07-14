@@ -53,7 +53,7 @@ class ArticleGroup extends ActiveRecord {
 		return [
 			[['description'], 'string'],
 			[['created_at', 'updated_at'], 'safe'],
-			[['created_by', 'updated_by', 'parent_id'], 'integer'],
+			[['created_by', 'updated_by', 'parent_id', 'difficult_id'], 'integer'],
 			[['title'], 'string', 'max' => 256],
 		];
 	}
@@ -65,12 +65,14 @@ class ArticleGroup extends ActiveRecord {
 		return [
 			'article_group_id' => 'Article Group ID',
 			'parent_id' => 'Parent ID',
+			'article_category_id' => 'Article Category ID',
 			'title' => 'Title',
 			'description' => 'Description',
 			'created_at' => 'Created At',
 			'ypdated_at' => 'Ypdated At',
 			'created_by' => 'Created By',
 			'updated_by' => 'Updated By',
+			'difficult_id' => 'Difficult',
 		];
 	}
 	
@@ -79,6 +81,13 @@ class ArticleGroup extends ActiveRecord {
 	 */
 	public function getParent() {
 		return $this->hasOne(ArticleGroup::class, ['article_group_id' => 'parent_id']);
+	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getArticleCategory() {
+		return $this->hasOne(ArticleCategory::class, ['article_category_id' => 'article_category_id']);
 	}
 	
 	/**
@@ -100,5 +109,16 @@ class ArticleGroup extends ActiveRecord {
 	 */
 	public static function getDropdown() {
 		return ArrayHelper::map(self::find()->asArray(true)->all(), 'article_group_id', 'title');
+	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getDifficult() {
+		return $this->hasOne(Difficult::class,
+			[
+				'difficult_id' => 'difficult_id'
+			]
+		);
 	}
 }

@@ -45,16 +45,15 @@ AppAsset::register($this);
         
         $items = [];
         
-        foreach ($controllers as $class => $params) {
-            $name = \yii\helpers\Inflector::camel2id(str_replace('Controller', '', $class));
+        foreach ($controllers as $name => $params) {
             
             if ($name == 'default') {
 	            continue;
             }
 	        
             $items[] = [
-	            'label' => ucfirst($name),
-                'url' => ['/' . $module . '/' . $name]
+	            'label' => $params['label'] ?: $name,
+                'url' => [$params['url']]
             ];
         }
 	    $menuItems[] = [

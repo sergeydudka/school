@@ -3,12 +3,12 @@
 namespace modules\users;
 
 /**
- * article module definition class
+ * adminmenu module definition class
  */
 class Module extends \yii\base\Module {
 	/**
 	 * {@inheritdoc}
 	 */
 	public $controllerNamespace = 'modules\users\controllers';
-	public $defaultRoute = 'user';
+	
 }

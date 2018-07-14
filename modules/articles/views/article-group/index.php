@@ -30,6 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->parent->title;
                 }
             ],
+	
+	        [
+		        'attribute' => 'article_category_id',
+		        'value' => function ($model) {
+			        return $model->articleCategory->title;
+		        }
+	        ],
             
             'title',
             
@@ -50,6 +57,13 @@ $this->params['breadcrumbs'][] = $this->title;
 		        'attribute' => 'updated_by',
 		        'value' => function ($model) {
 			        return $model->updated->username;
+		        }
+	        ],
+	
+	        [
+		        'attribute' => 'difficult_id',
+		        'value' => function ($model) {
+			        return $model->difficult->title;
 		        }
 	        ],
             

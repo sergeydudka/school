@@ -54,6 +54,9 @@ $config = [
 		       
 	        ],
         ],
+//	    'i18n' => [
+//	    	'class' => yii\i18n\DbMessageSource::class
+//	    ]
     ],
     'params' => $params,
 ];
