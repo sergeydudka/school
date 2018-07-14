@@ -21,6 +21,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'article_group_id')
 	    ->dropDownList(\modules\articles\models\ArticleGroup::getDropdown(), ['prompt' => '-----']); ?>
+	
+	<?= $form->field($model, 'difficult_id')
+		->dropDownList(\modules\articles\models\Difficult::getDropdown(\modules\articles\models\Difficult::TYPE_ARTICLE_DIFFICULT), ['prompt' => '-----']); ?>
+	
+	<?= $form->field($model, 'difficult_id')
+		->dropDownList(\modules\languages\models\Language::getDropdown(), ['prompt' => '-----']); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

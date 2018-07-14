@@ -4,7 +4,8 @@ namespace modules\articles\models;
 
 use common\behaviors\HTMLEncodeBehavior;
 use common\behaviors\TimestampBehavior;
-use common\models\BaseUser;
+use modules\languages\models\Language;
+use modules\users\models\User;
 use yii\behaviors\BlameableBehavior;
 
 /**
@@ -17,8 +18,10 @@ use yii\behaviors\BlameableBehavior;
  * @property string $updated_at
  * @property string $status
  * @property int $article_group_id
+ * @property int $language_id
  * @property int $created_by
  * @property int $updated_by
+ * @property int $difficult_id
  */
 class Article extends \yii\db\ActiveRecord {
 	
@@ -52,6 +55,10 @@ class Article extends \yii\db\ActiveRecord {
 		if ($this->status === null) {
 			$this->status = self::STATUS_DEFAULT;
 		}
+		
+		if ($this->language_id === null) {
+			$this->language_id = \Yii::$app->language;
+		}
 		parent::init();
 	}
 	
@@ -63,7 +70,7 @@ class Article extends \yii\db\ActiveRecord {
 			[['description', 'status', 'title'], 'required'],
 			[['description', 'status'], 'string'],
 			[['created_at', 'updated_at'], 'safe'],
-			[['created_by', 'updated_by', 'article_group_id'], 'integer'],
+			[['created_by', 'updated_by', 'article_group_id', 'difficult_id', 'language_id'], 'integer'],
 			[['title'], 'string', 'max' => 512],
 		];
 	}
@@ -82,6 +89,8 @@ class Article extends \yii\db\ActiveRecord {
 			'updated_by' => 'Updated By',
 			'status' => 'Status',
 			'article_group_id' => 'Article Group ID',
+			'difficult_id' => 'Difficult',
+			'language_id' => 'Language ID',
 		];
 	}
 	
@@ -96,13 +105,35 @@ class Article extends \yii\db\ActiveRecord {
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getCreated() {
-		return $this->hasOne(BaseUser::class, ['user_id' => 'created_by']);
+		return $this->hasOne(User::class, ['user_id' => 'created_by']);
 	}
 	
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getUpdated() {
-		return $this->hasOne(BaseUser::class, ['user_id' => 'updated_by']);
+		return $this->hasOne(User::class, ['user_id' => 'updated_by']);
+	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getDifficult() {
+		return $this->hasOne(Difficult::class,
+			[
+				'difficult_id' => 'difficult_id'
+			]
+		);
+	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getLanguage() {
+		return $this->hasOne(Language::class,
+			[
+				'language_id' => 'language_id'
+			]
+		);
 	}
 }

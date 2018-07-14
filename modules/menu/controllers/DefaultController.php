@@ -10,7 +10,7 @@ use common\classes\ApiController;
 class DefaultController extends ApiController {
 	
 	
-	public $modelClass = 'Menu';
+	public $modelClass = 'no-model';
 	
 	
 	public function actions() {
@@ -56,10 +56,18 @@ class DefaultController extends ApiController {
 			}
 			
 			$fileInfo = pathinfo($fileName);
+			
+			$name = \yii\helpers\Inflector::camel2id(str_replace('Controller', '', $fileInfo['filename']));
+			
 			$class = $controllerNamespace . '\\' . $fileInfo['filename'];
 			
 			$controller = new $class($fileInfo['filename'], $module_id);
-			$result[$fileInfo['filename']] = array_keys($controller->actions());
+			$result[$name] = [
+				'class' => $class,
+				'url' => '/' . $module_id . '/' . $name,
+				'label' => '',
+				'actions' => $controller->actions(),
+			];
 		}
 		return $result;
 	}

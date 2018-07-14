@@ -16,4 +16,7 @@ return [
 	'users' => [
 		'class' => 'modules\users\Module',
 	],
+	'languages' => [
+		'class' => 'modules\languages\Module',
+	],
 ];
