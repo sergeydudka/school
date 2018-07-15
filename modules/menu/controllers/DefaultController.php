@@ -10,7 +10,7 @@ use common\classes\ApiController;
 class DefaultController extends ApiController {
 	
 	
-	public $modelClass = 'no-model';
+	public $modelClass = '';
 	
 	
 	public function actions() {
