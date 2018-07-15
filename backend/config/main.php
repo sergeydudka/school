@@ -40,19 +40,16 @@ $config = [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'index/error',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            /*'rules' => [
-            	'' => 'site/index',
-            	'/login' => 'site/login',
-            	'/logout' => 'site/logout',
-            ],*/
-	        'rules' => [
-		       
-	        ],
+            'rules' => [
+            	'' => 'index',
+            	'login' => 'index/login',
+            	'logout' => 'index/logout',
+            ],
         ],
 //	    'i18n' => [
 //	    	'class' => yii\i18n\DbMessageSource::class
