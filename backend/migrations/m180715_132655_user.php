@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m180707_144906_user extends Migration
+class m180715_132655_user extends Migration
 {
 
     public function init()
@@ -16,7 +16,7 @@ class m180707_144906_user extends Migration
     {
         $tableOptions = 'ENGINE=InnoDB';
 
-        @$this->createTable(
+        $this->createTable(
             '{{%user}}',
             [
                 'user_id'=> $this->primaryKey(11),

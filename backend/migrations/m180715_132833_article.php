@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m180707_144949_article extends Migration
+class m180715_132833_article extends Migration
 {
 
     public function init()
@@ -20,6 +20,7 @@ class m180707_144949_article extends Migration
             '{{%article}}',
             [
                 'article_id'=> $this->primaryKey(20),
+                'language_id'=> $this->integer(11)->null()->defaultValue(null),
                 'title'=> $this->string(512)->null()->defaultValue(null),
                 'description'=> $this->text()->null()->defaultValue(null),
                 'created_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
@@ -28,6 +29,7 @@ class m180707_144949_article extends Migration
                 'article_group_id'=> $this->integer(11)->notNull()->defaultValue(0),
                 'created_by'=> $this->integer(11)->notNull()->defaultValue(0),
                 'updated_by'=> $this->integer(11)->notNull()->defaultValue(0),
+                'difficult_id'=> $this->integer(11)->null()->defaultValue(0),
             ],$tableOptions
         );
         $this->createIndex('title','{{%article}}',['title'],false);
@@ -35,6 +37,7 @@ class m180707_144949_article extends Migration
         $this->createIndex('date_added','{{%article}}',['created_at'],false);
         $this->createIndex('date_update','{{%article}}',['updated_at'],false);
         $this->createIndex('article_group_id','{{%article}}',['article_group_id'],false);
+        $this->createIndex('language_id','{{%article}}',['language_id'],false);
 
     }
 
@@ -45,6 +48,7 @@ class m180707_144949_article extends Migration
         $this->dropIndex('date_added', '{{%article}}');
         $this->dropIndex('date_update', '{{%article}}');
         $this->dropIndex('article_group_id', '{{%article}}');
+        $this->dropIndex('language_id', '{{%article}}');
         $this->dropTable('{{%article}}');
     }
 }

@@ -26,7 +26,6 @@ return [
                 '@app/migrations',
                 '@backend/migrations'
                 ]
-            //'migrationPath' => null, // allows to disable not namespaced migration completely
           ],
     ],
     'components' => [

@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m180707_145104_article_group extends Migration
+class m180715_132913_article_group extends Migration
 {
 
     public function init()
@@ -21,12 +21,14 @@ class m180707_145104_article_group extends Migration
             [
                 'article_group_id'=> $this->primaryKey(11),
                 'parent_id'=> $this->integer(11)->null()->defaultValue(0),
+                'article_category_id'=> $this->integer(11)->notNull()->defaultValue(0),
                 'title'=> $this->string(256)->null()->defaultValue(null),
                 'description'=> $this->text()->null()->defaultValue(null),
                 'created_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
                 'updated_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
                 'created_by'=> $this->integer(20)->null()->defaultValue(0),
                 'updated_by'=> $this->integer(20)->null()->defaultValue(0),
+                'difficult_id'=> $this->integer(11)->null()->defaultValue(0),
             ],$tableOptions
         );
         $this->createIndex('name','{{%article_group}}',['title'],false);
@@ -35,6 +37,7 @@ class m180707_145104_article_group extends Migration
         $this->createIndex('user_id','{{%article_group}}',['created_by'],false);
         $this->createIndex('parent_id','{{%article_group}}',['parent_id'],false);
         $this->createIndex('updated_by','{{%article_group}}',['updated_by'],false);
+        $this->createIndex('article_category_id','{{%article_group}}',['article_category_id'],false);
 
     }
 
@@ -46,6 +49,7 @@ class m180707_145104_article_group extends Migration
         $this->dropIndex('user_id', '{{%article_group}}');
         $this->dropIndex('parent_id', '{{%article_group}}');
         $this->dropIndex('updated_by', '{{%article_group}}');
+        $this->dropIndex('article_category_id', '{{%article_group}}');
         $this->dropTable('{{%article_group}}');
     }
 }
