@@ -1,5 +1,7 @@
 <?php
 
+if (YII_ENV_PROD) return [];
+
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=learn',
