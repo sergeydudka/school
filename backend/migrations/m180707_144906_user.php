@@ -16,7 +16,7 @@ class m180707_144906_user extends Migration
     {
         $tableOptions = 'ENGINE=InnoDB';
 
-        $this->createTable(
+        @$this->createTable(
             '{{%user}}',
             [
                 'user_id'=> $this->primaryKey(11),

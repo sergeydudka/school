@@ -20,6 +20,14 @@ return [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
           ],
+          'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => [
+                '@app/migrations',
+                '@backend/migrations'
+                ]
+            //'migrationPath' => null, // allows to disable not namespaced migration completely
+          ],
     ],
     'components' => [
 	    'db' => require __DIR__ . '/../../common/config/db.php',
