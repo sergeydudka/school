@@ -2,7 +2,7 @@
 
 namespace modules\articles\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property string $title
  * @property string $sort
  */
-class Difficult extends \yii\db\ActiveRecord {
+class Difficult extends ActiveRecord {
 	
 	const TYPE_ARTICLE_DIFFICULT = 'article';
 	const TYPE_ARTICLE_GROUP_DIFFICULT = 'article_group';

@@ -5,8 +5,8 @@ namespace modules\articles\models;
 use common\behaviors\HTMLEncodeBehavior;
 use common\behaviors\TimestampBehavior;
 use common\models\BaseUser;
+use common\models\RelationshipModel;
 use yii\behaviors\BlameableBehavior;
-use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -17,11 +17,12 @@ use yii\helpers\ArrayHelper;
  * @property string $title
  * @property string $description
  * @property string $created_at
- * @property string $ypdated_at
+ * @property string $updated_at
  * @property int $created_by
  * @property int $updated_by
+ * @property string $required
  */
-class ArticleGroup extends ActiveRecord {
+class ArticleGroup extends RelationshipModel {
 	/**
 	 * {@inheritdoc}
 	 */
@@ -41,7 +42,7 @@ class ArticleGroup extends ActiveRecord {
 				]
 			],
 			BlameableBehavior::class => [
-				'class' => BlameableBehavior::class,
+				'class' => BlameableBehavior::class
 			]
 		];
 	}
@@ -52,6 +53,7 @@ class ArticleGroup extends ActiveRecord {
 	public function rules() {
 		return [
 			[['description'], 'string'],
+			[['required'], 'string'],
 			[['created_at', 'updated_at'], 'safe'],
 			[['created_by', 'updated_by', 'parent_id', 'difficult_id'], 'integer'],
 			[['title'], 'string', 'max' => 256],
@@ -69,10 +71,11 @@ class ArticleGroup extends ActiveRecord {
 			'title' => 'Title',
 			'description' => 'Description',
 			'created_at' => 'Created At',
-			'ypdated_at' => 'Ypdated At',
+			'updated_at' => 'Updated At',
 			'created_by' => 'Created By',
 			'updated_by' => 'Updated By',
 			'difficult_id' => 'Difficult',
+			'required' => 'Required',
 		];
 	}
 	
@@ -120,5 +123,15 @@ class ArticleGroup extends ActiveRecord {
 				'difficult_id' => 'difficult_id'
 			]
 		);
+	}
+	
+	public static function relationships() {
+		return [
+			'difficult_id' => 'difficult',
+			'article_category_id' => 'articleCategory',
+			'parent_id' => 'parent',
+			'created_by' => 'created',
+			'updated_by' => 'updated'
+		];
 	}
 }

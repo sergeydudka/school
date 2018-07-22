@@ -51,6 +51,9 @@ $config = [
             	'logout' => 'index/logout',
             ],
         ],
+	    'authManager' => [
+		    'class' => 'yii\rbac\DbManager',
+	    ],
 //	    'i18n' => [
 //	    	'class' => yii\i18n\DbMessageSource::class
 //	    ]

@@ -2,8 +2,10 @@
 
 namespace modules\articles\models;
 
+use common\behaviors\AliasBehavior;
 use common\behaviors\HTMLEncodeBehavior;
 use common\behaviors\TimestampBehavior;
+use common\models\RelationshipModel;
 use modules\languages\models\Language;
 use modules\users\models\User;
 use yii\behaviors\BlameableBehavior;
@@ -22,8 +24,9 @@ use yii\behaviors\BlameableBehavior;
  * @property int $created_by
  * @property int $updated_by
  * @property int $difficult_id
+ * @property int $alias_id
  */
-class Article extends \yii\db\ActiveRecord {
+class Article extends RelationshipModel {
 	
 	const STATUS_DEFAULT = 'disabled';
 	
@@ -47,6 +50,9 @@ class Article extends \yii\db\ActiveRecord {
 			],
 			BlameableBehavior::class => [
 				'class' => BlameableBehavior::class,
+			],
+			AliasBehavior::class => [
+				'class' => AliasBehavior::class
 			]
 		];
 	}
@@ -70,7 +76,7 @@ class Article extends \yii\db\ActiveRecord {
 			[['description', 'status', 'title'], 'required'],
 			[['description', 'status'], 'string'],
 			[['created_at', 'updated_at'], 'safe'],
-			[['created_by', 'updated_by', 'article_group_id', 'difficult_id', 'language_id'], 'integer'],
+			[['created_by', 'updated_by', 'article_group_id', 'difficult_id', 'language_id', 'alias_id'], 'integer'],
 			[['title'], 'string', 'max' => 512],
 		];
 	}
@@ -91,6 +97,7 @@ class Article extends \yii\db\ActiveRecord {
 			'article_group_id' => 'Article Group ID',
 			'difficult_id' => 'Difficult',
 			'language_id' => 'Language ID',
+			'alias_id' => 'Alias ID',
 		];
 	}
 	
@@ -135,5 +142,15 @@ class Article extends \yii\db\ActiveRecord {
 				'language_id' => 'language_id'
 			]
 		);
+	}
+	
+	public static function relationships() {
+		return [
+			'difficult_id' => 'difficult',
+			'article_group_id' => 'articleGroup',
+			'created_by' => 'created',
+			'updated_by' => 'updated',
+			'alias_id' => 'alias',
+		];
 	}
 }

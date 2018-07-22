@@ -20,9 +20,7 @@ class HTMLEncodeBehavior extends Behavior {
 		return [
 			ActiveRecord::EVENT_BEFORE_INSERT => 'encode',
 			ActiveRecord::EVENT_BEFORE_UPDATE => 'encode',
-//			ActiveRecord::EVENT_AFTER_INSERT => 'decode',
-//			ActiveRecord::EVENT_AFTER_UPDATE => 'decode',
-//			ActiveRecord::EVENT_AFTER_FIND => 'decode',
+			ActiveRecord::EVENT_AFTER_FIND => 'decode',
 		];
 	}
 	

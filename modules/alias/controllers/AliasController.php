@@ -1,20 +1,18 @@
 <?php
 
-namespace modules\articles\controllers;
+namespace modules\alias\controllers;
 
 use Yii;
-use modules\articles\models\Article;
+use modules\alias\models\Alias;
 use yii\data\ActiveDataProvider;
 use common\classes\ApiController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ArticleController implements the CRUD actions for Article model.
+ * AliasController implements the CRUD actions for Alias model.
  */
-class ArticleController extends ApiController {
-	public $modelClass = 'modules\articles\models\Article';
-	
+class AliasController extends ApiController {
 	/**
 	 * {@inheritdoc}
 	 */
@@ -30,12 +28,12 @@ class ArticleController extends ApiController {
 	}
 	
 	/**
-	 * Lists all Article models.
+	 * Lists all Alias models.
 	 * @return mixed
 	 */
 	public function actionIndex() {
 		$dataProvider = new ActiveDataProvider([
-			'query' => Article::find(),
+			'query' => Alias::find(),
 		]);
 		
 		return $this->render('index', [
@@ -44,7 +42,7 @@ class ArticleController extends ApiController {
 	}
 	
 	/**
-	 * Displays a single Article model.
+	 * Displays a single Alias model.
 	 * @param integer $id
 	 * @return mixed
 	 * @throws NotFoundHttpException if the model cannot be found
@@ -56,23 +54,15 @@ class ArticleController extends ApiController {
 	}
 	
 	/**
-	 * Creates a new Article model.
+	 * Creates a new Alias model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new Article();
+		$model = new Alias();
 		
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$page = Yii::$app->request->get('page');
-			
-			$params = ['index'];
-			
-			if ($page) {
-				$params['page'] = $page;
-			}
-			
-			return $this->redirect($params);
+			return $this->redirect(['view', 'id' => $model->alias_id]);
 		}
 		
 		return $this->render('create', [
@@ -81,7 +71,7 @@ class ArticleController extends ApiController {
 	}
 	
 	/**
-	 * Updates an existing Article model.
+	 * Updates an existing Alias model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id
 	 * @return mixed
@@ -91,15 +81,7 @@ class ArticleController extends ApiController {
 		$model = $this->findModel($id);
 		
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$page = Yii::$app->request->get('page');
-			
-			$params = ['index'];
-			
-			if ($page) {
-				$params['page'] = $page;
-			}
-			
-			return $this->redirect($params);
+			return $this->redirect(['view', 'id' => $model->alias_id]);
 		}
 		
 		return $this->render('update', [
@@ -108,7 +90,7 @@ class ArticleController extends ApiController {
 	}
 	
 	/**
-	 * Deletes an existing Article model.
+	 * Deletes an existing Alias model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
 	 * @param integer $id
 	 * @return mixed
@@ -121,15 +103,14 @@ class ArticleController extends ApiController {
 	}
 	
 	/**
-	 * Finds the Article model based on its primary key value.
+	 * Finds the Alias model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
-	 * @return Article the loaded model
+	 * @return Alias the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id) {
-		//Article::find()->;
-		if (($model = Article::findOne($id)) !== null) {
+		if (($model = Alias::findOne($id)) !== null) {
 			return $model;
 		}
 		
