@@ -1,64 +1,64 @@
 <?php
 $params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+	require __DIR__ . '/../../common/config/params.php',
+	require __DIR__ . '/../../common/config/params-local.php',
+	require __DIR__ . '/params.php',
+	require __DIR__ . '/params-local.php'
 );
 
 $config = [
-    'id' => 'app-backend',
-    'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
-    'modules' => require __DIR__ . '/../../common/config/modules.php',
-    'components' => [
-    	'db' => require __DIR__ . '/../../common/config/db.php',
-        'request' => [
-            'csrfParam' => '_csrf-backend',
-	        'baseUrl' => '/admin',
-	        'parsers' => [
-		        'application/json' => 'yii\web\JsonParser',
-	        ]
-        ],
-        'user' => [
-            'identityClass' => 'common\models\BaseUser',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        ],
-        'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
-        ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
-        'errorHandler' => [
-            'errorAction' => 'index/error',
-        ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            	'' => 'index',
-            	'login' => 'index/login',
-            	'logout' => 'index/logout',
-            ],
-        ],
-	    'authManager' => [
-		    'class' => 'yii\rbac\DbManager',
-	    ],
+	'id' => 'app-backend',
+	'basePath' => dirname(__DIR__),
+	'controllerNamespace' => 'backend\controllers',
+	'bootstrap' => ['log'],
+	'modules' => [],
+	'components' => [
+		'db' => require __DIR__ . '/../../common/config/db.php',
+		'request' => [
+			'csrfParam' => '_csrf-backend',
+			'baseUrl' => '/admin',
+			'parsers' => [
+				'application/json' => 'yii\web\JsonParser',
+			]
+		],
+		'user' => [
+			'identityClass' => 'crudschool\models\BaseUser',
+			'enableAutoLogin' => true,
+			'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+		],
+		'session' => [
+			// this is the name of the session cookie used for login on the backend
+			'name' => 'advanced-backend',
+		],
+		'log' => [
+			'traceLevel' => YII_DEBUG ? 3 : 0,
+			'targets' => [
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['error', 'warning'],
+				],
+			],
+		],
+		'errorHandler' => [
+			'errorAction' => 'index/error',
+		],
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+			'rules' => [
+				'' => 'index',
+				'login' => 'index/login',
+				'logout' => 'index/logout',
+			],
+		],
+		'authManager' => [
+			'class' => 'yii\rbac\DbManager',
+		],
 //	    'i18n' => [
 //	    	'class' => yii\i18n\DbMessageSource::class
 //	    ]
-    ],
-    'params' => $params,
+	],
+	'params' => $params,
 ];
 
 if (!YII_ENV_PROD) {
@@ -76,20 +76,12 @@ if (!YII_ENV_PROD) {
 		// uncomment the following to add your IP if you are not connecting from localhost.
 		//'allowedIPs' => ['127.0.0.1', '::1'],
 		'generators' => [
-			'migrik'=>[
-				'class'=>\insolita\migrik\gii\StructureGenerator::class,
-				'templates'=>
-					[
-						'custom'=>'@backend/gii/templates/migrator_schema'
-					]
-			],
-			'migrikdata'=>[
-				'class'=>\insolita\migrik\gii\DataGenerator::class,
-				'templates'=>
-					[
-						'custom'=>'@backend/gii/templates/migrator_data'
-					]
-			],
+			'migrik' => [
+				'class' => \crudschool\migrik\gii\StructureGenerator::class,
+				'templates' => [
+					'custom' => '@backend/gii/templates/migrator_schema'
+				]
+			]
 		]
 	];
 }

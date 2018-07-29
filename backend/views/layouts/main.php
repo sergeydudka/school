@@ -39,7 +39,7 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
     
-    $menu = new \modules\menu\controllers\DefaultController('menu', new \modules\menu\Module('menu'),[]);
+    $menu = new crudschool\modules\menu\controllers\DefaultController('menu', new crudschool\modules\menu\Module('menu'),[]);
     
     foreach ($menu->prepareDataProvider() as $module => $controllers) {
         
