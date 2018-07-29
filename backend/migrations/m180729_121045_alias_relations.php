@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111300_alias_relations extends Migration
+class m180729_121045_alias_relations extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111300_alias_relations extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%alias_relations}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%alias_relations}}')) {
+            $this->dropTable('{{%alias_relations}}');
+        }
+
+$this->createTable(
             '{{%alias_relations}}',
             [
                 'alias_id'=> $this->primaryKey(20),

@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111308_auth_rule extends Migration
+class m180729_121053_auth_rule extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111308_auth_rule extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%auth_rule}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%auth_rule}}')) {
+            $this->dropTable('{{%auth_rule}}');
+        }
+
+$this->createTable(
             '{{%auth_rule}}',
             [
                 'name'=> $this->string(64)->notNull(),

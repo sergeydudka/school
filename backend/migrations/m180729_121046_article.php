@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111303_article_copy extends Migration
+class m180729_121046_article extends Migration
 {
 
     public function init()
@@ -15,9 +14,13 @@ class m180729_111303_article_copy extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%article_copy}}');
-        $this->createTable(
-            '{{%article_copy}}',
+
+        if ($this->getDb()->getTableSchema('{{%article}}')) {
+            $this->dropTable('{{%article}}');
+        }
+
+$this->createTable(
+            '{{%article}}',
             [
                 'article_id'=> $this->primaryKey(20),
                 'language_id'=> $this->integer(11)->null()->defaultValue(null),
@@ -33,15 +36,15 @@ class m180729_111303_article_copy extends Migration
                 'alias_id'=> $this->integer(11)->null()->defaultValue(null),
             ],$tableOptions
         );
-        $this->createIndex('title','{{%article_copy}}',['title'],false);
-        $this->createIndex('status','{{%article_copy}}',['status'],false);
-        $this->createIndex('date_added','{{%article_copy}}',['created_at'],false);
-        $this->createIndex('date_update','{{%article_copy}}',['updated_at'],false);
-        $this->createIndex('article_group_id','{{%article_copy}}',['article_group_id'],false);
-        $this->createIndex('language_id','{{%article_copy}}',['language_id'],false);
-        $this->createIndex('alias_id','{{%article_copy}}',['alias_id'],false);
-        $this->createIndex('difficult_id','{{%article_copy}}',['difficult_id'],false);
-        $this->batchInsert('{{%article_copy}}',
+        $this->createIndex('title','{{%article}}',['title'],false);
+        $this->createIndex('status','{{%article}}',['status'],false);
+        $this->createIndex('date_added','{{%article}}',['created_at'],false);
+        $this->createIndex('date_update','{{%article}}',['updated_at'],false);
+        $this->createIndex('article_group_id','{{%article}}',['article_group_id'],false);
+        $this->createIndex('language_id','{{%article}}',['language_id'],false);
+        $this->createIndex('alias_id','{{%article}}',['alias_id'],false);
+        $this->createIndex('difficult_id','{{%article}}',['difficult_id'],false);
+        $this->batchInsert('{{%article}}',
             ["article_id", "language_id", "title", "description", "created_at", "updated_at", "status", "article_group_id", "created_by", "updated_by", "difficult_id", "alias_id"],
             [
     [
@@ -5147,14 +5150,14 @@ class m180729_111303_article_copy extends Migration
 
     public function safeDown()
     {
-        $this->dropIndex('title', '{{%article_copy}}');
-        $this->dropIndex('status', '{{%article_copy}}');
-        $this->dropIndex('date_added', '{{%article_copy}}');
-        $this->dropIndex('date_update', '{{%article_copy}}');
-        $this->dropIndex('article_group_id', '{{%article_copy}}');
-        $this->dropIndex('language_id', '{{%article_copy}}');
-        $this->dropIndex('alias_id', '{{%article_copy}}');
-        $this->dropIndex('difficult_id', '{{%article_copy}}');
-        $this->dropTable('{{%article_copy}}');
+        $this->dropIndex('title', '{{%article}}');
+        $this->dropIndex('status', '{{%article}}');
+        $this->dropIndex('date_added', '{{%article}}');
+        $this->dropIndex('date_update', '{{%article}}');
+        $this->dropIndex('article_group_id', '{{%article}}');
+        $this->dropIndex('language_id', '{{%article}}');
+        $this->dropIndex('alias_id', '{{%article}}');
+        $this->dropIndex('difficult_id', '{{%article}}');
+        $this->dropTable('{{%article}}');
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111306_auth_item extends Migration
+class m180729_121051_auth_item extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111306_auth_item extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%auth_item}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%auth_item}}')) {
+            $this->dropTable('{{%auth_item}}');
+        }
+
+$this->createTable(
             '{{%auth_item}}',
             [
                 'name'=> $this->string(64)->notNull(),

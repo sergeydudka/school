@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111310_language extends Migration
+class m180729_121055_language extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111310_language extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%language}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%language}}')) {
+            $this->dropTable('{{%language}}');
+        }
+
+$this->createTable(
             '{{%language}}',
             [
                 'language_id'=> $this->primaryKey(11),

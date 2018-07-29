@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111302_article_category extends Migration
+class m180729_121047_article_category extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111302_article_category extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%article_category}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%article_category}}')) {
+            $this->dropTable('{{%article_category}}');
+        }
+
+$this->createTable(
             '{{%article_category}}',
             [
                 'article_category_id'=> $this->primaryKey(11),

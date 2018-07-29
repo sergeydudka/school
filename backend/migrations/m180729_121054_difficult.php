@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111309_difficult extends Migration
+class m180729_121054_difficult extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111309_difficult extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%difficult}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%difficult}}')) {
+            $this->dropTable('{{%difficult}}');
+        }
+
+$this->createTable(
             '{{%difficult}}',
             [
                 'difficult_id'=> $this->primaryKey(11),

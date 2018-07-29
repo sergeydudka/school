@@ -1,9 +1,8 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
-class m180729_111312_user extends Migration
+class m180729_121057_user extends Migration
 {
 
     public function init()
@@ -15,8 +14,12 @@ class m180729_111312_user extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%user}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%user}}')) {
+            $this->dropTable('{{%user}}');
+        }
+
+$this->createTable(
             '{{%user}}',
             [
                 'user_id'=> $this->primaryKey(11),

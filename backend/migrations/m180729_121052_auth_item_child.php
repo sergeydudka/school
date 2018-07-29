@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180729_111307_auth_item_child extends Migration
+class m180729_121052_auth_item_child extends Migration
 {
 
     public function init()
@@ -14,8 +14,12 @@ class m180729_111307_auth_item_child extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->dropTable('{{%auth_item_child}}');
-        $this->createTable(
+
+        if ($this->getDb()->getTableSchema('{{%auth_item_child}}')) {
+            $this->dropTable('{{%auth_item_child}}');
+        }
+
+$this->createTable(
             '{{%auth_item_child}}',
             [
                 'parent'=> $this->string(64)->notNull(),

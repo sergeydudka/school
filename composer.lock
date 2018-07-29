@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90798d59e4f36c3015a4ab64dc617b1f",
+    "content-hash": "36e6aeb64ee6d8265aa1ef76b5461386",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -169,7 +169,7 @@
         },
         {
             "name": "crudschool/yii2-school",
-            "version": "1.0.11",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sergeydudka/crudschool.git",
@@ -979,16 +979,16 @@
         },
         {
             "name": "crudschool/yii2-migration-generator",
-            "version": "1.1.0",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sergeydudka/migration.git",
-                "reference": "a4a5d6c49792ac83105ba922981b2c9b742048bb"
+                "reference": "b929a74952bbd62c51dd8b6f3c70d21b15466190"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sergeydudka/migration/zipball/a4a5d6c49792ac83105ba922981b2c9b742048bb",
-                "reference": "a4a5d6c49792ac83105ba922981b2c9b742048bb",
+                "url": "https://api.github.com/repos/sergeydudka/migration/zipball/b929a74952bbd62c51dd8b6f3c70d21b15466190",
+                "reference": "b929a74952bbd62c51dd8b6f3c70d21b15466190",
                 "shasum": ""
             },
             "require": {
@@ -1023,7 +1023,7 @@
                 "extension",
                 "yii2"
             ],
-            "time": "2018-07-29T11:28:10+00:00"
+            "time": "2018-07-29T12:08:20+00:00"
         },
         {
             "name": "doctrine/instantiator",
