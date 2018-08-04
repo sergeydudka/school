@@ -24,6 +24,9 @@ composer update
 ```
 
 <h4>Migration</h4>
+Crete db "learn"<br>
+username = "root"<br>
+password = ""
 ```
 php yii migration
 ```
