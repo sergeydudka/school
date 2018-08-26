@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180826_084418_article extends Migration
+class m180826_084452_article extends Migration
 {
 
     public function init()
