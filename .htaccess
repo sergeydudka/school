@@ -1,6 +1,11 @@
 Options +FollowSymLinks
 IndexIgnore */*
 RewriteEngine on
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Headers "*"
+</IfModule>
  
 # ≈сли запрос начинаетс€ с /administrator, то замен€ем на /backend/web/
 RewriteCond %{REQUEST_URI} ^/admin
