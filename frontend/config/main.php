@@ -7,18 +7,21 @@ $params = array_merge(
 );
 
 $config = [
-    'id' => 'app-frontend',
+    'id' => 'frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-	'aliases' => [
-	
-	],
-	'modules' => require __DIR__ . '/../../common/config/modules.php',
+	'aliases' => [],
+	'modules' => [],
     'components' => [
 	    'db' => require __DIR__ . '/../../common/config/db.php',
+	    'lang' => [
+	    	'class' => 'crudschool\modules\languages\helpers\SystemLanguage'
+	    ],
         'request' => [
+        	'class' => '\crudschool\common\url\Request',
             'csrfParam' => '_csrf-frontend',
+	        'baseUrl' => '/',
         ],
         'user' => [
             'identityClass' => 'common\models\BaseUser',
@@ -39,13 +42,30 @@ $config = [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'home/error',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            	'' => 'site/frontend/index'
+	        'enableStrictParsing' => true,
+	        'baseUrl' => '/',
+	        'rules' => [
+		        '/' => '/home',
+		        [
+			        'pattern' => 'learn',
+			        'route' => 'article-categories/index',
+			        'suffix' => '/',
+		        ],
+		        [
+			        'pattern' => 'learn/<c_id:.+>',
+			        'route' => 'article-categories/category',
+			        'suffix' => '/',
+		        ],
+		        [
+			        'pattern' => 'learn/<c_id:.+>/<g_id:.+>',
+			        'route' => 'article-categories/group',
+			        'suffix' => '/',
+		        ],
             ],
         ],
     ],

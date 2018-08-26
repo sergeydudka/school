@@ -7,7 +7,7 @@ $params = array_merge(
 );
 
 $config = [
-	'id' => 'app-backend',
+	'id' => 'backend',
 	'basePath' => dirname(__DIR__),
 	'controllerNamespace' => 'backend\controllers',
 	'bootstrap' => ['log'],
@@ -15,11 +15,15 @@ $config = [
 	'components' => [
 		'db' => require __DIR__ . '/../../common/config/db.php',
 		'request' => [
+			'class' => '\crudschool\common\url\Request',
 			'csrfParam' => '_csrf-backend',
 			'baseUrl' => '/admin',
 			'parsers' => [
 				'application/json' => 'yii\web\JsonParser',
 			]
+		],
+		'lang' => [
+			'class' => 'crudschool\modules\languages\helpers\SystemLanguage'
 		],
 		'user' => [
 			'identityClass' => 'crudschool\models\BaseUser',
@@ -45,10 +49,9 @@ $config = [
 		'urlManager' => [
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
+			'baseUrl' => '/admin',
 			'rules' => [
-				'' => 'index',
-				'login' => 'index/login',
-				'logout' => 'index/logout',
+				'/' => 'index',
 			],
 		],
 		'authManager' => [
