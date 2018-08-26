@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180826_084500_language extends Migration
+class m180826_095153_language extends Migration
 {
 
     public function init()
@@ -31,33 +31,28 @@ $this->createTable(
         );
         $this->createIndex('code','{{%language}}',['code'],false);
         $this->createIndex('url','{{%language}}',['url'],false);
-    $this->batchInsert('{{%language}}',
-        ["language_id", "url", "code", "title", "flag"],
-        [
-    [
-        'language_id' => '1',
-        'url' => 'ru',
-        'code' => 'ru-RU',
-        'title' => 'Русский',
-        'flag' => 'uploads/ru.png',
-    ],
-    [
-        'language_id' => '2',
-        'url' => 'ua',
-        'code' => 'uk-UA',
-        'title' => 'Украинский',
-        'flag' => 'uploads/ua.png',
-    ],
-    [
-        'language_id' => '3',
-        'url' => 'en',
-        'code' => 'en-US',
-        'title' => 'English',
-        'flag' => 'uploads/us.png',
-    ],
-]    
-        );
-    
+            $this->insert('{{%language}}',[
+    'language_id' => '1',
+    'url' => 'ru',
+    'code' => 'ru-RU',
+    'title' => 'Русский',
+    'flag' => 'uploads/ru.png',
+]);
+            $this->insert('{{%language}}',[
+    'language_id' => '2',
+    'url' => 'ua',
+    'code' => 'uk-UA',
+    'title' => 'Украинский',
+    'flag' => 'uploads/ua.png',
+]);
+            $this->insert('{{%language}}',[
+    'language_id' => '3',
+    'url' => 'en',
+    'code' => 'en-US',
+    'title' => 'English',
+    'flag' => 'uploads/us.png',
+]);
+        
     }
 
     public function safeDown()

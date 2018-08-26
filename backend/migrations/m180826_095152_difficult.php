@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180826_084459_difficult extends Migration
+class m180826_095152_difficult extends Migration
 {
 
     public function init()
@@ -30,36 +30,31 @@ $this->createTable(
         );
         $this->createIndex('sort','{{%difficult}}',['sort'],false);
         $this->createIndex('type','{{%difficult}}',['type'],false);
-    $this->batchInsert('{{%difficult}}',
-        ["difficult_id", "type", "title", "sort"],
-        [
-    [
-        'difficult_id' => '1',
-        'type' => 'article_group',
-        'title' => 'neewbe',
-        'sort' => '0000000100',
-    ],
-    [
-        'difficult_id' => '2',
-        'type' => 'article_group',
-        'title' => 'normal',
-        'sort' => '0000000200',
-    ],
-    [
-        'difficult_id' => '3',
-        'type' => 'article_group',
-        'title' => 'senior',
-        'sort' => '0000000300',
-    ],
-    [
-        'difficult_id' => '4',
-        'type' => 'article_group',
-        'title' => 'pro',
-        'sort' => '0000000400',
-    ],
-]    
-        );
-    
+            $this->insert('{{%difficult}}',[
+    'difficult_id' => '1',
+    'type' => 'article_group',
+    'title' => 'neewbe',
+    'sort' => '0000000100',
+]);
+            $this->insert('{{%difficult}}',[
+    'difficult_id' => '2',
+    'type' => 'article_group',
+    'title' => 'normal',
+    'sort' => '0000000200',
+]);
+            $this->insert('{{%difficult}}',[
+    'difficult_id' => '3',
+    'type' => 'article_group',
+    'title' => 'senior',
+    'sort' => '0000000300',
+]);
+            $this->insert('{{%difficult}}',[
+    'difficult_id' => '4',
+    'type' => 'article_group',
+    'title' => 'pro',
+    'sort' => '0000000400',
+]);
+        
     }
 
     public function safeDown()

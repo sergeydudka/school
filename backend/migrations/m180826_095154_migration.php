@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180826_084501_migration extends Migration
+class m180826_095154_migration extends Migration
 {
 
     public function init()
@@ -27,32 +27,27 @@ $this->createTable(
             ],$tableOptions
         );
         $this->addPrimaryKey('pk_on_migration','{{%migration}}',['version']);
-    $this->batchInsert('{{%migration}}',
-        ["version", "apply_time"],
-        [
-    [
-        'version' => 'm000000_000000_base',
-        'apply_time' => '1529862076',
-    ],
-    [
-        'version' => 'm130524_201442_init',
-        'apply_time' => '1529862088',
-    ],
-    [
-        'version' => 'm140506_102106_rbac_init',
-        'apply_time' => '1531850029',
-    ],
-    [
-        'version' => 'm170907_052038_rbac_add_index_on_auth_assignment_user_id',
-        'apply_time' => '1531850029',
-    ],
-    [
-        'version' => 'm180624_173721_user',
-        'apply_time' => '1529862088',
-    ],
-]    
-        );
-    
+            $this->insert('{{%migration}}',[
+    'version' => 'm000000_000000_base',
+    'apply_time' => '1529862076',
+]);
+            $this->insert('{{%migration}}',[
+    'version' => 'm130524_201442_init',
+    'apply_time' => '1529862088',
+]);
+            $this->insert('{{%migration}}',[
+    'version' => 'm140506_102106_rbac_init',
+    'apply_time' => '1531850029',
+]);
+            $this->insert('{{%migration}}',[
+    'version' => 'm170907_052038_rbac_add_index_on_auth_assignment_user_id',
+    'apply_time' => '1531850029',
+]);
+            $this->insert('{{%migration}}',[
+    'version' => 'm180624_173721_user',
+    'apply_time' => '1529862088',
+]);
+        
     }
 
     public function safeDown()

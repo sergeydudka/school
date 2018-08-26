@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180826_084453_article_category extends Migration
+class m180826_095146_article_category extends Migration
 {
 
     public function init()
@@ -33,32 +33,27 @@ $this->createTable(
             ],$tableOptions
         );
         $this->createIndex('alias_id','{{%article_category}}',['alias_id'],false);
-    $this->batchInsert('{{%article_category}}',
-        ["article_category_id", "title", "description", "created_at", "updated_at", "created_by", "updated_by", "alias_id"],
-        [
-    [
-        'article_category_id' => '1',
-        'title' => 'HTML',
-        'description' => '',
-        'created_at' => '2018-07-08 14:00:50',
-        'updated_at' => '2018-08-06 21:14:29',
-        'created_by' => '1',
-        'updated_by' => '1',
-        'alias_id' => '78',
-    ],
-    [
-        'article_category_id' => '2',
-        'title' => 'CSS',
-        'description' => '',
-        'created_at' => '2018-08-06 21:23:21',
-        'updated_at' => '2018-08-06 21:23:21',
-        'created_by' => '1',
-        'updated_by' => '1',
-        'alias_id' => '79',
-    ],
-]    
-        );
-    
+            $this->insert('{{%article_category}}',[
+    'article_category_id' => '1',
+    'title' => 'HTML',
+    'description' => '',
+    'created_at' => '2018-07-08 14:00:50',
+    'updated_at' => '2018-08-06 21:14:29',
+    'created_by' => '1',
+    'updated_by' => '1',
+    'alias_id' => '78',
+]);
+            $this->insert('{{%article_category}}',[
+    'article_category_id' => '2',
+    'title' => 'CSS',
+    'description' => '',
+    'created_at' => '2018-08-06 21:23:21',
+    'updated_at' => '2018-08-06 21:23:21',
+    'created_by' => '1',
+    'updated_by' => '1',
+    'alias_id' => '79',
+]);
+        
     }
 
     public function safeDown()
