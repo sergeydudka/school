@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m180826_095156_Relations extends Migration
+class m180826_095227_Relations extends Migration
 {
 
     public function init()
