@@ -10,7 +10,18 @@ $config = [
 	'id' => 'backend',
 	'basePath' => dirname(__DIR__),
 	'controllerNamespace' => 'backend\controllers',
-	'bootstrap' => ['log'],
+	'bootstrap' => [
+		'log',
+		[
+			'class' => 'yii\filters\ContentNegotiator',
+			'formats' => [
+				'text/html' => \yii\web\Response::FORMAT_JSON,
+				'application/json' => \yii\web\Response::FORMAT_JSON,
+				'application/xhtml+xml' => \yii\web\Response::FORMAT_JSON,
+				'application/xml' => \yii\web\Response::FORMAT_JSON,
+			],
+		],
+	],
 	'modules' => [],
 	'components' => [
 		'db' => require __DIR__ . '/../../common/config/db.php',
