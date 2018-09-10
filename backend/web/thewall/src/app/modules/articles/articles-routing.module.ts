@@ -7,7 +7,13 @@ import { ArticleDetailComponent } from './articles/article-detail/article-detail
 const routes: Routes = [
   {
     path: '',
+    component: ArticlesComponent,
     children: [
+      {
+        path: '',
+        redirectTo: 'articles',
+        pathMatch: 'full'
+      },
       {
         path: 'articles',
         component: ArticlesGridComponent

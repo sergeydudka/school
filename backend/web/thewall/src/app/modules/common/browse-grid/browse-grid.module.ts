@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatTableModule, MatPaginatorModule } from '@angular/material';
+import {
+  MatTableModule,
+  MatPaginatorModule,
+  MatButtonModule,
+  MatIconModule,
+  MatCheckboxModule
+} from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
@@ -9,11 +15,12 @@ import { CdkTableModule } from '@angular/cdk/table';
     CommonModule,
     MatTableModule,
     MatPaginatorModule,
-    CdkTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    CdkTableModule
   ],
-  exports: [
-    MatTableModule, MatPaginatorModule
-  ],
+  exports: [MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatCheckboxModule],
   declarations: []
 })
-export class BrowseGridModule { }
+export class BrowseGridModule {}

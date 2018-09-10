@@ -3,6 +3,7 @@ import { MenuService } from './menu.service';
 
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { AppConfigService } from '../../common/services/app-config.service';
 
 class MenuNode {
   children?: MenuNode[];
@@ -17,18 +18,16 @@ class MenuNode {
   providers: [MenuService]
 })
 export class MenuComponent {
-  initialized = false;
-
   nestedTreeControl: NestedTreeControl<MenuNode>;
   nestedDataSource: MatTreeNestedDataSource<MenuNode>;
 
-  constructor(menuService: MenuService) {
+  constructor(
+    menuService: MenuService
+  ) {
     this.nestedTreeControl = new NestedTreeControl<MenuNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
-    menuService.dataChange.subscribe(data => {
-      this.initialized = true;
-
+    menuService.menuData.subscribe(data => {
       return (this.nestedDataSource.data = data);
     });
   }

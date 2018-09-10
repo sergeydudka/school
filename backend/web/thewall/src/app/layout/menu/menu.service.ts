@@ -1,99 +1,45 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 
-import { MenuNode, Menu } from './menu.model';
+import { MenuNode } from './menu.model';
+import { AppConfigService } from '../../common/services/app-config.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MenuService {
-  dataChange = new BehaviorSubject([]);
+  menuData = new BehaviorSubject([]);
 
-  menuData: MenuNode;
-
-  get data(): MenuNode[] {
-    return this.dataChange.value;
-  }
-  ignoreSubModules = ['default'];
-
-  constructor(private http: HttpClient) {
-    this.initialize();
-  }
-
-  initialize() {
-    this.getInfo().subscribe(data => {
-      // const menuData = this.buildFileTree(data);
-
-      this.dataChange.next(data);
-    });
+  constructor(private appConfig: AppConfigService) {
+    this.getMenu();
   }
 
   getMenu() {
-    /*
-    return Observable.create(observer => {
-      this.getInfo().subscribe(dataObject => {
-        const data = this.buildFileTree(dataObject, 0);
+    this.appConfig.api.subscribe(data => {
+      const menu = [];
 
-        console.log('data in service => ', data);
+      for (const moduleKey in data) {
+        const module = data[moduleKey];
+        const menuItem: MenuNode = {
+          title: moduleKey,
+          children: [],
+          url: `/${moduleKey}/${moduleKey}`
+        };
 
-        // this.dataChange.next(data);
-        observer.next(data);
-        // observer.complete();
-      });
-    });
-    */
-  }
+        for (const submoduleKey in module) {
+          const submodule = module[submoduleKey];
 
-  private getInfo() {
-    return Observable.create(observer => {
-      this.http.get('http://school.local.com/admin/menu/').subscribe((response: Menu) => {
-        const data: MenuNode[] = [];
-
-        for (const moduleKey in response.result.list) {
-          const module = response.result.list[moduleKey];
-          const menuItem: MenuNode = {
-            title: moduleKey,
-            children: [],
-            url: `/${moduleKey}/${moduleKey}`
+          const menuSubItem: MenuNode = {
+            title: submoduleKey,
+            url: submodule.url
           };
 
-          for (const submoduleKey in module) {
-            if (this.ignoreSubModules.includes(submoduleKey)) continue;
-
-            const submodule = module[submoduleKey];
-
-            const menuSubItem: MenuNode = {
-              title: submoduleKey,
-              url: submodule.url
-            };
-
-            menuItem.children.push(menuSubItem);
-          }
-
-          data.push(menuItem);
+          menuItem.children.push(menuSubItem);
         }
 
-        observer.next(data);
-        observer.complete();
-      });
+        menu.push(menuItem);
+      }
+
+      this.menuData.next(menu);
     });
   }
-
-  // private buildFileTree(data: Array<MenuNode>): MenuNode[] {
-  //   console.log('data => ', data);
-  //   return data.map(value => {
-  //     const node = new MenuNode();
-
-  //     node.title = value.title;
-
-  //     if (value.children) {
-  //       node.children = this.buildFileTree(value.children);
-  //     }
-
-  //     return node;
-  //   });
-  // }
 }

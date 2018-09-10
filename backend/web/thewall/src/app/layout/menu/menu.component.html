@@ -1,26 +1,24 @@
-<div *ngIf="initialized">
-  <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
-    <mat-tree-node routerLink="{{getUrl(node)}}" *matTreeNodeDef="let node" matTreeNodeToggle>
-      <li class="mat-tree-node">
-        <button mat-icon-button disabled></button>
-        {{node.title}}
-      </li>
-    </mat-tree-node>
+<mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
+  <mat-tree-node routerLink="{{getUrl(node)}}" *matTreeNodeDef="let node" matTreeNodeToggle>
+    <li class="mat-tree-node">
+      <button mat-icon-button disabled></button>
+      {{node.title}}
+    </li>
+  </mat-tree-node>
 
-    <mat-nested-tree-node routerLink="{{getUrl(node)}}" *matTreeNodeDef="let node; when: hasNestedChild">
-      <li>
-        <div class="mat-tree-node">
-          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.title">
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{nestedTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-          </button>
-          {{node.title}}
-        </div>
-        <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
-          <ng-container matTreeNodeOutlet></ng-container>
-        </ul>
-      </li>
-    </mat-nested-tree-node>
-  </mat-tree>
-</div>
+  <mat-nested-tree-node routerLink="{{getUrl(node)}}" *matTreeNodeDef="let node; when: hasNestedChild">
+    <li>
+      <div class="mat-tree-node">
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.title">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{nestedTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        {{node.title}}
+      </div>
+      <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-nested-tree-node>
+</mat-tree>
