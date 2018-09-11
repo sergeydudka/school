@@ -16,7 +16,7 @@ $config = [
     'components' => [
 	    'db' => require __DIR__ . '/../../common/config/db.php',
 	    'lang' => [
-	    	'class' => 'crudschool\modules\languages\helpers\SystemLanguage'
+	    	'class' => 'crudschool\modules\languages\helpers\Edition'
 	    ],
         'request' => [
         	'class' => '\crudschool\common\url\Request',

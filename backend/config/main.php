@@ -33,8 +33,8 @@ $config = [
 				'application/json' => 'yii\web\JsonParser',
 			]
 		],
-		'lang' => [
-			'class' => 'crudschool\modules\languages\helpers\SystemLanguage'
+		'edition' => [
+			'class' => 'crudschool\common\edition\Edition'
 		],
 		'user' => [
 			'identityClass' => 'crudschool\models\BaseUser',
@@ -70,9 +70,9 @@ $config = [
 		'authManager' => [
 			'class' => 'yii\rbac\DbManager',
 		],
-//	    'i18n' => [
-//	    	'class' => yii\i18n\DbMessageSource::class
-//	    ]
+	    'i18n' => [
+	    	'class' => \crudschool\common\translate\TranslateDBSource::class
+	    ]
 	],
 	'params' => $params,
 ];

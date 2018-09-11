@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180826_095215_alias_relations extends Migration
+class m180911_183050_alias_relations extends Migration
 {
 
     public function init()

@@ -9,8 +9,6 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
-use \crudschool\modules\languages\models\Language;
-use \crudschool\modules\languages\helpers\SystemLanguage;
 
 AppAsset::register($this);
 ?>
@@ -38,10 +36,10 @@ AppAsset::register($this);
         ],
     ]);
     
-    $langItems = [];
+    /*$langItems = [];
     
     $sysLang = Yii::$app->lang->getLanguage();
-    $url = '/' . ltrim(str_replace(Yii::$app->getHomeUrl() . ($sysLang->url == SystemLanguage::DEFAULT_LANGUAGE ? '' : $sysLang->url), '', Yii::$app->request->getUrl()), '/');
+    $url = '/' . ltrim(str_replace(Yii::$app->getHomeUrl() . ($sysLang->url == Edition::DEFAULT_LANGUAGE ? '' : $sysLang->url), '', Yii::$app->request->getUrl()), '/');
     
     $langItems[] = [
 	    'label' => Html::img(Yii::$app->getHomeUrl() . $sysLang->flag) . ' ' . $sysLang->title,
@@ -49,11 +47,11 @@ AppAsset::register($this);
         'active' => true,
     ];
     
-    foreach (Language::find()->all() as $lang) {
+    foreach (Edition::find()->all() as $lang) {
         if ($lang->language_id !== $sysLang->language_id) {
 	        $langItems[] = [
 		        'label' => Html::img(Yii::$app->getHomeUrl() . $lang->flag) . ' ' . $lang->title,
-		        'url' => Yii::$app->getHomeUrl() . (SystemLanguage::DEFAULT_LANGUAGE == $lang->url ? ltrim($url, '/') : $lang->url . $url),
+		        'url' => Yii::$app->getHomeUrl() . (Edition::DEFAULT_LANGUAGE == $lang->url ? ltrim($url, '/') : $lang->url . $url),
 	        ];
         }
     }
@@ -72,7 +70,7 @@ AppAsset::register($this);
     
     $menuItems = [
         ['label' => 'Home', 'url' => ['/index']],
-    ];
+    ];*/
     
     $menu = new crudschool\modules\menu\controllers\DefaultController('menu', new crudschool\modules\menu\Module('menu'),[]);
     
