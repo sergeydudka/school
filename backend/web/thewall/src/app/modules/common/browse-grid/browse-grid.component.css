@@ -20,6 +20,11 @@ th.mat-footer-cell {
   min-width: 100px;
 }
 
+td.mat-cell,
+th.mat-header-cell {
+  white-space: nowrap;
+}
+
 tr.mat-header-row {
   height: 40px;
 }

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -11,36 +11,6 @@ import {
   MatToolbarModule,
   MatTreeModule,
   MatButtonModule
-
-  // MatAutocompleteModule,
-  // MatBadgeModule,
-  // MatBottomSheetModule,
-  // MatButtonToggleModule,
-  // MatCardModule,
-  // MatCheckboxModule,
-  // MatChipsModule,
-  // MatStepperModule,
-  // MatDatepickerModule,
-  // MatDialogModule,
-  // MatDividerModule,
-  // MatExpansionModule,
-  // MatGridListModule,
-  // MatInputModule,
-  // MatMenuModule,
-  // MatNativeDateModule,
-  // MatPaginatorModule,
-  // MatProgressBarModule,
-  // MatProgressSpinnerModule,
-  // MatRadioModule,
-  // MatRippleModule,
-  // MatSelectModule,
-  // MatSliderModule,
-  // MatSlideToggleModule,
-  // MatSnackBarModule,
-  // MatSortModule,
-  // MatTableModule,
-  // MatTabsModule,
-  // MatTooltipModule,
 } from '@angular/material';
 
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -51,18 +21,17 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { MenuComponent } from './layout/menu/menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { UsersComponent } from './modules/users/users.component';
+
+import { ApiService, initApiFactory } from './common/services/api.service';
+import { DynamicMasterDetailModule } from './modules/common/dynamic-master-detail/dynamic-master-detail.module';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, MenuComponent, PageNotFoundComponent, UsersComponent],
+  declarations: [AppComponent, HeaderComponent, MenuComponent, PageNotFoundComponent],
   imports: [
     // @angular modules
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
-    // routing modules
-    AppRoutingModule,
 
     // @angular/material modules
     MatSidenavModule,
@@ -71,41 +40,20 @@ import { UsersComponent } from './modules/users/users.component';
     MatToolbarModule,
     MatTreeModule,
     MatButtonModule,
+    CdkTreeModule,
 
-    CdkTreeModule
-
-    // MatAutocompleteModule,
-    // MatBadgeModule,
-    // MatBottomSheetModule,
-    // MatButtonToggleModule,
-    // MatCardModule,
-    // MatCheckboxModule,
-    // MatChipsModule,
-    // MatStepperModule,
-    // MatDatepickerModule,
-    // MatDialogModule,
-    // MatDividerModule,
-    // MatExpansionModule,
-    // MatGridListModule,
-    // MatInputModule,
-    // MatListModule,
-    // MatMenuModule,
-    // MatNativeDateModule,
-    // MatPaginatorModule,
-    // MatProgressBarModule,
-    // MatProgressSpinnerModule,
-    // MatRadioModule,
-    // MatRippleModule,
-    // MatSelectModule,
-    // MatSliderModule,
-    // MatSlideToggleModule,
-    // MatSnackBarModule,
-    // MatSortModule,
-    // MatTableModule,
-    // MatTabsModule,
-    // MatTooltipModule,
+    // routing modules
+    AppRoutingModule,
+    DynamicMasterDetailModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApiFactory,
+      deps: [ApiService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

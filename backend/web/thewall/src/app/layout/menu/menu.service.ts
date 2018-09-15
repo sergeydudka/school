@@ -3,22 +3,23 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { MenuNode } from './menu.model';
-import { AppConfigService } from '../../common/services/app-config.service';
+import { ApiService } from '../../common/services/api.service';
 
 @Injectable()
 export class MenuService {
   menuData = new BehaviorSubject([]);
 
-  constructor(private appConfig: AppConfigService) {
+  constructor(private api: ApiService) {
     this.getMenu();
   }
 
   getMenu() {
-    this.appConfig.api.subscribe(data => {
+    this.api.data.subscribe(data => {
       const menu = [];
 
       for (const moduleKey in data) {
         const module = data[moduleKey];
+
         const menuItem: MenuNode = {
           title: moduleKey,
           children: [],
@@ -30,7 +31,7 @@ export class MenuService {
 
           const menuSubItem: MenuNode = {
             title: submoduleKey,
-            url: submodule.url
+            url: `${moduleKey}/${submoduleKey}`
           };
 
           menuItem.children.push(menuSubItem);

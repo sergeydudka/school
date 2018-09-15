@@ -1,17 +1,14 @@
+// angular imports
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UsersComponent } from './users.component';
+// module specific imports
+import { DetailFormComponent } from './detail-form.component';
 
 const routes: Routes = [
   {
-    path: '',
-    children: [
-      {
-        path: 'users',
-        component: UsersComponent
-      }
-    ]
+    path: ':id',
+    component: DetailFormComponent
   }
 ];
 
@@ -19,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UsersRoutingModule {}
+export class DetailFormRoutingModule {}

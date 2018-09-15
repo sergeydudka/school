@@ -21,9 +21,7 @@ export class MenuComponent {
   nestedTreeControl: NestedTreeControl<MenuNode>;
   nestedDataSource: MatTreeNestedDataSource<MenuNode>;
 
-  constructor(
-    menuService: MenuService
-  ) {
+  constructor(menuService: MenuService) {
     this.nestedTreeControl = new NestedTreeControl<MenuNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
@@ -37,16 +35,16 @@ export class MenuComponent {
   getUrl = (nodeData: MenuNode) => {
     let { url } = nodeData;
 
-    const len = url.length;
-    const lastLetter = url.charAt(len - 1);
+    // const len = url.length;
+    // const lastLetter = url.charAt(len - 1);
 
-    if (lastLetter !== 's') {
-      if (lastLetter === 'y') {
-        url = url.slice(0, len - 1) + 'ies';
-      } else {
-        url += 's';
-      }
-    }
+    // if (lastLetter !== 's') {
+    //   if (lastLetter === 'y') {
+    //     url = url.slice(0, len - 1) + 'ies';
+    //   } else {
+    //     url += 's';
+    //   }
+    // }
 
     return url;
   };
