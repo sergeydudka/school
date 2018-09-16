@@ -10,6 +10,7 @@ $config = [
 	'id' => 'backend',
 	'basePath' => dirname(__DIR__),
 	'controllerNamespace' => 'backend\controllers',
+  'language' => 'ru-RU',
 	'bootstrap' => [
 		'log',
 		[
@@ -33,8 +34,8 @@ $config = [
 				'application/json' => 'yii\web\JsonParser',
 			]
 		],
-		'edition' => [
-			'class' => 'crudschool\common\edition\Edition'
+		'urlResolver' => [
+			'class' => 'crudschool\common\url\UrlResolver'
 		],
 		'user' => [
 			'identityClass' => 'crudschool\models\BaseUser',

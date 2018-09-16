@@ -2,49 +2,49 @@
 
 use yii\db\Migration;
 
-class m180911_183051_article extends Migration
+class m180916_080525_article extends Migration
 {
 
-    public function init()
-    {
-        $this->db = 'db';
-        parent::init();
-    }
+public function init()
+{
+$this->db = 'db';
+parent::init();
+}
 
-    public function safeUp()
-    {
-        $tableOptions = 'ENGINE=InnoDB';
+public function safeUp()
+{
+$tableOptions = 'ENGINE=InnoDB';
 
-        if ($this->getDb()->getTableSchema('{{%article}}')) {
-            $this->dropTable('{{%article}}');
-        }
+if ($this->getDb()->getTableSchema('{{%article}}')) {
+$this->dropTable('{{%article}}');
+}
 
 $this->createTable(
-            '{{%article}}',
-            [
-                'article_id'=> $this->primaryKey(20),
-                'edition_id'=> $this->integer(11)->null()->defaultValue(null),
-                'title'=> $this->string(512)->null()->defaultValue(null),
-                'description'=> $this->text()->null()->defaultValue(null),
-                'created_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
-                'updated_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
-                'status'=> "enum('disabled', 'published', 'waiting', 'deleted') NULL DEFAULT 'disabled'",
-                'article_group_id'=> $this->integer(11)->notNull()->defaultValue(0),
-                'created_by'=> $this->integer(11)->notNull()->defaultValue(0),
-                'updated_by'=> $this->integer(11)->notNull()->defaultValue(0),
-                'difficult_id'=> $this->integer(11)->null()->defaultValue(0),
-                'alias_id'=> $this->integer(11)->null()->defaultValue(null),
-            ],$tableOptions
-        );
-        $this->createIndex('title','{{%article}}',['title'],false);
-        $this->createIndex('status','{{%article}}',['status'],false);
-        $this->createIndex('date_added','{{%article}}',['created_at'],false);
-        $this->createIndex('date_update','{{%article}}',['updated_at'],false);
-        $this->createIndex('article_group_id','{{%article}}',['article_group_id'],false);
-        $this->createIndex('language_id','{{%article}}',['edition_id'],false);
-        $this->createIndex('alias_id','{{%article}}',['alias_id'],false);
-        $this->createIndex('difficult_id','{{%article}}',['difficult_id'],false);
-            $this->insert('{{%article}}',[
+'{{%article}}',
+[
+    'article_id'=> $this->primaryKey(20),
+    'edition_id'=> $this->integer(11)->null()->defaultValue(null),
+    'title'=> $this->string(512)->null()->defaultValue(null),
+    'description'=> $this->text()->null()->defaultValue(null),
+    'created_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
+    'updated_at'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
+    'status'=> "enum('disabled', 'published', 'waiting', 'deleted') NULL DEFAULT 'disabled'",
+    'article_group_id'=> $this->integer(11)->notNull()->defaultValue(0),
+    'created_by'=> $this->integer(11)->notNull()->defaultValue(0),
+    'updated_by'=> $this->integer(11)->notNull()->defaultValue(0),
+    'difficult_id'=> $this->integer(11)->null()->defaultValue(0),
+    'alias_id'=> $this->integer(11)->null()->defaultValue(null),
+],$tableOptions
+);
+						            $this->createIndex('title','{{%article}}',['title'],false);
+					            $this->createIndex('status','{{%article}}',['status'],false);
+					            $this->createIndex('date_added','{{%article}}',['created_at'],false);
+					            $this->createIndex('date_update','{{%article}}',['updated_at'],false);
+					            $this->createIndex('article_group_id','{{%article}}',['article_group_id'],false);
+					            $this->createIndex('language_id','{{%article}}',['edition_id'],false);
+					            $this->createIndex('alias_id','{{%article}}',['alias_id'],false);
+					            $this->createIndex('difficult_id','{{%article}}',['difficult_id'],false);
+				        $this->insert('{{%article}}',[
     'article_id' => '2',
     'edition_id' => '2',
     'title' => 'Введение в HTML',
@@ -111,7 +111,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '2',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '3',
     'edition_id' => '2',
     'title' => 'Инструментарий',
@@ -229,7 +229,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '3',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '4',
     'edition_id' => '2',
     'title' => 'Теги',
@@ -294,7 +294,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '4',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '5',
     'edition_id' => '2',
     'title' => 'Парные теги',
@@ -325,7 +325,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '5',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '6',
     'edition_id' => '2',
     'title' => 'Правила применения тегов',
@@ -440,7 +440,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '6',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '7',
     'edition_id' => '2',
     'title' => 'Атрибуты тегов',
@@ -505,7 +505,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '7',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '8',
     'edition_id' => '2',
     'title' => 'Структура HTML-кода',
@@ -726,7 +726,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '8',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '9',
     'edition_id' => '2',
     'title' => 'Типы тегов',
@@ -753,7 +753,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '9',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '10',
     'edition_id' => '2',
     'title' => 'Теги верхнего уровня',
@@ -793,7 +793,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '1',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '11',
     'edition_id' => '2',
     'title' => 'Теги заголовка документа',
@@ -862,7 +862,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '10',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '12',
     'edition_id' => '2',
     'title' => 'Блочные элементы',
@@ -889,7 +889,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '11',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '13',
     'edition_id' => '2',
     'title' => 'Строчные элементы',
@@ -933,7 +933,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '12',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '14',
     'edition_id' => '2',
     'title' => 'Универсальные элементы',
@@ -951,7 +951,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '13',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '15',
     'edition_id' => '2',
     'title' => 'Теги для списков',
@@ -973,7 +973,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '14',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '16',
     'edition_id' => '2',
     'title' => 'Теги для таблиц',
@@ -995,7 +995,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '15',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '17',
     'edition_id' => '2',
     'title' => 'Теги для фреймов',
@@ -1015,7 +1015,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '16',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '18',
     'edition_id' => '2',
     'title' => 'Значения атрибутов тегов',
@@ -1029,7 +1029,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '17',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '19',
     'edition_id' => '2',
     'title' => 'Цвет',
@@ -1282,7 +1282,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '18',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '20',
     'edition_id' => '2',
     'title' => 'Размер',
@@ -1353,7 +1353,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '19',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '21',
     'edition_id' => '2',
     'title' => 'Адрес',
@@ -1433,7 +1433,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '20',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '22',
     'edition_id' => '2',
     'title' => 'Текст',
@@ -1469,7 +1469,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '21',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '23',
     'edition_id' => '2',
     'title' => 'Абзацы',
@@ -1579,7 +1579,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '22',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '24',
     'edition_id' => '2',
     'title' => 'Заголовки',
@@ -1634,7 +1634,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '23',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '25',
     'edition_id' => '2',
     'title' => 'Выравнивание текста',
@@ -1699,7 +1699,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '24',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '26',
     'edition_id' => '2',
     'title' => 'Начертание',
@@ -1752,7 +1752,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '25',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '27',
     'edition_id' => '2',
     'title' => 'Верхний и нижний индексы',
@@ -1792,7 +1792,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '26',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '28',
     'edition_id' => '2',
     'title' => 'Спецсимволы',
@@ -2378,7 +2378,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '27',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '29',
     'edition_id' => '2',
     'title' => 'Ссылки',
@@ -2459,7 +2459,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '28',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '30',
     'edition_id' => '2',
     'title' => 'Абсолютные и относительные ссылки',
@@ -2557,7 +2557,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '29',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '31',
     'edition_id' => '2',
     'title' => 'Виды ссылок',
@@ -2582,7 +2582,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '30',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '32',
     'edition_id' => '2',
     'title' => 'Правила вложений для тега &lt;a&gt;',
@@ -2629,7 +2629,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '31',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '33',
     'edition_id' => '2',
     'title' => 'Атрибуты ссылок',
@@ -2725,7 +2725,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '32',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '34',
     'edition_id' => '2',
     'title' => 'Ссылка на адрес электронной почты',
@@ -2794,7 +2794,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '33',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '35',
     'edition_id' => '2',
     'title' => 'Якоря',
@@ -2868,7 +2868,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '36',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '36',
     'edition_id' => '2',
     'title' => 'Изображения',
@@ -2894,7 +2894,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '34',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '37',
     'edition_id' => '2',
     'title' => 'Форматы файлов',
@@ -2986,7 +2986,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '35',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '38',
     'edition_id' => '2',
     'title' => 'Добавление рисунка',
@@ -3073,7 +3073,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '37',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '39',
     'edition_id' => '2',
     'title' => 'Альтернативный текст',
@@ -3149,7 +3149,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '38',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '40',
     'edition_id' => '2',
     'title' => 'Изменение размеров рисунка',
@@ -3242,7 +3242,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '39',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '41',
     'edition_id' => '2',
     'title' => 'Списки',
@@ -3257,7 +3257,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '40',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '42',
     'edition_id' => '2',
     'title' => 'Маркированный список',
@@ -3408,7 +3408,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '41',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '43',
     'edition_id' => '2',
     'title' => 'Нумерованный список',
@@ -3567,7 +3567,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '42',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '44',
     'edition_id' => '2',
     'title' => 'Список определений',
@@ -3645,7 +3645,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '43',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '45',
     'edition_id' => '2',
     'title' => 'Таблицы',
@@ -3704,7 +3704,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '44',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '46',
     'edition_id' => '2',
     'title' => 'Атрибуты тега &lt;table&gt;',
@@ -3738,7 +3738,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '45',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '47',
     'edition_id' => '2',
     'title' => 'Атрибуты тега &lt;td&gt;',
@@ -3772,7 +3772,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '46',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '48',
     'edition_id' => '2',
     'title' => 'Особенности таблиц',
@@ -3792,7 +3792,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '47',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '49',
     'edition_id' => '2',
     'title' => 'Выравнивание таблиц',
@@ -3839,7 +3839,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '48',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '50',
     'edition_id' => '2',
     'title' => 'Объединение ячеек',
@@ -3958,7 +3958,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '49',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '51',
     'edition_id' => '2',
     'title' => 'Вложенные таблицы',
@@ -4089,7 +4089,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '50',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '52',
     'edition_id' => '2',
     'title' => 'Заголовок таблицы',
@@ -4180,7 +4180,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '51',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '53',
     'edition_id' => '2',
     'title' => 'Фреймы',
@@ -4251,7 +4251,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '52',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '54',
     'edition_id' => '2',
     'title' => 'Создание фреймов',
@@ -4387,7 +4387,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '53',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '55',
     'edition_id' => '2',
     'title' => 'Ссылки во фреймах',
@@ -4454,7 +4454,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '54',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '56',
     'edition_id' => '2',
     'title' => 'Границы между фреймами',
@@ -4534,7 +4534,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '55',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '57',
     'edition_id' => '2',
     'title' => 'Изменение размеров фреймов',
@@ -4572,7 +4572,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '56',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '58',
     'edition_id' => '2',
     'title' => 'Полосы прокрутки фрейма',
@@ -4611,7 +4611,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '57',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '59',
     'edition_id' => '2',
     'title' => 'Плавающие фреймы',
@@ -4681,7 +4681,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '58',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '60',
     'edition_id' => '2',
     'title' => 'Валидация документов',
@@ -4713,7 +4713,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '59',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '61',
     'edition_id' => '2',
     'title' => 'Проверка данных на валидность',
@@ -4776,7 +4776,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '60',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '62',
     'edition_id' => '2',
     'title' => 'Написание корректного кода',
@@ -4826,7 +4826,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '61',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '63',
     'edition_id' => '2',
     'title' => 'Исправление ошибок',
@@ -5141,7 +5141,7 @@ $this->createTable(
     'difficult_id' => null,
     'alias_id' => '62',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '64',
     'edition_id' => '2',
     'title' => 'Введение в CSS',
@@ -5298,7 +5298,7 @@ p {
     'difficult_id' => null,
     'alias_id' => '114',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '65',
     'edition_id' => '2',
     'title' => 'Преимущества стилей',
@@ -5325,7 +5325,7 @@ p {
     'difficult_id' => null,
     'alias_id' => '113',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '66',
     'edition_id' => '2',
     'title' => 'Способы добавления стилей на страницу',
@@ -5677,7 +5677,7 @@ BODY {
     'difficult_id' => null,
     'alias_id' => '112',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '67',
     'edition_id' => '2',
     'title' => 'Типы носителей',
@@ -6011,7 +6011,7 @@ background: #ffe;
     'difficult_id' => null,
     'alias_id' => '111',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '68',
     'edition_id' => '2',
     'title' => 'Базовый синтаксис CSS',
@@ -6185,7 +6185,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '110',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '69',
     'edition_id' => '2',
     'title' => 'Значения стилевых свойств',
@@ -6700,7 +6700,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '115',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '70',
     'edition_id' => '2',
     'title' => 'Селекторы тегов',
@@ -6822,7 +6822,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '116',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '71',
     'edition_id' => '2',
     'title' => 'Классы',
@@ -7187,7 +7187,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '117',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '72',
     'edition_id' => '2',
     'title' => 'Идентификаторы',
@@ -7369,7 +7369,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '118',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '73',
     'edition_id' => '2',
     'title' => 'Контекстные селекторы',
@@ -7593,7 +7593,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '119',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '74',
     'edition_id' => '2',
     'title' => 'Соседние селекторы',
@@ -7842,7 +7842,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '120',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '75',
     'edition_id' => '2',
     'title' => 'Дочерние селекторы',
@@ -8152,7 +8152,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '121',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '76',
     'edition_id' => '2',
     'title' => 'Селекторы атрибутов',
@@ -8395,7 +8395,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '123',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '77',
     'edition_id' => '2',
     'title' => 'Универсальный селектор',
@@ -8506,7 +8506,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '124',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '78',
     'edition_id' => '2',
     'title' => 'Псевдоклассы',
@@ -8543,7 +8543,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '125',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '79',
     'edition_id' => '2',
     'title' => 'Псевдоэлементы',
@@ -8839,7 +8839,7 @@ div {
     'difficult_id' => null,
     'alias_id' => '126',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '80',
     'edition_id' => '2',
     'title' => 'Группирование',
@@ -8983,7 +8983,7 @@ H3 {
     'difficult_id' => null,
     'alias_id' => '127',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '81',
     'edition_id' => '1',
     'title' => 'Наследование',
@@ -9156,7 +9156,7 @@ H3 {
     'difficult_id' => null,
     'alias_id' => '128',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '82',
     'edition_id' => '2',
     'title' => 'Каскадирование',
@@ -9310,7 +9310,7 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
     'difficult_id' => null,
     'alias_id' => '129',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '83',
     'edition_id' => '2',
     'title' => 'Валидация CSS',
@@ -9346,7 +9346,7 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
     'difficult_id' => null,
     'alias_id' => '130',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '84',
     'edition_id' => '2',
     'title' => 'Идентификаторы и классы',
@@ -9507,7 +9507,7 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
     'difficult_id' => null,
     'alias_id' => '131',
 ]);
-            $this->insert('{{%article}}',[
+	        $this->insert('{{%article}}',[
     'article_id' => '85',
     'edition_id' => '2',
     'title' => 'Написание эффективного кода',
@@ -9721,19 +9721,19 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
     'difficult_id' => null,
     'alias_id' => '132',
 ]);
-        
-    }
+	
+}
 
-    public function safeDown()
-    {
-        $this->dropIndex('title', '{{%article}}');
-        $this->dropIndex('status', '{{%article}}');
-        $this->dropIndex('date_added', '{{%article}}');
-        $this->dropIndex('date_update', '{{%article}}');
-        $this->dropIndex('article_group_id', '{{%article}}');
-        $this->dropIndex('language_id', '{{%article}}');
-        $this->dropIndex('alias_id', '{{%article}}');
-        $this->dropIndex('difficult_id', '{{%article}}');
-        $this->dropTable('{{%article}}');
-    }
+public function safeDown()
+{
+						            $this->dropIndex('title', '{{%article}}');
+					            $this->dropIndex('status', '{{%article}}');
+					            $this->dropIndex('date_added', '{{%article}}');
+					            $this->dropIndex('date_update', '{{%article}}');
+					            $this->dropIndex('article_group_id', '{{%article}}');
+					            $this->dropIndex('language_id', '{{%article}}');
+					            $this->dropIndex('alias_id', '{{%article}}');
+					            $this->dropIndex('difficult_id', '{{%article}}');
+			$this->dropTable('{{%article}}');
+}
 }
