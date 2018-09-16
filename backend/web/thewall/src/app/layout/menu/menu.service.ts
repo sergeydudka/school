@@ -21,16 +21,18 @@ export class MenuService {
         const module = data[moduleKey];
 
         const menuItem: MenuNode = {
-          title: moduleKey,
+          title: module.label,
           children: [],
           url: `/${moduleKey}/${moduleKey}`
         };
 
-        for (const submoduleKey in module) {
-          const submodule = module[submoduleKey];
+        // if (module.list && module.list.lenth) continue;
+
+        for (const submoduleKey in module.list) {
+          const submodule = module.list[submoduleKey];
 
           const menuSubItem: MenuNode = {
-            title: submoduleKey,
+            title: submodule.label,
             url: `${moduleKey}/${submoduleKey}`
           };
 

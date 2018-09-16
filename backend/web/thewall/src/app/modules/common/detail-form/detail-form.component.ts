@@ -27,7 +27,7 @@ export class DetailFormComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(data => {
-      const { category, module } = this.route.parent.parent.params._value,
+      const { category, module } = this.route.parent.parent.snapshot.params,
         id = data.get('id'),
         api = this.api.getModuleApi(category, module),
         idProperty = this.api.getModuleIdProperty(category, module);

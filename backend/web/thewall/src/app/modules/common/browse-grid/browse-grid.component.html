@@ -1,32 +1,19 @@
+<button mat-button [disabled]="!selection.hasValue()" (click)="onEdit()">
+  <mat-icon aria-label="">edit</mat-icon>
+  <!-- TODO: title -->
+  Edit
+</button>
+<button mat-button [disabled]="!selection.hasValue()" (click)="onRemove()">
+  <mat-icon aria-label="">delete</mat-icon>
+  <!-- TODO: title -->
+  Delete
+</button>
+
 <div style="overflow: auto;">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort [matSortActive]="defaultSort"
     matSortDisableClear [matSortDirection]="defaultSortDir">
 
-    <!-- START Actions row -->
-    <ng-container matColumnDef="actions-row" sticky>
-      <td colspan="100" mat-cell *matHeaderCellDef>
-        <button mat-button [disabled]="!selection.hasValue()" (click)="onEdit()">
-          <mat-icon aria-label="">edit</mat-icon>
-          <!-- TODO: title -->
-          Edit
-        </button>
-        <button mat-button [disabled]="!selection.hasValue()" (click)="onRemove()">
-          <mat-icon aria-label="">delete</mat-icon>
-          <!-- TODO: title -->
-          Delete
-        </button>
-      </td>
-    </ng-container>
-
-    <tr class="actions-row" mat-row *matHeaderRowDef="['actions-row']; sticky: true"></tr>
-    <!-- END Actions row -->
-
-
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-
-    <!--- Note that these columns can be defined in any order.
-      The actual rendered columns are set as a property on the row definition" -->
 
     <!-- FILTERS start -->
     <ng-container *ngFor="let filter of columnsCfg" [matColumnDef]="'filter_' + filter.name">
@@ -128,19 +115,6 @@
   -->
 
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
-
-
-    <!-- START Paging row -->
-    <ng-container matColumnDef="paging-row" sticky>
-      <td colspan="100" mat-cell *matFooterCellDef="let element">
-        In-table paging row
-        <!-- <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
-      </mat-paginator> -->
-      </td>
-    </ng-container>
-
-    <tr class="paging-row" mat-footer-row *matFooterRowDef="['paging-row']; sticky: true"></tr>
-    <!-- END Paging row -->
   </table>
 </div>
 
