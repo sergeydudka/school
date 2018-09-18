@@ -34,9 +34,6 @@ $config = [
 				'application/json' => 'yii\web\JsonParser',
 			]
 		],
-		'urlResolver' => [
-			'class' => 'crudschool\common\url\UrlResolver'
-		],
 		'user' => [
 			'identityClass' => 'crudschool\models\BaseUser',
 			'enableAutoLogin' => true,
