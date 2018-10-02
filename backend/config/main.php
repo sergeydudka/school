@@ -37,8 +37,8 @@ $config = [
 		'user' => [
 			'identityClass' => 'crudschool\models\BaseUser',
 			'enableAutoLogin' => true,
-			'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-			'loginUrl' => '/admin/login',
+			'identityCookie' => ['name' => '_identity-backend'],
+			'loginUrl' => '/admin/main/login',
 		],
 		'session' => [
 			// this is the name of the session cookie used for login on the backend

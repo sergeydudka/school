@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180916_080530_migration extends Migration
+class m181002_194242_migration extends Migration
 {
 
 public function init()
@@ -86,6 +86,18 @@ $this->createTable(
 	        $this->insert('{{%migration}}',[
     'version' => 'm180911_183103_Relations',
     'apply_time' => '1536690916',
+]);
+	        $this->insert('{{%migration}}',[
+    'version' => 'm180916_080530_migration',
+    'apply_time' => '1537085217',
+]);
+	        $this->insert('{{%migration}}',[
+    'version' => 'm180916_080531_translation',
+    'apply_time' => '1537085217',
+]);
+	        $this->insert('{{%migration}}',[
+    'version' => 'm180916_080532_user',
+    'apply_time' => '1537085218',
 ]);
 	
 }

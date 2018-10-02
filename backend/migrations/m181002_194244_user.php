@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180916_080532_user extends Migration
+class m181002_194244_user extends Migration
 {
 
 public function init()
@@ -23,6 +23,7 @@ $this->createTable(
 '{{%user}}',
 [
     'user_id'=> $this->primaryKey(11),
+    'user_group_id'=> $this->integer(11)->notNull()->defaultValue(0),
     'username'=> $this->string(255)->notNull(),
     'auth_key'=> $this->string(32)->notNull(),
     'password_hash'=> $this->string(255)->notNull(),
@@ -39,8 +40,10 @@ $this->createTable(
 					            $this->createIndex('updated_at','{{%user}}',['updated_at'],false);
 					            $this->createIndex('auth_key','{{%user}}',['auth_key'],false);
 					            $this->createIndex('password_hash','{{%user}}',['password_hash'],false);
+					            $this->createIndex('user_group_id','{{%user}}',['user_group_id'],false);
 				        $this->insert('{{%user}}',[
     'user_id' => '1',
+    'user_group_id' => '1',
     'username' => 'admin',
     'auth_key' => 'admin',
     'password_hash' => '$2y$13$d932fj8ux/Xwvai68Mct3e3hW1ksk793OHzAA6aP5FBjwANyntTAm',
@@ -61,6 +64,7 @@ public function safeDown()
 					            $this->dropIndex('updated_at', '{{%user}}');
 					            $this->dropIndex('auth_key', '{{%user}}');
 					            $this->dropIndex('password_hash', '{{%user}}');
+					            $this->dropIndex('user_group_id', '{{%user}}');
 			$this->dropTable('{{%user}}');
 }
 }

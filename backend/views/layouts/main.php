@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use backend\assets\AppAsset;
@@ -30,12 +31,12 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
+        'brandUrl'   => Yii::$app->homeUrl,
+        'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    
+
     /*$langItems = [];
     
     $sysLang = Yii::$app->lang->getLanguage();
@@ -71,34 +72,33 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/index']],
     ];*/
-    
-    $menu = new crudschool\modules\menu\controllers\DefaultController('menu', new crudschool\modules\menu\Module('menu'),[]);
-    
-    foreach ($menu->prepareDataProvider() as $module => $controllers) {
-        
-        $items = [];
-        
-        foreach ($controllers as $name => $params) {
-            
-            if ($name == 'default') {
-	            continue;
-            }
-	        
-            $items[] = [
-	            'label' => $params['label'] ?: $name,
-                'url' => [$params['url']]
-            ];
+
+    $menu = new crudschool\modules\main\controllers\MenuController('menu', new crudschool\modules\main\Module('menu'), []);
+
+
+    $items = [];
+
+    foreach ($menu->prepareDataProvider() as $name => $params) {
+
+        if ($name == 'default') {
+            continue;
         }
-	    $menuItems[] = [
-		    'label' => ucfirst($module),
-		    'url' => ['/' . $module],
-            'items' => $items,
+
+        $items[] = [
+            'label' => $params['label'] ?: $name,
+            'url'   => [$params['url']],
         ];
     }
-    
+    $menuItems[] = [
+        'label' => ucfirst($name),
+        'url'   => ['/' . $name],
+        'items' => $items,
+    ];
+
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
+        'items'   => $menuItems,
     ]);
     NavBar::end();
     ?>

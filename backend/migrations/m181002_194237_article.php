@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m180916_080525_article extends Migration
+class m181002_194237_article extends Migration
 {
 
 public function init()
@@ -46,7 +46,7 @@ $this->createTable(
 					            $this->createIndex('difficult_id','{{%article}}',['difficult_id'],false);
 				        $this->insert('{{%article}}',[
     'article_id' => '2',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Введение в HTML',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;h2&gt;Быстрый старт&lt;/h2&gt;
   &lt;p&gt;Чтобы сразу же ввести в курс дела нетерпеливых читателей, предложим им возможность
@@ -113,7 +113,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '3',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Инструментарий',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для эффективной работы не обойтись без необходимых и привычных инструментов,
     в том числе и при написании кода HTML. Поэтому для начальной разработки веб-страниц
@@ -231,7 +231,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '4',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Теги',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Чтобы браузер при отображении документа понимал, что имеет дело не с простым
     текстом, а с элементом форматирования и применяются теги. Общий синтаксис написания
@@ -296,7 +296,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '5',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Парные теги',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Парные теги, называемые по-другому контейнеры, состоят из двух частей&amp;nbsp;—  открывающий
   и закрывающий тег. Открывающий тег обозначается как и одиночный&amp;nbsp;— &lt;span class=&quot;tag&quot;&gt;&amp;lt;тег&amp;gt;&lt;/span&gt;,
@@ -327,7 +327,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '6',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Правила применения тегов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для тегов любого типа действуют определенные правила их использования. Причем,
   некоторые правила обязательны для выполнения, а другие являются рекомендациями,
@@ -442,7 +442,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '7',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Атрибуты тегов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Чтобы расширить возможности отдельных тегов и более гибко управлять содержимым
   контейнеров и применяются атрибуты тегов.&lt;/p&gt;
@@ -507,7 +507,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '8',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Структура HTML-кода',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Если открыть любую веб-страницу, то она будет содержать в себе типичные элементы,
   которые не меняются от вида и направленности сайта. В примере&amp;nbsp;4.1 показан
@@ -728,7 +728,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '9',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Типы тегов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Каждый тег HTML принадлежит к определенной группе тегов,  например, табличные теги направлены на формирование таблиц и не могут  применяться для других целей.&lt;/p&gt;
   &lt;p&gt; Условно теги делятся на следующие типы:&lt;/p&gt;
@@ -755,7 +755,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '10',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Теги верхнего уровня',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Эти теги предназначены для формирования структуры  веб-страницы и определяют раздел заголовка и тела документа.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;html&amp;gt;&lt;/h3&gt;
@@ -795,7 +795,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '11',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Теги заголовка документа',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;К этим тегам относятся элементы, которые располагаются в  контейнере &lt;span class=&quot;tag&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;. Все  эти теги напрямую не отображаются в окне браузера, за исключением тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;, который  определяет название веб-страницы.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;title&amp;gt;&lt;/h3&gt;
@@ -864,7 +864,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '12',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Блочные элементы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Блочные элементы характеризуются тем, что занимают всю  доступную ширину, высота элемента определяется его содержимым, и он всегда  начинается с новой строки.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;blockquote&amp;gt;&lt;/h3&gt;
@@ -891,7 +891,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '13',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Строчные элементы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Строчными называются такие элементы веб-страницы,  которые являются непосредственной частью другого элемента, например, текстового  абзаца. В основном они используются для изменения вида текста или его  логического выделения.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;a&amp;gt;&lt;/h3&gt;
@@ -935,7 +935,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '14',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Универсальные элементы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Особенность этих тегов состоит в том, что они в  зависимости от контекста могут использоваться как блочные или встроенные  элементы.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;del&amp;gt;&lt;/h3&gt;
@@ -953,7 +953,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '15',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Теги для списков',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Списком называется взаимосвязанный набор отдельных фраз  или предложений, которые начинаются с маркера или цифры. Списки предоставляют  возможность упорядочить и систематизировать разные данные и представить их в  наглядном и удобном для пользователя виде.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;ol&amp;gt;&lt;/h3&gt;
@@ -975,7 +975,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '16',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Теги для таблиц',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Таблица состоит из строк и столбцов ячеек, которые могут  содержать текст и рисунки. Обычно таблицы используются для упорядочения и  представления табличных данных.&lt;/p&gt;&lt;!--break--&gt;
   &lt;h3&gt;&amp;lt;table&amp;gt;&lt;/h3&gt;
@@ -997,7 +997,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '17',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Теги для фреймов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;&lt;span class=&quot;term&quot;&gt;Фреймы&lt;/span&gt; разделяют  окно браузера на отдельные области, расположенные вплотную друг к другу. В  каждую из таких областей загружается самостоятельная веб-страница определяемая  с помощью тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;frame&amp;gt;&lt;/span&gt;. С  помощью фреймов веб-страница делится на два или более документа, которые обычно  содержат навигацию по сайту и его контент. Механизм фреймов позволяет открывать  документ в одном фрейме, по ссылке, нажатой в совершенно другом фрейме.  Допустимо также использовать вложенную структуру элементов, это позволяет дробить  фреймы на мелкие области.&lt;/p&gt;
   &lt;h3&gt;&amp;lt;frame&amp;gt;&lt;/h3&gt;
@@ -1017,7 +1017,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '18',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Значения атрибутов тегов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Атрибуты тегов расширяют возможности самих тегов и  позволяют гибко управлять различными настройками отображения элементов  веб-страницы. Общее количество атрибутов достаточно велико, но их значения,  как правило, можно сгруппировать по разным типам, например, задающих цвет,  размер, адрес и др. Далее рассмотрим основные типы значений.&lt;/p&gt;&lt;/div&gt;',
     'created_at' => '2018-07-04 22:06:11',
@@ -1031,7 +1031,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '19',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Цвет',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;В HTML цвет задается одним из двух путей: с помощью  шестнадцатеричного кода и по названию некоторых цветов. Преимущественно  используется способ, основанный на шестнадцатеричной системе исчисления, как  наиболее универсальный.&lt;/p&gt;
   &lt;h3&gt;Шестнадцатеричные цвета&lt;/h3&gt;
@@ -1284,7 +1284,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '20',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Размер',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;В HTML  размеры элементов или расстояния между ними задаются в пикселах или процентах. &lt;span class=&quot;term&quot;&gt;Пиксел&lt;/span&gt;&amp;nbsp;— это элементарная точка на  экране монитора, является относительной единицей измерения, ее величина зависит  от установленного экранного разрешения и размера монитора. Возьмем, к примеру, популярное  разрешение монитора 1024х768 пикселов. Картинка с такими же размерами будет  занимать всю область экрана. Увеличив разрешение монитора до 1280х1024, мы, тем  самым, уменьшим размеры изображения на экране. &lt;/p&gt;
   &lt;p&gt; При использовании пикселов в качестве значений пишется  только число без указания единиц, например: &lt;span class=&quot;attribute&quot;&gt;width=&quot;380&quot;&lt;/span&gt;.  В примере&amp;nbsp;6.2 приведено добавление изображения с заданными размерами.&lt;/p&gt;
@@ -1355,7 +1355,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '21',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Адрес',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Адресом называется путь к документу, например, к графическому  файлу. Адрес необходим в тех случаях, когда делается ссылка на веб-страницу или  загружается определенный файл. Например, в теге &lt;span class=&quot;tag&quot;&gt;&amp;lt;img&amp;gt;&lt;/span&gt; адрес используется в качестве значения атрибута &lt;span class=&quot;attribute&quot;&gt;src&lt;/span&gt;,  он задает путь к файлу с изображением.&lt;/p&gt;
   &lt;p&gt; Синонимом адреса выступает URL (Universal Resource Locator, универсальный  указатель ресурсов), различают абсолютные и относительные адреса.&lt;/p&gt;
@@ -1435,7 +1435,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '22',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Текст',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для изменения вида текста существует достаточно большое количество различных     тегов. Это и немудрено, ведь текст самый популярный вид информации. &lt;/p&gt;
 &lt;h2&gt;Особенности текста в HTML&lt;/h2&gt;
@@ -1471,7 +1471,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '23',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Абзацы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt; Как правило, блоки текста разделяют между собой абзацами (параграфами). По     умолчанию между параграфами существует небольшой вертикальный отступ, называемый     отбивкой.
   Синтаксис создания абзацев следующий.&lt;/p&gt;
@@ -1581,7 +1581,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '24',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Заголовки',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Заголовки выполняют важную функцию на веб-странице. Во-первых, они показывают     важность раздела, к которому относятся. Чем больше заголовок и его
   «вес»
@@ -1636,7 +1636,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '25',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Выравнивание текста',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt; Выравнивание текста определяет его внешний вид и ориентацию краев абзаца и     может выполняться по левому краю, правому краю, по центру или по ширине. Наиболее распространенный вариант&amp;nbsp;— выравнивание по левому краю, когда     слева текст сдвигается до края, а правый остается неровным. Выравнивание по     правому краю и по центру в основном используется в заголовках и подзаголовках.     Следует иметь в виду, что при использовании выравнивания по ширине, в тексте     между словами могут появиться большие интервалы, что не очень красиво. &lt;/p&gt;
 &lt;p&gt; Для установки выравнивания текста обычно используется тег параграфа &lt;span class=&quot;tag&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt; с атрибутом &lt;span class=&quot;attribute&quot;&gt;align&lt;/span&gt;, который определяет способ выравнивания.     Также блок текста допустимо выравнивать с помощью тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt; с аналогичным атрибутом &lt;span class=&quot;attribute&quot;&gt;align&lt;/span&gt;. Он может принимать следующие значения:&lt;/p&gt;
@@ -1701,7 +1701,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '26',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Начертание',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;h2&gt;Жирное начертание&lt;/h2&gt;
 &lt;p&gt;Насыщенностью называют увеличение толщины линий шрифта и соответственно контраста.     Обычно различают четыре вида насыщенности: светлое начертание, нормальное, полужирное     и жирное. Однако с помощью HTML можно установить только нормальное и жирное     начертание. Для установки текста жирного начертания применяется два тега: &lt;span class=&quot;tag&quot;&gt;&amp;lt;b&amp;gt;&lt;/span&gt; и &lt;span class=&quot;tag&quot;&gt;&amp;lt;strong&amp;gt;&lt;/span&gt;. &lt;/p&gt;
@@ -1754,7 +1754,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '27',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Верхний и нижний индексы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Индексом по отношению к тексту называется смещение  символов относительно базовой линии вверх или вниз. В зависимости от  положительного или отрицательного значения, индекс называется, соответственно,  верхним или нижним. Они активно применяются в математике, физике, химии и для  обозначения единиц измерения. HTML предлагает два тега для создания индекса: &lt;span class=&quot;tag&quot;&gt;&amp;lt;sup&amp;gt;&lt;/span&gt;&amp;nbsp;— верхний индекс и &lt;span class=&quot;tag&quot;&gt;&amp;lt;sub&amp;gt;&lt;/span&gt;&amp;nbsp;— индекс нижний. Текст, помещенный в один из этих  контейнеров, обозначается меньшим размером, чем базовый текст и смещается  относительно горизонтали. &lt;/p&gt;
 &lt;p&gt;В примере 7.6 показано, где применяется подобный текст &lt;/p&gt;
@@ -1794,7 +1794,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '28',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Спецсимволы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Для отображения символов, которых нет на клавиатуре,  применяются специальные знаки, начинающиеся с амперсанда (&amp;amp;) и  заканчивающиеся точкой с запятой (;). В табл.&amp;nbsp;7.1 приведены некоторые популярные  спецсимволы.&lt;/p&gt;
   &lt;table class=&quot;data&quot;&gt;
@@ -2380,7 +2380,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '29',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Ссылки',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Ссылки являются основой гипертекстовых документов и позволяют переходить с
   одной веб-страницы на другую. Особенность их состоит в том, что сама ссылка
@@ -2461,7 +2461,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '30',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Абсолютные и относительные ссылки',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Адрес ссылки может быть как абсолютным, так и относительным. Абсолютные адреса
   должны начинаться с указания протокола (обычно http://) и содержать имя сайта.
@@ -2559,7 +2559,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '31',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Виды ссылок',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Любая ссылка на веб-странице может находиться в одном из следующих состояний.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Непосещенная ссылка.&lt;/strong&gt; Такое состояние характеризуется для
@@ -2584,7 +2584,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '32',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Правила вложений для тега &lt;a&gt;',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Любая ссылка является встроенным элементом, поэтому для нее действуют те же
   правила, что и для встроенных элементов. А именно, нельзя размещать внутри
@@ -2631,7 +2631,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '33',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Атрибуты ссылок',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Основной атрибут &lt;span class=&quot;attribute&quot;&gt;href&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;a&amp;gt;&lt;/span&gt; мы уже освоили,
   рассмотрим еще несколько полезных, но необязательных атрибутов этого тега.&lt;/p&gt;
@@ -2727,7 +2727,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '34',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Ссылка на адрес электронной почты',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Создание ссылки на адрес электронной почты делается почти также как и ссылка
   на веб-страницу. Только вместо URL указывается &lt;span class=&quot;attribute&quot;&gt;mailto:адрес электронной почты&lt;/span&gt;  (пример&amp;nbsp;8.6).&lt;/p&gt;
@@ -2796,7 +2796,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '35',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Якоря',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Якорем называется закладка с уникальным именем на определенном месте  веб-страницы, предназначенная для создания перехода к ней по ссылке. Якоря  удобно применять в документах большого объема, чтобы можно было быстро  переходить к нужному разделу. &lt;/p&gt;
 &lt;p&gt;Для создания якоря следует вначале сделать закладку в соответствующем месте
@@ -2870,7 +2870,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '36',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Изображения',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Добавление изображения происходит в два этапа: вначале готовится графический
   файл желаемого размера, затем он добавляется на страницу через тег &lt;span class=&quot;tag&quot;&gt;&amp;lt;img&amp;gt;&lt;/span&gt;.
@@ -2896,7 +2896,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '37',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Форматы файлов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Широкое распространение для веб-графики получили два формата&amp;nbsp;— GIF и JPEG.
   Их многофункциональность, универсальность, небольшой объем исходных файлов
@@ -2988,7 +2988,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '38',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Добавление рисунка',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для добавления изображения на веб-страницу используется тег &lt;span class=&quot;tag&quot;&gt;&amp;lt;img&amp;gt;&lt;/span&gt;, 
   атрибут &lt;span class=&quot;attribute&quot;&gt;src&lt;/span&gt; которого определяет адрес графического
@@ -3075,7 +3075,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '39',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Альтернативный текст',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Альтернативный текст позволяет получить текстовую информацию  о рисунке при отключенном в браузере показе картинок или во время их загрузки. Такой  текст появляется раньше самого изображения и дает представление об его  содержании (рис.&amp;nbsp;10.3). Затем зарезервированное пустое поле заменяется  картинкой (рис.&amp;nbsp;10.4). &lt;/p&gt;
 &lt;p class=&quot;fig&quot;&gt;&lt;img src=&quot;http://htmlbook.ru/files/images/samhtml/fig_1_10_03.png&quot; alt=&quot;Рис. 10.3&quot; width=&quot;446&quot; height=&quot;501&quot;&gt;&lt;/p&gt;
@@ -3151,7 +3151,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '40',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Изменение размеров рисунка',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для изменения размеров рисунка средствами HTML у тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;img&amp;gt;&lt;/span&gt; предусмотрены атрибуты &lt;span class=&quot;attribute&quot;&gt;width&lt;/span&gt; (ширина) и &lt;span class=&quot;attribute&quot;&gt;height&lt;/span&gt; (высота). В качестве значения используются пикселы, при этом аргументы должны
   совпадать с физическими размерами картинки. Например, на рис.&amp;nbsp;10.6
@@ -3244,7 +3244,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '41',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Списки',
     'description' => '&amp;lt;div class=&amp;quot;field-item even&amp;quot;&amp;gt;  &amp;lt;p&amp;gt;Списком называется взаимосвязанный набор отдельных фраз или предложений, которые     начинаются с маркера или цифры. Списки предоставляют возможность упорядочить     и систематизировать разные данные и представить их в наглядном и удобном для     пользователя виде. &amp;lt;/p&amp;gt;
   &amp;lt;p&amp;gt; Любой список представляет собой контейнер &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;ul&amp;amp;gt;&amp;lt;/span&amp;gt;,     который устанавливает маркированный список, или &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;ol&amp;amp;gt;&amp;lt;/span&amp;gt;,     определяющий список нумерованный. Каждый элемент списка должен начинаться с     тега &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;li&amp;amp;gt;&amp;lt;/span&amp;gt;. &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;',
@@ -3259,7 +3259,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '42',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Маркированный список',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Маркированный список определяется тем, что перед каждым элементом списка добавляется     небольшой маркер, обычно в виде закрашенного кружка. Сам список формируется с помощью контейнера &lt;span class=&quot;tag&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;, а каждый пункт списка  начинается с тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;,  как показано ниже.&lt;/p&gt;
   &lt;pre style=&quot;display: none;&quot;&gt;&lt;code class=&quot;no-buttons&quot;&gt;&amp;lt;ul&amp;gt;
@@ -3410,7 +3410,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '43',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Нумерованный список',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Нумерованные списки представляют собой набор элементов с их порядковыми номерами.     Вид и тип нумерации зависит от атрибутов тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;ol&amp;gt;&lt;/span&gt;, который и применяется для создания списка. Каждый пункт нумерованного списка обозначается тегом &lt;span class=&quot;tag&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;, как показано ниже.&lt;/p&gt;
 &lt;pre style=&quot;display: none;&quot;&gt;&lt;code class=&quot;no-buttons&quot;&gt;&amp;lt;ol&amp;gt;
@@ -3569,7 +3569,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '44',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Список определений',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Список определений состоит из двух элементов&amp;nbsp;— термина и его определения.     Сам список задается с помощью контейнера &lt;span class=&quot;tag&quot;&gt;&amp;lt;dl&amp;gt;&lt;/span&gt;,     термин&amp;nbsp;— тегом &lt;span class=&quot;tag&quot;&gt;&amp;lt;dt&amp;gt;&lt;/span&gt;, а его определение&amp;nbsp;— с помощью     тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;dd&amp;gt;&lt;/span&gt;. Вложение тегов для создания списка     определений продемонстрировано в примере&amp;nbsp;11.5. &lt;/p&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример 11.5. Общая структура списка определений&lt;/p&gt;
@@ -3647,7 +3647,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '45',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Таблицы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Благодаря универсальности таблиц, большому числу  параметров, управляющих их видом, таблицы надолго стали определенным стандартом  для верстки веб-страниц. Таблица с невидимой границей представляет собой словно  модульную сетку, в блоках которой удобно размещать элементы веб-страницы. Тем  не менее, это не совсем правильный подход, ведь каждый объект HTML определен для своих собственных  целей и если он используется не по назначению, причем повсеместно, это значит,  что альтернатив нет. Так оно и было долгое время, пока на смену таблицам при  верстке сайтов не пришли слои. Это не значит, что слои теперь используются  сплошь и рядом, но тенденция уже наметилась четко&amp;nbsp;— таблицы применяются  для размещения табличных данных, а слои&amp;nbsp;— для верстки и оформления.&lt;/p&gt;
   &lt;h2&gt;Создание таблицы&lt;/h2&gt;
@@ -3706,7 +3706,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '46',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Атрибуты тега &lt;table&gt;',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Тот факт, что таблицы применяются достаточно часто и не  только для отображения табличных данных обязан не только их гибкости и  универсальности, но и обилию атрибутов тегов &lt;span class=&quot;tag&quot;&gt;&amp;lt;table&amp;gt;&lt;/span&gt;, &lt;span class=&quot;tag&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt; и &lt;span class=&quot;tag&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;. Далее перечислены  некоторые атрибуты тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;table&amp;gt;&lt;/span&gt;,  которые применяются наиболее часто. &lt;/p&gt;
   &lt;h3&gt;align&lt;/h3&gt;
@@ -3740,7 +3740,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '47',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Атрибуты тега &lt;td&gt;',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Каждая ячейка таблицы, задаваемая через тег &lt;span class=&quot;tag&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;, в свою очередь  тоже имеет свои атрибуты, часть из которых совпадает с атрибутами тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;table&amp;gt;&lt;/span&gt;.&lt;/p&gt;
   &lt;h3&gt;align&lt;/h3&gt;
@@ -3774,7 +3774,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '48',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Особенности таблиц',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;У каждого параметра таблицы  есть свое значение установленное по умолчанию. Это означает, что если какой-то  атрибут пропущен, то неявно он все равно присутствует, причем с некоторым  значением. Из-за чего вид таблицы может оказаться совсем другим, нежели  предполагал разработчик. Чтобы понимать, что можно ожидать от таблиц, следует  знать их явные и неявные особенности, которые перечислены далее.&lt;/p&gt;
   &lt;ul&gt;
@@ -3794,7 +3794,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '49',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Выравнивание таблиц',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Для задания выравнивания  таблицы по центру веб-страницы или по одному из ее краев предназначен атрибут &lt;span class=&quot;attribute&quot;&gt;align&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;table&amp;gt;&lt;/span&gt;. Результат  будет заметен только в том случае, если ширина таблицы не занимает всю  доступную область, другими словами, меньше, чем 100%. На самом деле &lt;span class=&quot;attribute&quot;&gt;align&lt;/span&gt; не только  устанавливает выравнивание, но и заставляет текст обтекать таблицу с других  сторон аналогично поведению тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;img&amp;gt;&lt;/span&gt;.  В примере&amp;nbsp;12.2 показано выравнивание таблицы по правому краю и ее  обтекание текстом.&lt;/p&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример  12.2. Выравнивание таблицы по правому краю &lt;/p&gt;
@@ -3841,7 +3841,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '50',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Объединение ячеек',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Для объединения двух и более ячеек в одну используются  атрибуты &lt;span class=&quot;attribute&quot;&gt;colspan&lt;/span&gt; и &lt;span class=&quot;attribute&quot;&gt;rowspan&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;. Атрибут &lt;span class=&quot;attribute&quot;&gt;colspan&lt;/span&gt; устанавливает число ячеек объединяемых по горизонтали. Аналогично  работает и атрибут &lt;span class=&quot;attribute&quot;&gt;rowspan&lt;/span&gt;,  с тем лишь отличием, что объединяет ячейки по вертикали. Перед добавлением  атрибутов проверьте число ячеек в каждой строке, чтобы не возникло ошибок. Так, &lt;span class=&quot;attribute&quot;&gt;&amp;lt;td  colspan=&quot;3&quot;&amp;gt;&lt;/span&gt; заменяет три ячейки, поэтому в следующей строке должно быть три тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt; или конструкция вида &lt;span class=&quot;attribute&quot;&gt;&amp;lt;td colspan=&quot;2&quot;&amp;gt;...&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;...&amp;lt;/td&amp;gt;&lt;/span&gt;. Если число ячеек в каждой строке  не будет совпадать, появятся пустые фантомные ячейки. В примере&amp;nbsp;12.3  приведен хотя и валидный, но неверный код, в котором как раз проявляется подобная ошибка.&lt;/p&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример 12.3. Неверное объединение ячеек&lt;/p&gt;
@@ -3960,7 +3960,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '51',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Вложенные таблицы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Объединение ячеек имеет некоторые недостатки, поэтому этот  метод создания таблиц нельзя использовать повсеместно. Для примера рассмотрим  пример 12.5, где задается высота ячейки с помощью атрибута &lt;span class=&quot;attribute&quot;&gt;height&lt;/span&gt;.&lt;/p&gt;&lt;!--break--&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример 12.5. Явно заданная высота ячейки&lt;/p&gt;
@@ -4091,7 +4091,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '52',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Заголовок таблицы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt; При большом количестве таблиц на странице каждой из них удобно задать заголовок, 
     содержащий название таблицы и ее описание. Для этой цели в HTML существует 
@@ -4182,7 +4182,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '53',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Фреймы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Фреймы разделяют окно браузера на отдельные области, расположенные 
     рядом друг с другом. В каждую из таких областей загружается самостоятельная 
@@ -4253,7 +4253,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '54',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Создание фреймов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Несмотря на то, что сайты с фреймами встречаются все реже,  изучение HTML было бы  неполным без рассмотрения темы о фреймах. К тому же фреймы в каком-то смысле  заняли свою нишу и применяются для систем администрирования и справки. Там, где  недостатки фреймов не имеют особого значения, а преимущества наоборот, активно  востребованы.&lt;/p&gt;
   &lt;p&gt;Для создания фрейма используется тег &lt;span class=&quot;tag&quot;&gt;&amp;lt;frameset&amp;gt;&lt;/span&gt;, 
@@ -4389,7 +4389,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '55',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Ссылки во фреймах',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;В обычном HTML-документе при переходе по ссылке, в окне браузера текущий документ заменяется новым. При использовании фреймов схема загрузки документов отличается от стандартной. Основное отличие&amp;nbsp;— возможность загружать       документ в выбранный фрейм из другого. Для этой цели используется атрибут &lt;span class=&quot;attribute&quot;&gt;target&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;a&amp;gt;&lt;/span&gt;. В качестве значения используется имя фрейма, в который будет загружаться документ, указанный атрибутом &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt; (пример&amp;nbsp;13.5).&lt;/p&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример&amp;nbsp;13.5. Ссылка на другой фрейм&lt;/p&gt;
@@ -4456,7 +4456,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '56',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Границы между фреймами',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Граница между фреймами отображается по умолчанию и, как правило, в виде трехмерной     линии. Чтобы ее скрыть используется атрибут &lt;span class=&quot;attribute&quot;&gt;frameborder&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;frameset&amp;gt;&lt;/span&gt; со значением &lt;span class=&quot;value&quot;&gt;0&lt;/span&gt;.     Однако в браузере Opera граница хоть и становится в этом случае бледной, все     же остается. Для этого браузера требуется добавить  &lt;span class=&quot;attribute&quot;&gt;framespacing=&quot;0&quot;&lt;/span&gt;.     Таким образом, комбинируя разные атрибуты тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;frameset&amp;gt;&lt;/span&gt;,     получим универсальный код, который работает во всех браузерах. Линия при этом     показываться никак не будет (пример&amp;nbsp;13.6).&lt;/p&gt;
   &lt;p class=&quot;exampleTitle&quot;&gt;Пример 13.6. Убираем границу между фреймами &lt;/p&gt;
@@ -4536,7 +4536,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '57',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Изменение размеров фреймов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;По умолчанию размеры фреймов можно изменять с помощью курсора мыши, наведя       его на границу между фреймами. Для блокировки возможности изменения пользователем       размера фреймов следует воспользоваться атрибутом &lt;span class=&quot;attribute&quot;&gt;noresize&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;frame&amp;gt;&lt;/span&gt; (пример&amp;nbsp;13.8).&lt;/p&gt;&lt;!--break--&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример 13.8. Запрет на изменение размера фреймов &lt;/p&gt;
@@ -4574,7 +4574,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '58',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Полосы прокрутки фрейма',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Если содержимое фрейма не помещается в отведенное окно, автоматически появляются     полосы прокрутки для просмотра информации. В некоторых случаях полосы прокрутки     нарушают дизайн веб-страницы, поэтому от них можно отказаться. Для управления     отображением полос прокрутки используется атрибут &lt;span class=&quot;attribute&quot;&gt;scrolling&lt;/span&gt; тега &lt;span class=&quot;tag&quot;&gt;&amp;lt;frame&amp;gt;&lt;/span&gt;.      Он может принимать два основных значения: &lt;span class=&quot;value&quot;&gt;yes&lt;/span&gt;&amp;nbsp;— всегда вызывает появление полос прокрутки, независимо от объема информации и &lt;span class=&quot;value&quot;&gt;no&lt;/span&gt;&amp;nbsp;— запрещает их появление (пример&amp;nbsp;13.9). &lt;/p&gt;
   &lt;p class=&quot;exampleTitle2&quot;&gt;Пример 13.9. Запрет на изменение размера фреймов &lt;/p&gt;
@@ -4613,7 +4613,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '59',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Плавающие фреймы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;p&gt;Разговор о фреймах будет неполным без упоминания плавающих  фреймов. Так называется фрейм, который можно добавлять в любое место  веб-страницы. Еще одно его название&amp;nbsp;— встроенный фрейм, он называется так  из-за своей особенности встраиваться прямо в тело веб-страницы. На  рис.&amp;nbsp;13.4 приведен пример такого фрейма.&lt;/p&gt;
   &lt;p class=&quot;fig&quot;&gt;&lt;img src=&quot;http://htmlbook.ru/files/images/samhtml/fig_1_13_4.png&quot; width=&quot;453&quot; height=&quot;238&quot; alt=&quot;Рис. 13.4&quot;&gt;&lt;/p&gt;
@@ -4683,7 +4683,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '60',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Валидация документов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Валидацией будем называть проверку  документа на соответствие веб-стандартам и выявление существующих  ошибок. Соответственно, валидным является такой веб-документ, который  прошел подобную процедуру и не имеет замечаний по коду. Код  веб-страницы должен подчиняться определенным правилам, которые  называются спецификацией, ее разрабатывает W3 Консорциум (&lt;a href=&quot;http://www.w3c.org&quot;&gt;www.w3c.org&lt;/a&gt;) при поддержке разработчиков браузеров.&lt;/p&gt;
 &lt;p&gt;  На  первый взгляд, кажется, что валидация необходима, ведь речь идет о  сокращении количества ляпов разработчиков и написании «правильного»  кода. На деле все обстоит гораздо сложнее и вокруг валидации до сих пор  ведутся горячие споры об ее актуальности. Чтобы объективно раскрыть  этот вопрос далее рассмотрим плюсы и минусы такой проверки.&lt;/p&gt;
@@ -4715,7 +4715,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '61',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Проверка данных на валидность',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для проверки веб-страниц на наличие ошибок и замечаний  существует множество путей и способов. Условно они делятся на онлайновые и  локальные. Онлайновые предназначены для проверки страниц с помощью браузера  через Интернет, а локальные используются для проверки документов на текущем  компьютере. Далее рассмотрим популярные методы валидации документов.&lt;/p&gt;
 &lt;h2&gt;validator.w3.org&lt;/h2&gt;
@@ -4778,7 +4778,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '62',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Написание корректного кода',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Валидация документов предназначена не только для того  чтобы удостовериться, что код соответствует спецификации HTML, но и с целью устранения имеющихся  ошибок и замечаний в документе. Между тем, формирование определенной культуры  написания кода позволяет существенно снизить или даже вообще избавиться от  возможных ошибок. Такая культура складывается из знания спецификаций и типовых  ляпов разработчиков, которых надо избегать. &lt;/p&gt;
 &lt;p&gt;  По адресу &lt;a href=&quot;http://www.w3.org/TR/html401/&quot;&gt;http://www.w3.org/TR/html401/&lt;/a&gt; ознакомиться с правилами HTML версии 4.01 может каждый, здесь же мы рассмотрим рядовые  ошибки и научимся, как же их обходить.&lt;/p&gt;
@@ -4828,7 +4828,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '63',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Исправление ошибок',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Большинство ошибок, возникающих при валидации кода можно  свести к набору типовых вариантов, зная которые легко понять, на что «намекает»  валидатор. В качестве образца возьмем расширение HTML Validator для  браузера Firefox,  предназначенное для проверки кода и рассмотрим список ошибок и замечаний по  коду. &lt;/p&gt;
 &lt;p&gt;  Посмотреть все возможные сообщения валидатора можно по  адресу &lt;a href=&quot;http://www.htmlpedia.org/wiki/HTML_Tidy&quot;&gt;http://www.htmlpedia.org/wiki/HTML_Tidy&lt;/a&gt;, далее приведены основные ошибки с их описанием и  решением. Зеленым цветом выделен корректный вариант, другой цвет используется для обозначения ошибки.&lt;/p&gt;
@@ -5143,7 +5143,7 @@ $this->createTable(
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '64',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Введение в CSS',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;После знакомства с HTML разработчики сайтов разделяются на две основные категории.  Одна часть считает, что с помощью HTML на сайте можно создавать всё или практически всё, другая же понимает, что в целом средств разметки недостаточно  для оформления веб-документов. Действительно, HTML лишь первый этап в процессе  обучения созданию сайтов. Следующим шагом является изучение стилей или &lt;span class=&quot;term&quot;&gt;CSS&lt;/span&gt; (Cascading Style Sheets, каскадные таблицы  стилей).&lt;/p&gt;
 &lt;p&gt;Стили представляют собой набор параметров, управляющих видом  и положением элементов веб-страницы. Чтобы стало понятно, о чем идет речь,  посмотрим на рис.&amp;nbsp;1.1. &lt;/p&gt;
@@ -5300,7 +5300,7 @@ p {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '65',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Преимущества стилей',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Стили являются удобным, практичным и эффективным  инструментом при вёрстке веб-страниц и оформления текста, ссылок, изображений и  других элементов. Несмотря на явные плюсы применения стилей, рассмотрим все  преимущества CSS, в том числе и незаметные на первый взгляд.&lt;/p&gt;
 &lt;h3&gt;Разграничение кода и оформления&lt;/h3&gt;
@@ -5327,7 +5327,7 @@ p {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '66',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Способы добавления стилей на страницу',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Для добавления стилей на веб-страницу существует несколько
   способов, которые различаются своими возможностями и назначением. Далее рассмотрим их подробнее.&lt;/p&gt;
@@ -5679,7 +5679,7 @@ BODY {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '67',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Типы носителей',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Широкое развитие различных платформ и устройств заставляет разработчиков делать 
   под них специальные версии сайтов, что достаточно трудоёмко и проблематично. 
@@ -6013,7 +6013,7 @@ background: #ffe;
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '68',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Базовый синтаксис CSS',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Как уже было отмечено ранее, стилевые правила записываются в  своём формате, отличном от HTML. Основным понятием выступает селектор&amp;nbsp;—  это некоторое имя стиля, для которого добавляются параметры форматирования. В  качестве селектора выступают теги, классы и идентификаторы. Общий способ записи  имеет следующий вид.&lt;/p&gt;
 
@@ -6187,7 +6187,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '69',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Значения стилевых свойств',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Всё многообразие значений стилевых свойств может быть  сведено к определённому типу: строка, число, проценты, размер, цвет, адрес или  ключевое слово.&lt;/p&gt;
 &lt;h2&gt;Строки&lt;/h2&gt;
@@ -6702,7 +6702,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '70',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Селекторы тегов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;В качестве селектора может выступать любой тег HTML, для
   которого определяются правила форматирования, такие как: цвет, фон,
@@ -6824,7 +6824,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '71',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Классы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Классы применяют, когда необходимо определить стиль для
   индивидуального элемента веб-страницы или задать разные стили для
@@ -7189,7 +7189,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '72',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Идентификаторы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Идентификатор (называемый также «ID
   селектор») определяет уникальное имя элемента, которое
@@ -7371,7 +7371,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '73',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Контекстные селекторы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;При создании веб-страницы часто приходится вкладывать одни
   теги внутрь других. Чтобы стили для этих тегов использовались
@@ -7595,7 +7595,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '74',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Соседние селекторы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Соседними называются элементы веб-страницы, когда они следуют непосредственно 
   друг за другом в коде документа. Рассмотрим несколько примеров отношения элементов.&lt;/p&gt;
@@ -7844,7 +7844,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '75',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Дочерние селекторы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Дочерним называется элемент, который непосредственно располагается внутри родительского 
   элемента. Чтобы лучше понять отношения между элементами документа, разберём 
@@ -8154,7 +8154,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '76',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Селекторы атрибутов',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Многие теги различаются по своему действию в зависимости от того,  какие в них используются атрибуты. Например, тег &lt;span class=&quot;tag&quot;&gt;&amp;lt;input&amp;gt;&lt;/span&gt; может создавать кнопку,  текстовое поле и другие элементы формы всего лишь за счёт изменения значения атрибута &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;. При этом добавление правил стиля к селектору &lt;span class=&quot;tag&quot;&gt;INPUT&lt;/span&gt; применит стиль одновременно  ко всем созданным с помощью этого тега элементам. Чтобы гибко управлять стилем  подобных элементов, в CSS введены селекторы атрибутов. Они позволяют установить  стиль по присутствию определённого атрибута тега или его значения.&lt;/p&gt;
 &lt;p&gt;Рассмотрим несколько типичных вариантов применения таких селекторов.&lt;/p&gt;
@@ -8397,7 +8397,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '77',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Универсальный селектор',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Иногда требуется установить одновременно один стиль для всех элементов веб-страницы, 
   например, задать шрифт или начертание текста. В этом случае поможет универсальный 
@@ -8508,7 +8508,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '78',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Псевдоклассы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Псевдоклассы определяют динамическое состояние элементов, которое изменяется 
  с помощью действий пользователя, а также положение в дереве 
@@ -8545,7 +8545,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '79',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Псевдоэлементы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Псевдоэлементы позволяют задать стиль элементов не определённых в дереве элементов документа, а также генерировать содержимое, которого нет 
   в исходном коде текста. &lt;/p&gt;
@@ -8841,7 +8841,7 @@ div {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '80',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Группирование',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;При создании стиля для сайта, когда одновременно используется множество селекторов, 
   возможно появление повторяющихся стилевых правил. Чтобы не повторять дважды одни 
@@ -9158,7 +9158,7 @@ H3 {
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '82',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Каскадирование',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Аббревиатура CSS расшифровывается как Cascading Style Sheets (каскадные таблицы  стилей), где одним из ключевых слов выступает «каскад». Под каскадом в данном  случае понимается одновременное применение разных стилевых правил к элементам  документа&amp;nbsp;— с помощью подключения нескольких стилевых файлов, наследования  свойств и других методов. Чтобы в подобной ситуации браузер понимал, какое в  итоге правило применять к элементу, и не возникало конфликтов в поведении  разных браузеров, введены некоторые приоритеты.&lt;/p&gt;
 &lt;p&gt;Ниже приведены приоритеты браузеров, которыми они  руководствуются при обработке стилевых правил. Чем выше в списке находится  пункт, тем ниже его приоритет, и наоборот.&lt;/p&gt;
@@ -9312,7 +9312,7 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '83',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Валидация CSS',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Валидацией называется проверка CSS-кода на соответствие  спецификации CSS2.1 или  CSS3. Соответственно, корректный  код, не содержащий ошибок, называется валидный, а не удовлетворяющий  спецификации&amp;nbsp;— невалидный.  Наиболее  удобно делать проверку кода через сайт &lt;a href=&quot;http://jigsaw.w3.org/css-validator/&quot; class=&quot;ext&quot;&gt;http://jigsaw.w3.org/css-validator/&lt;/a&gt;,  с помощью этого сервиса можно указать адрес документа, загрузить файл или  проверить набранный текст. Большим плюсом сервиса является поддержка русского и  украинского языка.&lt;/p&gt;&lt;!--break--&gt;
 
@@ -9348,7 +9348,7 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '84',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Идентификаторы и классы',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Периодически поднимается спор о целесообразности  использования идентификаторов в вёрстке. Основной довод состоит в том, что  идентификаторы предназначены для доступа и управления элементами веб-страницы с  помощью скриптов, а для изменения стилей элементов должны применяться исключительно  классы. В действительности нет разницы, через что задавать стили, но следует  помнить о некоторых особенностях идентификаторов и классов, а также подводных  камнях, которые могут поджидать разработчиков.&lt;/p&gt;&lt;!--break--&gt;
 &lt;p&gt;Для начала перечислим характерные признаки этих селекторов.&lt;/p&gt;
@@ -9509,7 +9509,7 @@ li.red.level &amp;nbsp; {}&amp;nbsp;/* a=0 b=2 c=1 -&amp;gt; специфичн�
 ]);
 	        $this->insert('{{%article}}',[
     'article_id' => '85',
-    'edition_id' => '2',
+    'edition_id' => '1',
     'title' => 'Написание эффективного кода',
     'description' => '&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;В процессе написания CSS следует придерживаться некоторых  принципов, которые позволяют сократить код CSS, сделать его более удобным, наглядным  и читабельным. Читабельность в данном случае означает, что разработчик спустя  какое-то время может легко понять и модифицировать стиль или что в коде  разберётся даже сторонний человек.&lt;/p&gt;&lt;!--break--&gt;
 &lt;h3&gt;Размещайте каскадные таблицы стилей в отдельном файле&lt;/h3&gt;
