@@ -10,7 +10,9 @@ import {
   MatListModule,
   MatToolbarModule,
   MatTreeModule,
-  MatButtonModule
+  MatButtonModule,
+  MatInputModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -23,24 +25,30 @@ import { MenuComponent } from './layout/menu/menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { ApiService, initApiFactory } from './common/services/api.service';
+import { AppConfigService, initConfigFactory } from './common/services/app-config.service';
 import { DynamicMasterDetailModule } from './modules/common/dynamic-master-detail/dynamic-master-detail.module';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, MenuComponent, PageNotFoundComponent],
+  declarations: [AppComponent, HeaderComponent, MenuComponent, PageNotFoundComponent, LoginComponent],
   imports: [
     // @angular modules
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ReactiveFormsModule,
 
     // @angular/material modules
     MatSidenavModule,
+    MatInputModule,
     MatListModule,
     MatIconModule,
     MatToolbarModule,
     MatTreeModule,
     MatButtonModule,
     CdkTreeModule,
+    MatSnackBarModule,
 
     // routing modules
     AppRoutingModule,
@@ -53,6 +61,12 @@ import { DynamicMasterDetailModule } from './modules/common/dynamic-master-detai
       deps: [ApiService],
       multi: true
     }
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initConfigFactory,
+    //   deps: [AppConfigService],
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent]
 })

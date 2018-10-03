@@ -42,7 +42,7 @@ export abstract class CrudBaseService {
   /**
    * Gets list of elements
    */
-  abstract list(defaults, sorting, pager);
+  abstract list(defaults, sorting, pager, filters);
 
   /**
    * Either saves or updates entity based on passed 'data'

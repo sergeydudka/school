@@ -2,7 +2,8 @@
   <sch-header [navbar]="snav" class="main-toolbar"></sch-header>
 
   <mat-sidenav-container class="main-container" [style.marginTop.px]="mobileQuery.matches ? headerHeight : 0">
-    <mat-sidenav #snav opened [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" [fixedTopGap]="headerHeight">
+    <mat-sidenav #snav opened [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      [fixedTopGap]="headerHeight">
       <sch-menu></sch-menu>
     </mat-sidenav>
 

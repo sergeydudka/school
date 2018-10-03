@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatPaginator, MatSort } from '@angular/material';
@@ -7,27 +7,40 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { YiiCrudService } from '../../../common/services/crud/yii-crud/yii-crud.service';
 import { ApiService } from '../../../common/services/api.service';
-import { merge, Observable, of as observableOf } from 'rxjs';
+import { merge, of as observableOf, Subject, Subscription } from 'rxjs';
 import { startWith, switchMap, catchError } from 'rxjs/operators';
 import { YIIREsponse } from '../../response.model';
 import { GridBuilderService } from '../../../common/services/grid-builder.service';
+
+import { Column, ColumnProps } from '../../../common/models/columns/columns.model';
+
+import { FilterRowDirective } from '../filter-row/filter-row.directive';
 
 @Component({
   selector: 'sch-browse-grid',
   templateUrl: './browse-grid.component.html',
   styleUrls: ['./browse-grid.component.css']
 })
-export class BrowseGridComponent implements OnInit {
+export class BrowseGridComponent implements OnInit, OnDestroy, AfterViewInit {
+  private initialized: boolean;
+  private subscriptions: Subscription;
+
   idProperty;
 
   selection = new SelectionModel<any>(true, []);
 
-  columnsCfg: string[] = [];
+  columnsCfg: ColumnProps[] = [];
   displayedColumns: string[] = [];
   displayedFilterColumns: string[] = [];
 
   dataSource;
   totalCount: number;
+
+  @ViewChild(FilterRowDirective)
+  filterRow: FilterRowDirective;
+
+  filtersChanged = new Subject();
+
   pageSizeOptions = [10, 20, 50, 100];
   pageSize = this.pageSizeOptions[0];
 
@@ -36,6 +49,7 @@ export class BrowseGridComponent implements OnInit {
 
   @ViewChild(MatSort)
   sort: MatSort;
+
   defaultSort;
   defaultSortDir = 'asc';
 
@@ -48,6 +62,7 @@ export class BrowseGridComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // TODO: get all information in before active guard
     this.route.paramMap.subscribe(data => {
       const category = data.get('category'),
         module = data.get('module'),
@@ -58,38 +73,47 @@ export class BrowseGridComponent implements OnInit {
       this.crud.setIdProperty(idProperty);
 
       this.idProperty = this.defaultSort = idProperty;
+    });
+  }
 
-      merge(this.sort.sortChange, this.paginator.page)
-        .pipe(
-          startWith({
-            pageSize: this.pageSize,
-            sort: {
-              active: this.defaultSort,
-              direction: this.defaultSortDir
-            }
-          }),
-          switchMap(defaults => {
-            return this.crud.list(defaults, this.sort, this.paginator);
-          }),
-          catchError((...params) => {
-            console.log('Error on data retrieving => ', params);
-            return observableOf([]);
-          })
-        )
-        .subscribe((result: YIIREsponse) => {
-          this.columnsCfg = this.gridBuilder.getColumns(result);
+  ngOnDestroy() {
+    // clean up subscriptions
+    this.subscriptions.unsubscribe();
+  }
 
-          this.displayedColumns = this.columnsCfg.map((item: any) => item.name);
+  ngAfterViewInit() {
+    this.subscriptions = merge(this.sort.sortChange, this.paginator.page, this.filterRow.filtersChanged)
+      .pipe(
+        startWith({
+          pageSize: this.pageSize,
+          sort: {
+            active: this.defaultSort,
+            direction: this.defaultSortDir
+          }
+        }),
+        switchMap(defaults => this.crud.list(defaults, this.sort, this.paginator, this.filterRow.value)),
+        catchError((...params) => {
+          console.log('Error on data retrieving => ', params);
+          return observableOf([]);
+        })
+      )
+      .subscribe((result: YIIREsponse) => {
+        if (!this.initialized) {
+          this.initialized = true;
+
+          this.columnsCfg = this.gridBuilder.generateColumnsData(result);
+
+          this.displayedColumns = this.columnsCfg.map((item: Column) => item.name);
           this.displayedColumns.unshift('selection');
           this.displayedColumns.push('actions');
+        }
 
-          this.displayedFilterColumns = this.displayedColumns.map(item => 'filter_' + item);
+        this.displayedFilterColumns = this.displayedColumns.map(item => 'filter_' + item);
 
-          this.dataSource = result.result.list;
+        this.dataSource = result.result.list;
 
-          this.totalCount = result.result.total;
-        });
-    });
+        this.totalCount = result.result.total;
+      });
   }
 
   isAllSelected() {

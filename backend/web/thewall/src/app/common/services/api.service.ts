@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   private _api;
   private apiUrl = 'http://school.local.com/admin/main/menu/';
+  private _apiById;
 
   constructor(private http: HttpClient) {}
 
@@ -25,20 +26,7 @@ export class ApiService {
       this.http.get(this.apiUrl).subscribe((response: any) => {
         const menu = response.result.list;
 
-        // for (let cat in menu) {
-        //   let category = menu[cat];
-
-        //   for (let mod in category.list) {
-        //     let module = category.list[mod];
-
-        //     for (let act in module.actions) {
-        //       let action = module.actions[act];
-
-        //       console.log('action => ', action);
-        //     }
-        //   }
-        // }
-        // console.log('response => ', response);
+        this._prepareApiById(menu);
 
         this._api.next(menu);
 
@@ -66,25 +54,73 @@ export class ApiService {
         let config = api[url][i];
 
         // TODO:
-        // console.log('config => ', config);
       }
     }
 
     return allowed;
   }
 
-  getModuleIdProperty(category: string, module: string) {
+  /**
+   * Returns entity id property by category and module
+   *
+   * @param category category alias
+   * @param module module alias
+   */
+  getModuleIdProperty(category: string, module: string): string {
     const api = this._api.getValue(),
-      idProperty = api[category].list[module].primnaryKey;
+      idProperty = api[category].list[module].primaryKey;
 
     return idProperty;
   }
 
+  /**
+   * Returns module API by category and module
+   *
+   * @param category category alias
+   * @param module module alias
+   */
   getModuleApi(category: string, module: string): {} {
     const api = this._api.getValue(),
       moduleApi = api[category].list[module].actions;
 
     return moduleApi;
+  }
+
+  /**
+   * Returns URL for entity by it's primary key
+   *
+   * @param key id property of entity
+   */
+  getApiById(key: string): string {
+    const result = this._apiById[key];
+
+    if (!result) {
+      throw new Error(`No URL provided for ${key}.`);
+    }
+
+    return result;
+  }
+
+  /**
+   * Prepares map for module URLs by idProperty to have
+   * easy access to it later in application
+   *
+   * @param menu menu config
+   */
+  _prepareApiById(menu: {}): void {
+    const apiById = {};
+
+    for (const cat in menu) {
+      const category = menu[cat];
+
+      for (const mod in category.list) {
+        const module = category.list[mod];
+
+        apiById[module.primaryKey] = module.url;
+      }
+    }
+
+    this._apiById = apiById;
   }
 }
 

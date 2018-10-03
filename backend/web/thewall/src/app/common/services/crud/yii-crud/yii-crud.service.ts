@@ -20,7 +20,7 @@ export class YiiCrudService extends CrudBaseService {
     return this.http.get(this.api.view.url + `?id=${id}`);
   }
 
-  list(defaults, sorting, pager) {
+  list(defaults, sorting, pager, filters) {
     const url = this.api.index.url,
       page = pager.pageIndex + 1,
       perPage = pager.pageSize || defaults.pageSize,
@@ -55,7 +55,7 @@ export class YiiCrudService extends CrudBaseService {
     console.log('update => ', data);
 
     this.http
-      .post(`${this.api.update.url}/${data[this.idProperty]}`, data)
+      .post(`${this.api.update.url}?id=${data[this.idProperty]}`, data)
       .pipe(catchError(this.handleError))
       .subscribe();
   }
@@ -64,7 +64,7 @@ export class YiiCrudService extends CrudBaseService {
     console.log('id => ', id);
 
     this.http
-      .delete(`${this.api.delete.url}/${id}`)
+      .delete(`${this.api.delete.url}?id=${id}`)
       .pipe(catchError(this.handleError))
       .subscribe();
   }

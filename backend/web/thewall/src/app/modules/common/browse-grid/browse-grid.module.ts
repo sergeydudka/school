@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 import {
   MatTableModule,
   MatPaginatorModule,
@@ -8,7 +10,10 @@ import {
   MatButtonModule,
   MatIconModule,
   MatSelectModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatAutocompleteModule,
+  MatInputModule,
+  MatToolbarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { BrowseGridComponent } from './browse-grid.component';
@@ -18,9 +23,15 @@ import { BrowseGridRoutingModule } from './browse-grid-routing.module';
 import { YiiCrudService } from '../../../common/services/crud/yii-crud/yii-crud.service';
 import { GridBuilderService } from '../../../common/services/grid-builder.service';
 
+import { FilterRowModule } from '../filter-row/filter-row.module';
+import { SharedModule } from '../../shared/shared.module';
+
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
+
+    ReactiveFormsModule,
 
     // @angular/material components
     MatTableModule,
@@ -29,9 +40,15 @@ import { GridBuilderService } from '../../../common/services/grid-builder.servic
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
+    MatAutocompleteModule,
     MatSelectModule,
+    MatInputModule,
+    MatToolbarModule,
 
     CdkTableModule,
+
+    // project modules
+    FilterRowModule,
 
     // module routing
     BrowseGridRoutingModule
@@ -43,9 +60,13 @@ import { GridBuilderService } from '../../../common/services/grid-builder.servic
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   providers: [YiiCrudService, GridBuilderService],
-  declarations: [BrowseGridComponent]
+  declarations: [
+    BrowseGridComponent,
+  ]
 })
 export class BrowseGridModule {}

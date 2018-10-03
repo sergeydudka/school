@@ -23,10 +23,8 @@ export class MenuService {
         const menuItem: MenuNode = {
           title: module.label,
           children: [],
-          url: `/${moduleKey}/${moduleKey}`
+          url: `/${moduleKey}/${module.defaultRoute}`
         };
-
-        // if (module.list && module.list.lenth) continue;
 
         for (const submoduleKey in module.list) {
           const submodule = module.list[submoduleKey];

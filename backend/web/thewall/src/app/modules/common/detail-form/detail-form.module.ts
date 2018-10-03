@@ -19,6 +19,7 @@ import { DynamicFieldComponent } from '../../../common/components/dynamic-field/
 import { DetailFormComponent } from './detail-form.component';
 import { DetailFormRoutingModule } from './detail-form-routing.module';
 import { YiiCrudService } from '../../../common/services/crud/yii-crud/yii-crud.service';
+import { SharedModule } from '../../shared/shared.module';
 
 const APP_DATE_FORMATS = {
   parse: {
@@ -45,6 +46,7 @@ const APP_DATE_FORMATS = {
     MomentDateModule,
     ReactiveFormsModule,
 
+    SharedModule,
     DetailFormRoutingModule
   ],
   exports: [

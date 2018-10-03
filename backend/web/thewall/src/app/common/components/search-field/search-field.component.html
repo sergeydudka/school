@@ -1,0 +1,5 @@
+<input type="text" [placeholder]="placeholder" matInput [formControl]="control" [matAutocomplete]="auto">
+
+<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+  <mat-option *ngFor="let option of options | async" [value]="option">{{option.displayField}}</mat-option>
+</mat-autocomplete>

@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { AbstractControl, FormGroup, Validators, Form } from '@angular/forms';
 
-import { FieldText } from '../models/field-text.model';
-import { FieldNumber } from '../models/field-number.model';
-import { FieldBase, FieldBaseProps } from '../models/field-base.model';
-import { FieldList } from '../models/field-list.model';
-import { FieldDate } from '../models/field-date.model';
-import { FieldHidden } from '../models/field-hidden.model';
+import {
+  FieldText,
+  FieldNumber,
+  FieldBase,
+  FieldBaseProps,
+  FieldList,
+  FieldDate,
+  FieldHidden,
+  FieldSearch
+} from '../models/fields.model'
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +93,7 @@ export class FormService {
    * @param fieldValue field value
    */
   private _createField(fieldParams, fieldValue) {
-    const methodName = fieldParams.type.toLowerCase() + 'Field';
+    const methodName = `_${fieldParams.type.toLowerCase()}Field`;
 
     if (!this[methodName]) throw new Error(`No constructor provided for "${methodName}"`);
 
@@ -110,34 +114,42 @@ export class FormService {
     return baseParams;
   }
 
-  private integerField(fieldParams, fieldValue) {
+  private _integerField(fieldParams, fieldValue) {
     return new FieldNumber({
       ...this.getBaseParams(fieldParams, fieldValue)
     });
   }
 
-  private textField(fieldParams, fieldValue) {
+  private _textField(fieldParams, fieldValue) {
     return new FieldText({
       ...this.getBaseParams(fieldParams, fieldValue)
     });
   }
 
-  private stringField(fieldParams, fieldValue) {
+  private _stringField(fieldParams, fieldValue) {
     return new FieldText({
       ...this.getBaseParams(fieldParams, fieldValue)
     });
   }
 
-  private listField(fieldParams, fieldValue) {
+  private _listField(fieldParams, fieldValue) {
     return new FieldList({
       ...this.getBaseParams(fieldParams, fieldValue),
       options: fieldParams.options
     });
   }
 
-  private timestampField(fieldParams, fieldValue) {
+  private _timestampField(fieldParams, fieldValue) {
     return new FieldDate({
       ...this.getBaseParams(fieldParams, fieldValue)
+    });
+  }
+
+  private _searchField(fieldParams, fieldValue) {
+    return new FieldSearch({
+      ...this.getBaseParams(fieldParams, fieldValue),
+      options: fieldParams.options,
+      url: fieldParams.url,
     });
   }
 }

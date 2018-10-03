@@ -23,10 +23,18 @@
 
     <mat-form-field *ngSwitchCase="'list'">
       <mat-select [placeholder]="field.label" [formControlName]="field.name">
-        <mat-option *ngFor="let option of field.options | keyvalue" [value]="option.key">
+        <mat-option *ngFor="let option of field.options" [value]="option.key">
           {{option.value}}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <!-- TODO: material field
+      <mat-form-field *ngSwitchCase="'search'">
+        <!-- TODO: langs ->
+        <sch-search-field matInput [formControlName]="field.name" [url]="field.url" [valueField]="field.valueField"
+        [displayField]="field.displayField" placeholder="Search..."></sch-search-field>
+      </mat-form-field>
+    -->
   </div>
 </div>
