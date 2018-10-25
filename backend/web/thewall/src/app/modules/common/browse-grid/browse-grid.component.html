@@ -11,11 +11,19 @@
     Clear Filter
   </button>
 
+  <button mat-button color="primary" (click)="onAdd()">
+    <mat-icon aria-label="">add</mat-icon>
+    <!-- TODO: title -->
+    Add
+  </button>
+
+
   <button mat-button color="primary" [disabled]="!selection.hasValue()" (click)="onEdit()">
     <mat-icon aria-label="">edit</mat-icon>
     <!-- TODO: title -->
     Edit
   </button>
+
   <button mat-button color="primary" [disabled]="!selection.hasValue()" (click)="onRemove()">
     <mat-icon aria-label="">delete</mat-icon>
     <!-- TODO: title -->
@@ -41,7 +49,11 @@
 
               <input *ngSwitchCase="'string'" type="text" [formControlName]="filter.name">
 
-              <input *ngSwitchCase="'timestamp'" type="number" [formControlName]="filter.name">
+              <ng-container *ngSwitchCase="'timestamp'">
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </ng-container>
 
               <!-- TODO: langs -->
               <mat-select *ngSwitchCase="'list'" placeholder="Any" [formControlName]="filter.name">

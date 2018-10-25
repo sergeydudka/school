@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+
+// @angular/material
 import { MatSnackBar } from '@angular/material';
+
+// app specific
+import { AuthService } from '../auth.service';
+import { YIIResponse } from '../common/models/yii/yii-response.model';
 
 @Component({
   selector: 'sch-login',
@@ -22,18 +27,24 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.snackBar.open('Logging in, please stand by, blah blah blah blah', null, {
-      verticalPosition: 'top',
-      horizontalPosition: 'end',
-      duration: 2000,
-    });
-
-    this.authService.login().subscribe(val => {
+    this.authService.login(this.loginForm.value).subscribe((response: YIIResponse) => {
       if (!this.authService.isLoggedIn) {
-        return console.error('error on login');
+        // TODO: use some generic error handling
+        let error = '';
+        for (let i in response.errors) {
+          error += `${i}: ${response.errors[i]}`;
+        }
+
+        this.snackBar.open(error, null, {
+          verticalPosition: 'top',
+          horizontalPosition: 'end',
+          duration: 5000
+        });
+
+        return;
       }
 
-      this.router.navigate([this.authService.redirectUrl || '/']);
+      this.router.navigate([this.authService.redirectUrl]);
     });
   }
 }

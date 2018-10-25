@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuService } from './menu.service';
 
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { AppConfigService } from '../../common/services/app-config.service';
 
 class MenuNode {
   children?: MenuNode[];
@@ -34,17 +33,6 @@ export class MenuComponent {
 
   getUrl = (nodeData: MenuNode) => {
     let { url } = nodeData;
-
-    // const len = url.length;
-    // const lastLetter = url.charAt(len - 1);
-
-    // if (lastLetter !== 's') {
-    //   if (lastLetter === 'y') {
-    //     url = url.slice(0, len - 1) + 'ies';
-    //   } else {
-    //     url += 's';
-    //   }
-    // }
 
     return url;
   };

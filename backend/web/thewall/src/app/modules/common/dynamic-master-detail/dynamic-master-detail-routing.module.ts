@@ -10,19 +10,16 @@ import { DynamicMasterDetailComponent } from './dynamic-master-detail.component'
 const routes: Routes = [
   {
     path: '',
-
     canActivate: [MasterDetailService],
-
     component: DynamicMasterDetailComponent,
-
     children: [
       {
         path: 'detail',
-        loadChildren: '../detail-form/detail-form.module#DetailFormModule'
+        loadChildren: '../detail-form/detail-form.module#DetailFormModule',
       },
       {
         path: '',
-        loadChildren: '../browse-grid/browse-grid.module#BrowseGridModule'
+        loadChildren: '../browse-grid/browse-grid.module#BrowseGridModule',
       }
     ]
   }

@@ -1,10 +1,18 @@
 <mat-toolbar class="main-toolbar" color="primary">
-  <mat-icon class="menu-btn">menu</mat-icon>
+  <mat-icon (click)="navbar.toggle()" class="menu-btn">menu</mat-icon>
   <!-- TODO: lang to take from config -->
   <span>Thewall</span>
 
   <span class="tb-spacer"></span>
 
-  <mat-icon class="action-icon">perm_identity</mat-icon>
-  <mat-icon matBadge="22" matBadgeColor="accent" matBadgePosition="above before" class="action-icon">notifications</mat-icon>
+  <button mat-icon-button>
+    <mat-icon>perm_identity</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon matBadge="22" matBadgeColor="accent" matBadgePosition="above before">notifications</mat-icon>
+  </button>
+  <!-- TODO: langs -->
+  <button mat-icon-button (click)="onLogoutBtnClick()">
+    <mat-icon title="Logout">logout</mat-icon>
+  </button>
 </mat-toolbar>

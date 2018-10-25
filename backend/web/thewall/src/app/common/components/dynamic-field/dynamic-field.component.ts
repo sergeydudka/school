@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FieldBase } from '../../models/field-base.model';
+import { FieldBase } from '../../models/fields/field-base.model';
 
 @Component({
   selector: 'sch-dynamic-field',

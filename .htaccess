@@ -5,23 +5,24 @@ RewriteEngine on
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"
     Header set Access-Control-Allow-Headers "*"
+    Header set Access-Control-Allow-Methods "*"
 </IfModule>
  
-# Если запрос начинается с /administrator, то заменяем на /backend/web/
+# пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ /administrator, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ /backend/web/
 RewriteCond %{REQUEST_URI} ^/admin
 RewriteRule ^admin\/?(.*) /backend/web/$1
  
-# Добавляем другой запрос /frontend/web/$1
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ /frontend/web/$1
 RewriteCond %{REQUEST_URI} !^/(frontend/web|backend/web|admin)
 RewriteRule (.*) /frontend/web/$1
  
-# Если frontend запрос
+# пїЅпїЅпїЅпїЅ frontend пїЅпїЅпїЅпїЅпїЅпїЅ
 RewriteCond %{REQUEST_URI} ^/frontend/web
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /frontend/web/index.php
  
-# Если backend запрос
+# пїЅпїЅпїЅпїЅ backend пїЅпїЅпїЅпїЅпїЅпїЅ
 RewriteCond %{REQUEST_URI} ^/backend/web
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

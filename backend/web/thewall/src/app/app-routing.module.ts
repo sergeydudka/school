@@ -3,19 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-import { AuthGuard } from './auth-guard.service';
+import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: ':category/:module',
-        loadChildren: `./modules/common/dynamic-master-detail/dynamic-master-detail.module#DynamicMasterDetailModule`
-      }
-    ]
+    loadChildren: './modules/layout/layout.module#LayoutModule'
   },
   {
     path: 'login',
@@ -25,7 +20,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload'
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

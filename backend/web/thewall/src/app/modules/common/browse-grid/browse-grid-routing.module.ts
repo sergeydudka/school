@@ -4,11 +4,26 @@ import { Routes, RouterModule } from '@angular/router';
 
 // module specific imports
 import { BrowseGridComponent } from './browse-grid.component';
+import { BrowseGridOutletComponent } from './browse-grid-outlet.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: BrowseGridComponent
+    path: ':category/:module',
+    component: BrowseGridOutletComponent,
+    children: [
+      {
+        path: 'detail',
+        loadChildren: '../detail-form/detail-form.module#DetailFormModule'
+      },
+      {
+        path: '',
+        component: BrowseGridComponent,
+        data: {
+          // reuse: false,
+          detach: true
+        }
+      }
+    ]
   }
 ];
 

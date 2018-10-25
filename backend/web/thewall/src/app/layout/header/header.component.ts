@@ -1,4 +1,7 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatSidenav } from '@angular/material';
+import { AuthService } from 'src/app/auth.service';
+import { UserService } from 'src/app/common/services/user/user.service';
 
 @Component({
   selector: 'sch-header',
@@ -6,9 +9,14 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Input() navbar: ElementRef;
+  @Input()
+  navbar: MatSidenav;
 
-  constructor() {}
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {}
+
+  onLogoutBtnClick() {
+    this.authService.logout();
+  }
 }

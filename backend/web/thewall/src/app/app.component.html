@@ -1,14 +1,1 @@
-<div class="container" [class.is-mobile]="mobileQuery.matches">
-  <sch-header [navbar]="snav" class="main-toolbar"></sch-header>
-
-  <mat-sidenav-container class="main-container" [style.marginTop.px]="mobileQuery.matches ? headerHeight : 0">
-    <mat-sidenav #snav opened [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-      [fixedTopGap]="headerHeight">
-      <sch-menu></sch-menu>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+<router-outlet></router-outlet>

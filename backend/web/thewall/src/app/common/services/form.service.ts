@@ -11,7 +11,8 @@ import {
   FieldDate,
   FieldHidden,
   FieldSearch
-} from '../models/fields.model'
+} from '../models/fields/fields.model'
+
 
 @Injectable({
   providedIn: 'root'

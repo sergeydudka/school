@@ -1,58 +1,74 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// import { RouteReuseStrategy } from '@angular/router';
+
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+// angular material
 import {
-  MatIconModule,
-  MatSidenavModule,
-  MatListModule,
-  MatToolbarModule,
-  MatTreeModule,
-  MatButtonModule,
   MatInputModule,
-  MatSnackBarModule
+  MatButtonModule,
+  MatSnackBarModule,
+  MAT_DATE_FORMATS,
+  MatDatepickerModule
 } from '@angular/material';
 
-import { CdkTreeModule } from '@angular/cdk/tree';
-
+// app specific
 import { AppRoutingModule } from './app-routing.module';
-
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './layout/header/header.component';
-import { MenuComponent } from './layout/menu/menu.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { ApiService, initApiFactory } from './common/services/api.service';
 import { AppConfigService, initConfigFactory } from './common/services/app-config.service';
-import { DynamicMasterDetailModule } from './modules/common/dynamic-master-detail/dynamic-master-detail.module';
+
+import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+import { setAppInjector } from './app.injector';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomDetachReuseRouterStrategy } from './common/route-reuse-strategies/custom-detach-reuse-strategy';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+
+const APP_DATE_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD kk:mm:ss'
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, MenuComponent, PageNotFoundComponent, LoginComponent],
+  declarations: [AppComponent, PageNotFoundComponent, LoginComponent],
   imports: [
     // @angular modules
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+
     ReactiveFormsModule,
 
-    // @angular/material modules
-    MatSidenavModule,
+    // angular material
     MatInputModule,
-    MatListModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatTreeModule,
     MatButtonModule,
-    CdkTreeModule,
     MatSnackBarModule,
 
-    // routing modules
+    MomentDateModule,
+    MatDatepickerModule,
+
+    // app specific
+    // should come before any other modules that have routings
+    // to allow auth guard do it's job
     AppRoutingModule,
-    DynamicMasterDetailModule
+
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     {
@@ -60,14 +76,26 @@ import { ReactiveFormsModule } from '@angular/forms';
       useFactory: initApiFactory,
       deps: [ApiService],
       multi: true
+    },
+    {
+      provide: RouteReuseStrategy,
+      useClass: CustomDetachReuseRouterStrategy
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initConfigFactory,
+      deps: [AppConfigService],
+      multi: true
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: APP_DATE_FORMATS
     }
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initConfigFactory,
-    //   deps: [AppConfigService],
-    //   multi: true
-    // }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(injector: Injector) {
+    setAppInjector(injector);
+  }
+}

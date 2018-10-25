@@ -1,10 +1,17 @@
-import { CrudBaseService } from '../crud-base.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
-import { throwError } from 'rxjs';
-
-import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { CrudBaseService } from '../crud-base.service';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Data } from '@angular/router';
+
+// @angular/material
+import { Sort, PageEvent } from '@angular/material';
+
+// rxjs
+import { throwError, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+// application specific
+import { YIIResponse } from 'src/app/common/models/yii/yii-response.model';
 
 @Injectable()
 export class YiiCrudService extends CrudBaseService {
@@ -17,56 +24,61 @@ export class YiiCrudService extends CrudBaseService {
   }
 
   get(id: number) {
-    return this.http.get(this.api.view.url + `?id=${id}`);
+    return id ? this.http.get(this.api.view.url + `?id=${id}`) : this.http.options(this.api.view.url);
   }
 
-  list(defaults, sorting, pager, filters) {
+  list(sorting: Sort, pager: PageEvent, filters: string) {
     const url = this.api.index.url,
-      page = pager.pageIndex + 1,
-      perPage = pager.pageSize || defaults.pageSize,
-      sortDir = (sorting.direction || defaults.sort.direction) === 'desc' ? '-' : '',
-      sortField = sorting.active || defaults.sort.active;
+      page = '' + pager.pageIndex + 1,
+      perPage = '' + pager.pageSize,
+      sortDir = sorting.direction === 'desc' ? '-' : '',
+      sortField = sorting.active,
+      sort = sortDir + sortField;
 
-    const requestUrl = `${url}?page=${page}&per-page=${perPage}&sort=${sortDir}${sortField}`;
+    const httpParams = new HttpParams({
+      fromObject: {
+        page,
+        'per-page': perPage,
+        sort,
+        filters
+      }
+    });
 
-    return this.http.get(requestUrl);
+    return this.http.get(url, {
+      params: httpParams
+    });
   }
 
-  save(data) {
+  save(data: Data) {
     console.log('save => ', data);
 
     if (!data[this.idProperty]) {
-      this.create(data);
+      return this.create(data);
     } else {
-      this.update(data);
+      return this.update(data);
     }
   }
 
-  protected create(data) {
+  protected create(data: Data) {
     console.log('create => ', data);
 
-    this.http
-      .post(this.api.create.url, data)
-      .pipe(catchError(this.handleError))
-      .subscribe();
+    return this.http.post(this.api.create.url, data).pipe(catchError(this.handleError)) as Observable<YIIResponse>;
   }
 
-  protected update(data) {
+  protected update(data: Data) {
     console.log('update => ', data);
 
-    this.http
+    return this.http
       .post(`${this.api.update.url}?id=${data[this.idProperty]}`, data)
-      .pipe(catchError(this.handleError))
-      .subscribe();
+      .pipe(catchError(this.handleError)) as Observable<YIIResponse>;
   }
 
   delete(id: number) {
     console.log('id => ', id);
 
-    this.http
-      .delete(`${this.api.delete.url}?id=${id}`)
-      .pipe(catchError(this.handleError))
-      .subscribe();
+    return this.http.delete(`${this.api.delete.url}?id=${id}`).pipe(catchError(this.handleError)) as Observable<
+      YIIResponse
+    >;
   }
 
   protected handleError(error: HttpErrorResponse) {

@@ -4,10 +4,14 @@ import { BehaviorSubject } from 'rxjs';
 
 import { MenuNode } from './menu.model';
 import { ApiService } from '../../common/services/api.service';
+import { ModuleConfig } from './module-config.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class MenuService {
   menuData = new BehaviorSubject([]);
+  modules: ModuleConfig[] = [];
 
   constructor(private api: ApiService) {
     this.getMenu();
@@ -17,22 +21,32 @@ export class MenuService {
     this.api.data.subscribe(data => {
       const menu = [];
 
-      for (const moduleKey in data) {
-        const module = data[moduleKey];
+      for (const cat in data) {
+        const category = data[cat];
 
         const menuItem: MenuNode = {
-          title: module.label,
+          title: category.label,
           children: [],
-          url: `/${moduleKey}/${module.defaultRoute}`
+          url: `/${cat}/${category.defaultRoute}`
         };
 
-        for (const submoduleKey in module.list) {
-          const submodule = module.list[submoduleKey];
+        for (const mod in category.list) {
+          const module = category.list[mod];
 
           const menuSubItem: MenuNode = {
-            title: submodule.label,
-            url: `${moduleKey}/${submoduleKey}`
+            title: module.label,
+            url: `/${cat}/${mod}`
           };
+
+          this.modules.push({
+            uniqueId: module.model,
+            title: module.label,
+            category: cat,
+            module: mod,
+            addToTabs: module.addToTabs !== undefined ? module.addToTabs : true,
+            link: `/${cat}/${mod}`,
+            angularModule: module.module || 'BrowseGrid',
+          });
 
           menuItem.children.push(menuSubItem);
         }

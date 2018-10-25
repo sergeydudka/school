@@ -13,10 +13,10 @@ import {
   MatCheckboxModule,
   MatAutocompleteModule,
   MatInputModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatDatepickerModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
-import { BrowseGridComponent } from './browse-grid.component';
 
 import { BrowseGridRoutingModule } from './browse-grid-routing.module';
 
@@ -25,6 +25,9 @@ import { GridBuilderService } from '../../../common/services/grid-builder.servic
 
 import { FilterRowModule } from '../filter-row/filter-row.module';
 import { SharedModule } from '../../shared/shared.module';
+
+import { BrowseGridComponent } from './browse-grid.component';
+import { BrowseGridOutletComponent } from './browse-grid-outlet.component';
 
 @NgModule({
   imports: [
@@ -44,6 +47,7 @@ import { SharedModule } from '../../shared/shared.module';
     MatSelectModule,
     MatInputModule,
     MatToolbarModule,
+    MatDatepickerModule,
 
     CdkTableModule,
 
@@ -53,20 +57,7 @@ import { SharedModule } from '../../shared/shared.module';
     // module routing
     BrowseGridRoutingModule
   ],
-  exports: [
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-    MatInputModule,
-  ],
   providers: [YiiCrudService, GridBuilderService],
-  declarations: [
-    BrowseGridComponent,
-  ]
+  declarations: [BrowseGridComponent, BrowseGridOutletComponent]
 })
 export class BrowseGridModule {}

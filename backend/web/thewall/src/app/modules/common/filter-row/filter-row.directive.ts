@@ -29,18 +29,16 @@ export class FilterRowDirective {
 
   filterForm: FormGroup;
 
-  filtersChanged: Subject<any>; // TODO: proper typings
+  filtersChanged: Subject<any> = new Subject(); // TODO: proper typings
 
   constructor() {}
 
   ngOnInit() {
-    this.filtersChanged = new Subject();
-
     this.filterForm = new FormGroup({});
   }
 
   apply() {
-    this._value = this.filterForm.value;
+    this._value = this.getValue();
 
     this.filtersChanged.next(this._value);
     this._filtered = true;
@@ -48,7 +46,7 @@ export class FilterRowDirective {
 
   clear() {
     this.filterForm.reset();
-    this._value = this.filterForm.value;
+    this._value = null;
 
     this.filtersChanged.next(this._value);
     this._filtered = false;
@@ -67,5 +65,23 @@ export class FilterRowDirective {
 
     this.filterForm.removeControl(filter.id);
     this.filters.delete(filter.id);
+  }
+
+  getValue() {
+    let result = [];
+
+    for (let key in this.filterForm.controls) {
+      const control = this.filterForm.controls[key];
+
+      if (!control.dirty) continue;
+
+      result.push({
+        field: key,
+        operator: '=',
+        value: control.value
+      });
+    }
+
+    return result.length ? encodeURIComponent(JSON.stringify(result)) : null;
   }
 }

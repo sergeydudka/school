@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-  private _api;
+  private _api: BehaviorSubject<any>;
   private apiUrl = 'http://school.local.com/admin/main/menu/';
   private _apiById;
 

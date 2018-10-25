@@ -33,22 +33,6 @@ export class GridBuilderService {
 
       if (!col.display) continue;
 
-      if (col.type === 'integer' && col.rel) {
-        col.type = 'list';
-      }
-
-      if (['alias_id'].includes(col.name)) {
-        col.type = 'integer';
-      }
-
-      if (['created_at', 'updated_at'].includes(col.name)) {
-        col.type = 'timestamp';
-      }
-
-      if (['title'].includes(col.name)) {
-        col.type = 'string';
-      }
-
       columns.push(this._createColumn(cols[i]));
     }
 
