@@ -86,15 +86,11 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
           filters
         });
 
-        this.router
-          .navigate([], {
-            queryParams: mergedQueryParams,
-            relativeTo: this.route,
-            replaceUrl: true
-          })
-          .then(_ => {
-            this.routeData.currentUrl = this.router.routerState.snapshot.url;
-          });
+        this.router.navigate([], {
+          queryParams: mergedQueryParams,
+          relativeTo: this.route,
+          replaceUrl: true
+        });
       });
 
     const gridParamsSubscription = combineLatest(
