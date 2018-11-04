@@ -81,7 +81,7 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
     )
       .pipe(debounceTime(100))
       .subscribe(([queryParams, sorting, pager, filters]: [Params, Sort, PageEvent, Params]) => {
-        const sortDir = this.defaultSort = sorting.direction === 'desc' ? '-' : '';
+        const sortDir = (this.defaultSort = sorting.direction === 'desc' ? '-' : '');
 
         const mergedQueryParams = Object.assign({}, queryParams, {
           page: this.paginator.pageIndex + 1,

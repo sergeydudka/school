@@ -111,7 +111,9 @@
         </span>
 
         <span *ngSwitchCase="'search'">
-          {{element[col.name][col.displayField]}}
+          <ng-container *ngIf="element[col.name]">
+            {{element[col.name][col.displayField]}}
+          </ng-container>
         </span>
       </td>
     </ng-container>

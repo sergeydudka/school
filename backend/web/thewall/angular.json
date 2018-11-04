@@ -18,7 +18,6 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/school",
-            "baseHref": "/admin/thewall/dist/school/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -35,6 +34,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "baseHref": "/admin/thewall/dist/school/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
