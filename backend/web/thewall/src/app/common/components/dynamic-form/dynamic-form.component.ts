@@ -6,7 +6,7 @@ import { FieldBase } from '../../models/fields/field-base.model';
 @Component({
   selector: 'sch-dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.css']
+  styleUrls: ['./dynamic-form.component.scss']
 })
 export class DynamicFormComponent implements OnInit {
   @Input()

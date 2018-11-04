@@ -73,13 +73,13 @@
 
     <!-- Actions filter column START -->
     <ng-container matColumnDef="filter_actions" stickyEnd>
-      <th class="action-col" mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef></th>
     </ng-container>
     <!-- Actions filter column END -->
 
     <!-- Selection filter column START -->
     <ng-container matColumnDef="filter_selection" stickyEnd>
-      <th class="action-col" mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef></th>
     </ng-container>
     <!-- Selection filter column END -->
 
@@ -123,11 +123,11 @@
       <td class="action-col" mat-cell *matCellDef="let element">
         <button mat-icon-button routerLink="detail/{{element[idProperty]}}">
           <!-- TODO: langs -->
-          <mat-icon aria-label="Edit">edit</mat-icon>
+          <mat-icon [inline]="true" aria-label="Edit">edit</mat-icon>
         </button>
         <button mat-icon-button>
           <!-- TODO: langs -->
-          <mat-icon aria-label="Remove">delete</mat-icon>
+          <mat-icon [inline]="true" aria-label="Remove">delete</mat-icon>
         </button>
       </td>
     </ng-container>

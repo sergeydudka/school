@@ -1,0 +1,4 @@
+// Define your application's custom theme.
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink);
+$light-theme: mat-light-theme($primary, $accent);

@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin browse-grid-theme($theme) {
+  $foreground: map-get($theme, foreground);
+
+  .mat-column-filter_actions,
+  .action-col {
+    border-left: 1px solid mat-color($foreground, divider);
+  }
+}

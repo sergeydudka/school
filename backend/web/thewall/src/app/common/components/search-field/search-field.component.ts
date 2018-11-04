@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'sch-search-field',
   templateUrl: './search-field.component.html',
-  styleUrls: ['./search-field.component.css'],
+  styleUrls: ['./search-field.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -24,8 +24,10 @@ import { HttpClient } from '@angular/common/http';
   ]
 })
 export class SearchFieldComponent implements OnInit, ControlValueAccessor {
-  @Input() placeholder;
-  @Input() _value;
+  @Input()
+  placeholder;
+  @Input()
+  _value;
 
   get value() {
     return this._value;
@@ -40,10 +42,14 @@ export class SearchFieldComponent implements OnInit, ControlValueAccessor {
     this.propagateState(val ? val.valueField : val);
   }
 
-  @Input() url;
-  @Input() valueField;
-  @Input() displayField;
-  @Input() delay = 500;
+  @Input()
+  url;
+  @Input()
+  valueField;
+  @Input()
+  displayField;
+  @Input()
+  delay = 500;
 
   propagateState;
 
@@ -56,7 +62,7 @@ export class SearchFieldComponent implements OnInit, ControlValueAccessor {
     this.options = this.control.valueChanges.pipe(
       debounceTime(this.delay),
       // update host component value
-      tap(val => this.value = val),
+      tap(val => (this.value = val)),
       map(val => (typeof val === 'string' ? val : val.displayField)),
       distinctUntilChanged(),
       // TODO: user native Angular get params builder

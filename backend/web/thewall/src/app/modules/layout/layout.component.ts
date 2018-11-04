@@ -4,7 +4,7 @@ import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 @Component({
   selector: 'sch-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css']
+  styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   headerHeight = 56;
