@@ -26,9 +26,9 @@ $config = [
             'format' => yii\web\Response::FORMAT_JSON,
             'charset' => 'UTF-8',
             'on beforeSend' => function ($event) {
-                /* @var \crudschool\common\url\Request $reques */
-                $reques = Yii::$app->request;
-                if ($reques->isHomePage()) {
+                /* @var \crudschool\common\url\Request $request */
+                $request = Yii::$app->request;
+                if (!$request->isHomePage()) {
                     if (!$event->sender->data || get_class($event->sender->data) != \crudschool\api\ApiResult::class) {
                         $event->sender->data = new \crudschool\api\ApiResult(Yii::$app->requestedAction, $event->sender->data);
                     }
