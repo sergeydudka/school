@@ -2,43 +2,13 @@
 
 namespace backend\controllers;
 
-use Yii;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\models\LoginForm;
 
 /**
  * Site controller
  */
 class IndexController extends Controller {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function behaviors() {
-		return [
-			'access' => [
-				'class' => AccessControl::class,
-				'rules' => [
-					[
-						'actions' => ['login', 'error'],
-						'allow' => true,
-					],
-					[
-						'actions' => ['logout', 'index'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-			'verbs' => [
-				'class' => VerbFilter::class,
-				'actions' => [
-					'logout' => ['post'],
-				],
-			],
-		];
-	}
+
 	
 	/**
 	 * {@inheritdoc}
@@ -57,7 +27,9 @@ class IndexController extends Controller {
 	 * @return string
 	 */
 	public function actionIndex() {
-		return $this->render('index');
+	    $indexFile = \Yii::$app->getBasePath() . "/web/thewall/dist/school/index.html";
+		\Yii::$app->response->content = file_get_contents($indexFile);
+		return;
 	}
 	
 	/**
@@ -65,7 +37,7 @@ class IndexController extends Controller {
 	 *
 	 * @return string
 	 */
-	public function actionLogin() {
+	/*public function actionLogin() {
 		if (!Yii::$app->user->isGuest) {
 			return $this->goHome();
 		}
@@ -80,16 +52,16 @@ class IndexController extends Controller {
 				'model' => $model,
 			]);
 		}
-	}
+	}*/
 	
 	/**
 	 * Logout action.
 	 *
 	 * @return string
 	 */
-	public function actionLogout() {
+	/*public function actionLogout() {
 		Yii::$app->user->logout();
 		
 		return $this->goHome();
-	}
+	}*/
 }

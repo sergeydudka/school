@@ -20,17 +20,18 @@ $config = [
 	    ],
         'request' => [
         	'class' => '\crudschool\common\url\Request',
-            'csrfParam' => '_csrf-frontend',
+            'csrfParam' => '_crud',
 	        'baseUrl' => '/',
         ],
         'user' => [
-            'identityClass' => 'common\models\BaseUser',
+            'identityClass' => 'crudschool\models\BaseUser',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => 'identity'],
+            'loginUrl' => '/auth/login',
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'SESSID',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

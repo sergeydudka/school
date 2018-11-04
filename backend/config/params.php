@@ -2,6 +2,7 @@
 return [
     'adminEmail'     => 'admin@example.com',
     'loginUrl'       => '/main/auth/login',
+    'logoutUrl'       => '/main/auth/logout',
     'edition'        => [
         'default'   => 'ru',
         'maxLength' => 2,
