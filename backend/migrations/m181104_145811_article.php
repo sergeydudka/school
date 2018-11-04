@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181002_194237_article extends Migration
+class m181104_145811_article extends Migration
 {
 
 public function init()
@@ -48,64 +48,64 @@ $this->createTable(
     'article_id' => '2',
     'edition_id' => '1',
     'title' => 'Введение в HTML',
-    'description' => '&lt;div class=&quot;field-item even&quot;&gt;  &lt;h2&gt;Быстрый старт&lt;/h2&gt;
-  &lt;p&gt;Чтобы сразу же ввести в курс дела нетерпеливых читателей, предложим им возможность
+    'description' => '&amp;lt;div class=&amp;quot;field-item even&amp;quot;&amp;gt;  &amp;lt;h2&amp;gt;Быстрый старт&amp;lt;/h2&amp;gt;
+  &amp;lt;p&amp;gt;Чтобы сразу же ввести в курс дела нетерпеливых читателей, предложим им возможность
     создания веб-страницы без последовательного изучения правил HTML. По крайней
-    мере, вы сумеете убедиться, что создание веб-страниц достаточно простая штука.&lt;/p&gt;
-  &lt;p&gt; В примере 1.1 приведен несложный пример такого кода.&lt;/p&gt;
-  &lt;p class=&quot;exampleTitle2&quot;&gt;Пример 1.1. Первая веб-страница&lt;/p&gt;
-  &lt;pre id=&quot;example_0_c&quot; style=&quot;display: none;&quot;&gt;&lt;code&gt;&amp;lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; 
-  &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&amp;gt;
-&amp;lt;html&amp;gt;
- &amp;lt;head&amp;gt;
-  &amp;lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&amp;gt;
-  &amp;lt;title&amp;gt;Моя первая веб-страница&amp;lt;/title&amp;gt;
- &amp;lt;/head&amp;gt;
- &amp;lt;body&amp;gt;
+    мере, вы сумеете убедиться, что создание веб-страниц достаточно простая штука.&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt; В примере 1.1 приведен несложный пример такого кода.&amp;lt;/p&amp;gt;
+  &amp;lt;p class=&amp;quot;exampleTitle2&amp;quot;&amp;gt;Пример 1.1. Первая веб-страница&amp;lt;/p&amp;gt;
+  &amp;lt;pre id=&amp;quot;example_0_c&amp;quot; style=&amp;quot;display: none;&amp;quot;&amp;gt;&amp;lt;code&amp;gt;&amp;amp;lt;!DOCTYPE HTML PUBLIC &amp;quot;-//W3C//DTD HTML 4.01//EN&amp;quot; 
+  &amp;quot;http://www.w3.org/TR/html4/strict.dtd&amp;quot;&amp;amp;gt;
+&amp;amp;lt;html&amp;amp;gt;
+ &amp;amp;lt;head&amp;amp;gt;
+  &amp;amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=utf-8&amp;quot;&amp;amp;gt;
+  &amp;amp;lt;title&amp;amp;gt;Моя первая веб-страница&amp;amp;lt;/title&amp;amp;gt;
+ &amp;amp;lt;/head&amp;amp;gt;
+ &amp;amp;lt;body&amp;amp;gt;
 
-  &amp;lt;h1&amp;gt;Заголовок страницы&amp;lt;/h1&amp;gt;
-  &amp;lt;p&amp;gt;Основной текст.&amp;lt;/p&amp;gt;
+  &amp;amp;lt;h1&amp;amp;gt;Заголовок страницы&amp;amp;lt;/h1&amp;amp;gt;
+  &amp;amp;lt;p&amp;amp;gt;Основной текст.&amp;amp;lt;/p&amp;amp;gt;
 
- &amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&quot;htmlbook-code&quot;&gt;&lt;pre&gt;&lt;code class=&quot; html&quot;&gt;&lt;span class=&quot;doctype&quot;&gt;&amp;lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; 
-  &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;
- &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;meta&lt;/span&gt;&lt;span class=&quot;attribute&quot;&gt; http-equiv=&lt;span class=&quot;value&quot;&gt;&quot;Content-Type&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;attribute&quot;&gt; content=&lt;span class=&quot;value&quot;&gt;&quot;text/html; charset=utf-8&quot;&lt;/span&gt;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;Моя первая веб-страница&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;keyword&quot;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;
- &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;keyword&quot;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;
- &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;
+ &amp;amp;lt;/body&amp;amp;gt;
+&amp;amp;lt;/html&amp;amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&amp;lt;div class=&amp;quot;htmlbook-code&amp;quot;&amp;gt;&amp;lt;pre&amp;gt;&amp;lt;code class=&amp;quot; html&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;doctype&amp;quot;&amp;gt;&amp;amp;lt;!DOCTYPE HTML PUBLIC &amp;quot;-//W3C//DTD HTML 4.01//EN&amp;quot; 
+  &amp;quot;http://www.w3.org/TR/html4/strict.dtd&amp;quot;&amp;amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;html&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+ &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;head&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;meta&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;attribute&amp;quot;&amp;gt; http-equiv=&amp;lt;span class=&amp;quot;value&amp;quot;&amp;gt;&amp;quot;Content-Type&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;attribute&amp;quot;&amp;gt; content=&amp;lt;span class=&amp;quot;value&amp;quot;&amp;gt;&amp;quot;text/html; charset=utf-8&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;title&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;Моя первая веб-страница&amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;/&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;title&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+ &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;/&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;head&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+ &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;body&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
 
-  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;Заголовок страницы&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;keyword&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;keyword&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Основной текст.&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;keyword&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;h1&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;Заголовок страницы&amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;/&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;h1&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;p&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;Основной текст.&amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;/&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;p&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
 
- &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;keyword&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;keyword&quot;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&quot;example-view&quot;&gt;&lt;img src=&quot;/themes/hb/img/win.gif&quot; title=&quot;Посмотреть в этом окне&quot; alt=&quot;Посмотреть пример&quot; class=&quot;example-win&quot;&gt;&lt;br&gt;&lt;img src=&quot;/themes/hb/img/win2.gif&quot; title=&quot;Посмотреть в новом окне&quot; alt=&quot;Посмотреть пример&quot; class=&quot;example-win&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;
-  &lt;p&gt;Чтобы посмотреть результат примера в действии, проделайте следующие шаги.&lt;/p&gt;
-  &lt;p&gt; 1. В Windows откройте программу Блокнот (&lt;span class=&quot;menuitem&quot;&gt;Пуск&amp;nbsp;&amp;gt; Выполнить&amp;nbsp;&amp;gt; набрать «notepad»&lt;/span&gt; или &lt;span class=&quot;menuitem&quot;&gt;Пуск&amp;nbsp;&amp;gt; Программы&amp;nbsp;&amp;gt; Стандартные&amp;nbsp;&amp;gt; Блокнот&lt;/span&gt;).&lt;/p&gt;
-  &lt;p&gt;2. Наберите или скопируйте код в Блокноте (рис.&amp;nbsp;1.1). &lt;/p&gt;
-  &lt;p class=&quot;fig&quot;&gt;&lt;img src=&quot;http://htmlbook.ru/files/images/samhtml/fig_1_01_01.png&quot; alt=&quot;Рис. 1.1&quot; width=&quot;608&quot; height=&quot;296&quot;&gt;&lt;/p&gt;
-&lt;p class=&quot;figsign&quot;&gt;Рис. 1.1. Вид HTML-кода в программе Блокнот&lt;/p&gt;
-  &lt;p&gt; 3. Сохраните готовый документ (&lt;span class=&quot;menuitem&quot;&gt;Файл&amp;nbsp;&amp;gt; Сохранить как...&lt;/span&gt;)
-    под именем &lt;span class=&quot;attribute&quot;&gt;c:\\www\\example11.html&lt;/span&gt;,
+ &amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;/&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;body&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;quot;tag&amp;quot;&amp;gt;&amp;amp;lt;/&amp;lt;span class=&amp;quot;keyword&amp;quot;&amp;gt;html&amp;lt;/span&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&amp;lt;div class=&amp;quot;example-view&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;/themes/hb/img/win.gif&amp;quot; title=&amp;quot;Посмотреть в этом окне&amp;quot; alt=&amp;quot;Посмотреть пример&amp;quot; class=&amp;quot;example-win&amp;quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;img src=&amp;quot;/themes/hb/img/win2.gif&amp;quot; title=&amp;quot;Посмотреть в новом окне&amp;quot; alt=&amp;quot;Посмотреть пример&amp;quot; class=&amp;quot;example-win&amp;quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;p&amp;gt;Чтобы посмотреть результат примера в действии, проделайте следующие шаги.&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt; 1. В Windows откройте программу Блокнот (&amp;lt;span class=&amp;quot;menuitem&amp;quot;&amp;gt;Пуск&amp;amp;nbsp;&amp;amp;gt; Выполнить&amp;amp;nbsp;&amp;amp;gt; набрать «notepad»&amp;lt;/span&amp;gt; или &amp;lt;span class=&amp;quot;menuitem&amp;quot;&amp;gt;Пуск&amp;amp;nbsp;&amp;amp;gt; Программы&amp;amp;nbsp;&amp;amp;gt; Стандартные&amp;amp;nbsp;&amp;amp;gt; Блокнот&amp;lt;/span&amp;gt;).&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt;2. Наберите или скопируйте код в Блокноте (рис.&amp;amp;nbsp;1.1). &amp;lt;/p&amp;gt;
+  &amp;lt;p class=&amp;quot;fig&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://htmlbook.ru/files/images/samhtml/fig_1_01_01.png&amp;quot; alt=&amp;quot;Рис. 1.1&amp;quot; width=&amp;quot;608&amp;quot; height=&amp;quot;296&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p class=&amp;quot;figsign&amp;quot;&amp;gt;Рис. 1.1. Вид HTML-кода в программе Блокнот&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt; 3. Сохраните готовый документ (&amp;lt;span class=&amp;quot;menuitem&amp;quot;&amp;gt;Файл&amp;amp;nbsp;&amp;amp;gt; Сохранить как...&amp;lt;/span&amp;gt;)
+    под именем &amp;lt;span class=&amp;quot;attribute&amp;quot;&amp;gt;c:\\www\\example11.html&amp;lt;/span&amp;gt;,
     при этом обязательно поставьте в диалоговом окне сохранения тип файла: Все
-    файлы и кодировку UTF-8 (рис.&amp;nbsp;1.2). Обратите внимание, что расширение у файла должно быть именно html.&lt;/p&gt;
-  &lt;p class=&quot;fig&quot;&gt;&lt;img src=&quot;http://htmlbook.ru/files/images/samhtml/fig_1_01_02.png&quot; alt=&quot;Рис. 1.2&quot; width=&quot;365&quot; height=&quot;108&quot;&gt;&lt;/p&gt;
-  &lt;p class=&quot;figsign&quot;&gt;Рис. 1.2. Параметры сохранения файла в Блокноте&lt;/p&gt;
-  &lt;p&gt;4.  Запустите браузер Internet Explorer (&lt;span class=&quot;menuitem&quot;&gt;Пуск&amp;nbsp;&amp;gt; Выполнить&amp;nbsp;&amp;gt; набрать «iexplore»&lt;/span&gt; или &lt;span class=&quot;menuitem&quot;&gt;Пуск&amp;nbsp;&amp;gt; Программы&amp;nbsp;&amp;gt; Internet Explorer&lt;/span&gt;).&lt;/p&gt;
-  &lt;p&gt;5.   В браузере выберите пункт меню &lt;span class=&quot;menuitem&quot;&gt;Файл&amp;nbsp;&amp;gt; Открыть&lt;/span&gt; и
-    укажите путь к вашему файлу.&lt;/p&gt;
-  &lt;p&gt;6. Если все сделано правильно, то в браузере вы увидите результат, как показано
-    на рис.&amp;nbsp;1.3.&lt;/p&gt;
-  &lt;p class=&quot;fig&quot;&gt;&lt;img src=&quot;http://htmlbook.ru/files/images/samhtml/fig_1_01_03.png&quot; alt=&quot;Рис. 1.3&quot; width=&quot;446&quot; height=&quot;279&quot;&gt;&lt;/p&gt;
-  &lt;p class=&quot;figsign&quot;&gt;Рис. 1.3. Вид веб-страницы в окне браузера&lt;/p&gt;
-  &lt;p&gt; В случае возникновения каких-либо ошибок проверьте правильность набора кода
-    согласно примеру&amp;nbsp;1.1, расширение файла (должно быть html) и путь к
-    документу.&lt;/p&gt;&lt;/div&gt;',
+    файлы и кодировку UTF-8 (рис.&amp;amp;nbsp;1.2). Обратите внимание, что расширение у файла должно быть именно html.&amp;lt;/p&amp;gt;
+  &amp;lt;p class=&amp;quot;fig&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://htmlbook.ru/files/images/samhtml/fig_1_01_02.png&amp;quot; alt=&amp;quot;Рис. 1.2&amp;quot; width=&amp;quot;365&amp;quot; height=&amp;quot;108&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;
+  &amp;lt;p class=&amp;quot;figsign&amp;quot;&amp;gt;Рис. 1.2. Параметры сохранения файла в Блокноте&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt;4.  Запустите браузер Internet Explorer (&amp;lt;span class=&amp;quot;menuitem&amp;quot;&amp;gt;Пуск&amp;amp;nbsp;&amp;amp;gt; Выполнить&amp;amp;nbsp;&amp;amp;gt; набрать «iexplore»&amp;lt;/span&amp;gt; или &amp;lt;span class=&amp;quot;menuitem&amp;quot;&amp;gt;Пуск&amp;amp;nbsp;&amp;amp;gt; Программы&amp;amp;nbsp;&amp;amp;gt; Internet Explorer&amp;lt;/span&amp;gt;).&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt;5.   В браузере выберите пункт меню &amp;lt;span class=&amp;quot;menuitem&amp;quot;&amp;gt;Файл&amp;amp;nbsp;&amp;amp;gt; Открыть&amp;lt;/span&amp;gt; и
+    укажите путь к вашему файлу.&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt;6. Если все сделано правильно, то в браузере вы увидите результат, как показано
+    на рис.&amp;amp;nbsp;1.3.&amp;lt;/p&amp;gt;
+  &amp;lt;p class=&amp;quot;fig&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://htmlbook.ru/files/images/samhtml/fig_1_01_03.png&amp;quot; alt=&amp;quot;Рис. 1.3&amp;quot; width=&amp;quot;446&amp;quot; height=&amp;quot;279&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;
+  &amp;lt;p class=&amp;quot;figsign&amp;quot;&amp;gt;Рис. 1.3. Вид веб-страницы в окне браузера&amp;lt;/p&amp;gt;
+  &amp;lt;p&amp;gt; В случае возникновения каких-либо ошибок проверьте правильность набора кода
+    согласно примеру&amp;amp;nbsp;1.1, расширение файла (должно быть html) и путь к
+    документу.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;',
     'created_at' => '2018-07-04 22:06:11',
-    'updated_at' => '2018-08-05 18:46:30',
-    'status' => 'published',
-    'article_group_id' => '3',
+    'updated_at' => '2018-10-31 22:24:56',
+    'status' => 'waiting',
+    'article_group_id' => '1',
     'created_by' => '1',
     'updated_by' => '1',
     'difficult_id' => null,

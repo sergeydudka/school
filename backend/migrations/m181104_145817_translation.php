@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181002_194243_translation extends Migration
+class m181104_145817_translation extends Migration
 {
 
 public function init()
@@ -774,11 +774,65 @@ $this->createTable(
 	        $this->insert('{{%translation}}',[
     'translation_id' => '83',
     'code' => 'incorrect_username_or_password',
-    'category' => 'yii',
+    'category' => 'app',
     'description' => null,
     'ru-RU' => 'Неверное имя пользователя или пароль!',
     'uk-UA' => null,
     'en-US' => 'Incorrect username or password!',
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '84',
+    'code' => 'id',
+    'category' => 'model',
+    'description' => null,
+    'ru-RU' => 'ID',
+    'uk-UA' => 'ID',
+    'en-US' => 'ID',
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '85',
+    'code' => 'entity_name',
+    'category' => 'model',
+    'description' => null,
+    'ru-RU' => 'Название сущности',
+    'uk-UA' => null,
+    'en-US' => 'Entityt name',
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '86',
+    'code' => 'action',
+    'category' => 'model',
+    'description' => null,
+    'ru-RU' => 'Действие',
+    'uk-UA' => null,
+    'en-US' => 'Action',
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '87',
+    'code' => 'access_denied_for_action',
+    'category' => 'app',
+    'description' => null,
+    'ru-RU' => 'Доступ запрещен для действия',
+    'uk-UA' => null,
+    'en-US' => 'Acces denien for action',
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '88',
+    'code' => 'auth',
+    'category' => 'app',
+    'description' => null,
+    'ru-RU' => null,
+    'uk-UA' => null,
+    'en-US' => null,
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '89',
+    'code' => 'incorrect_username_or_password',
+    'category' => 'yii',
+    'description' => null,
+    'ru-RU' => null,
+    'uk-UA' => null,
+    'en-US' => null,
 ]);
 	
 }

@@ -29,7 +29,8 @@ $config = [
                 /* @var \crudschool\common\url\Request $request */
                 $request = Yii::$app->request;
                 if (!$request->isHomePage()) {
-                    if (!$event->sender->data || get_class($event->sender->data) != \crudschool\api\ApiResult::class) {
+                    if (!$event->sender->data || (is_object($event->sender->data) && get_class($event->sender->data) !=
+                            \crudschool\api\ApiResult::class)) {
                         $event->sender->data = new \crudschool\api\ApiResult(Yii::$app->requestedAction, $event->sender->data);
                     }
                 } else {

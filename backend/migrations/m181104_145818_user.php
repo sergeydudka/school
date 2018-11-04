@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181002_194244_user extends Migration
+class m181104_145818_user extends Migration
 {
 
 public function init()
@@ -29,7 +29,7 @@ $this->createTable(
     'password_hash'=> $this->string(255)->notNull(),
     'password_reset_token'=> $this->string(255)->null()->defaultValue(null),
     'email'=> $this->string(255)->notNull(),
-    'status'=> $this->smallInteger(6)->notNull()->defaultValue(10),
+    'status'=> $this->integer(11)->notNull()->defaultValue(10),
     'created_at'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
     'updated_at'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
 ],$tableOptions
