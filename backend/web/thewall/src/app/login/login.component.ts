@@ -12,7 +12,7 @@ import { YIIResponse } from '../common/models/yii/yii-response.model';
 @Component({
   selector: 'sch-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

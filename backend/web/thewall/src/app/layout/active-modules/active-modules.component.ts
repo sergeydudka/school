@@ -7,7 +7,7 @@ import { ModuleConfig } from '../menu/module-config.model';
 @Component({
   selector: 'sch-active-modules',
   templateUrl: './active-modules.component.html',
-  styleUrls: ['./active-modules.component.css']
+  styleUrls: ['./active-modules.component.scss']
 })
 export class ActiveModulesComponent implements OnInit {
   links: ModuleConfig[] = [];

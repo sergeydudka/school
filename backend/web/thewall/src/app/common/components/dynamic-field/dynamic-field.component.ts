@@ -6,13 +6,15 @@ import { FieldBase } from '../../models/fields/field-base.model';
 @Component({
   selector: 'sch-dynamic-field',
   templateUrl: './dynamic-field.component.html',
-  styleUrls: ['./dynamic-field.component.css']
+  styleUrls: ['./dynamic-field.component.scss']
 })
 export class DynamicFieldComponent implements OnInit {
-  @Input() field: FieldBase<any>;
-  @Input() form: FormGroup;
+  @Input()
+  field: FieldBase<any>;
+  @Input()
+  form: FormGroup;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

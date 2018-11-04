@@ -6,7 +6,7 @@ import { UserService } from 'src/app/common/services/user/user.service';
 @Component({
   selector: 'sch-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   @Input()

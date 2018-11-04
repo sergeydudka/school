@@ -17,7 +17,7 @@ import { ActionDialogContentComponent } from 'src/app/common/components/action-d
 @Component({
   selector: 'sch-detail-form',
   templateUrl: './detail-form.component.html',
-  styleUrls: ['./detail-form.component.css']
+  styleUrls: ['./detail-form.component.scss']
 })
 export class DetailFormComponent implements OnInit {
   data;

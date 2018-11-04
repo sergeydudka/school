@@ -13,7 +13,7 @@ class MenuNode {
 @Component({
   selector: 'sch-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css'],
+  styleUrls: ['./menu.component.scss'],
   providers: [MenuService]
 })
 export class MenuComponent {

@@ -1,0 +1,25 @@
+@import '~@angular/material/theming';
+
+@mixin filter-row-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .filter-row {
+    .mat-icon-button {
+      height: 2em;
+      width: 2em;
+      line-height: inherit;
+    }
+    .mat-datepicker-toggle-default-icon {
+      width: 1.5em;
+    }
+    input {
+      outline: none;
+      color: currentColor;
+      background: 0;
+      caret-color: mat-color($primary);
+    }
+    sch-search-field {
+      padding: 0;
+    }
+  }
+}

@@ -17,7 +17,7 @@ import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 @Component({
   selector: 'uxmat-filter-row-cell',
   templateUrl: './filter-row-cell.component.html',
-  styleUrls: ['./filter-row-cell.component.css']
+  styleUrls: ['./filter-row-cell.component.scss']
 })
 export class FilterRowCellComponent implements OnInit, OnDestroy {
   /**

@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'sch-action-dialog-content',
   templateUrl: './action-dialog-content.component.html',
-  styleUrls: ['./action-dialog-content.component.css']
+  styleUrls: ['./action-dialog-content.component.scss']
 })
 export class ActionDialogContentComponent implements OnInit {
   // TODO: langs
@@ -14,7 +14,7 @@ export class ActionDialogContentComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<ActionDialogContentComponent>,
+    private matDialogRef: MatDialogRef<ActionDialogContentComponent>
   ) {
     if (data) {
       this.title = data.title || this.title;

@@ -8,7 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { YiiCrudService } from '../../../common/services/crud/yii-crud/yii-crud.service';
 import { ApiService } from '../../../common/services/api.service';
 import { of as observableOf, Subject, Subscription, combineLatest } from 'rxjs';
-import { switchMap, catchError, debounceTime } from 'rxjs/operators';
+import { switchMap, catchError, debounceTime, tap } from 'rxjs/operators';
 import { YIIEntityResponse } from '../../../common/models/yii/yii-entity-response.model';
 import { GridBuilderService } from '../../../common/services/grid-builder.service';
 
@@ -21,12 +21,14 @@ import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 @Component({
   selector: 'sch-browse-grid',
   templateUrl: './browse-grid.component.html',
-  styleUrls: ['./browse-grid.component.css']
+  styleUrls: ['./browse-grid.component.scss']
 })
 export class BrowseGridComponent implements OnInit, OnDestroy {
   private initialized: boolean;
   private subscriptions: Subscription;
   private routeData: ModuleConfig;
+
+  loading: boolean = false;
 
   idProperty;
 
@@ -44,6 +46,7 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
 
   filtersChanged = new Subject();
 
+  // TODO: take those from config
   pageSizeOptions = [10, 20, 50, 100];
   pageSize = this.pageSizeOptions[0];
 
@@ -53,6 +56,7 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort)
   sort: MatSort;
 
+  defaultSort: string;
   defaultSortDir: 'asc' | 'desc' = 'asc';
 
   constructor(
@@ -77,7 +81,7 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
     )
       .pipe(debounceTime(100))
       .subscribe(([queryParams, sorting, pager, filters]: [Params, Sort, PageEvent, Params]) => {
-        const sortDir = sorting.direction === 'desc' ? '-' : '';
+        const sortDir = this.defaultSort = sorting.direction === 'desc' ? '-' : '';
 
         const mergedQueryParams = Object.assign({}, queryParams, {
           page: this.paginator.pageIndex + 1,
@@ -99,6 +103,9 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
       this.filterRow.filtersChanged
     )
       .pipe(
+        tap(_ => {
+          this.loading = true;
+        }),
         switchMap(([sort, pager, filters]: [Sort, PageEvent, string]) => this.crud.list(sort, pager, filters)),
         catchError((...params) => {
           // TODO: propert error handling

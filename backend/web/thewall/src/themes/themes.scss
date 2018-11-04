@@ -1,0 +1,46 @@
+// Import library functions for theme creation.
+@import '~@angular/material/theming';
+
+@import './light-theme.scss';
+@import './dark-theme.scss';
+
+@import '../app/modules/common/filter-row/filter-row-theme.scss';
+@import '../app/modules/common/browse-grid/browse-grid-theme.scss';
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+// Include non-theme styles for core.
+@include mat-core();
+
+@mixin app-material-theme($theme) {
+  // Include theme styles for your custom components.
+  @include filter-row-theme($theme);
+  @include browse-grid-theme($theme);
+
+  .mat-toolbar-multiple-rows {
+    min-height: 50px !important;
+  }
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    height: 50px !important;
+  }
+  .mat-tab-link {
+    height: 35px !important;
+  }
+}
+
+.light-theme {
+  // Include theme styles for Angular Material components.
+  @include angular-material-theme($light-theme);
+  @include app-material-theme($light-theme);
+}
+
+// .dark-theme {
+// Include theme styles for Angular Material components.
+@include angular-material-theme($dark-theme);
+@include app-material-theme($dark-theme);
+// }

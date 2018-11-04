@@ -1,15 +1,20 @@
+$mat-row-height: 35px;
+$mat-header-row-height: 35px;
+
 :host {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.buttons-wrapper {
-  background: #fff;
+.mat-icon-button {
+  width: 21px !important;
+  height: 21px !important;
+  font-size: 21px !important;
+  line-height: 21px !important;
 }
 
 .table-wrapper {
-  background: #fff;
   overflow: auto;
   flex: 1;
 }
@@ -20,10 +25,12 @@ table {
 
 .filter-row {
   height: auto;
+
+  .mat-cell {
+    padding: 0;
+  }
 }
-.filter-row .mat-cell {
-  padding: 0;
-}
+
 input,
 mat-select,
 sch-search-field {
@@ -38,10 +45,11 @@ sch-search-field {
 
 .actions-row {
   height: auto;
-}
-.actions-row td {
-  padding: 0;
-  max-width: 100%;
+
+  td {
+    padding: 0;
+    max-width: 100%;
+  }
 }
 
 .mat-paginator-container {
@@ -51,7 +59,7 @@ sch-search-field {
 .mat-cell,
 .mat-header-cell,
 .mat-footer-cell {
-  padding: 5px 10px;
+  padding: 5px 10px !important;
 }
 
 .mat-column-selection {
@@ -63,22 +71,30 @@ sch-search-field {
   white-space: nowrap;
 }
 
-.mat-header-row {
-  height: 40px;
+.mat-header-cell {
+  font-weight: bold;
 }
 
-.action-col,
+/*
 .action-col {
   min-width: 0;
   white-space: nowrap;
   border-left: 1px solid #e0e0e0;
-  padding: 0 10px !important;
-}
-
-.action-col {
+  padding: 0 5px !important;
   color: #666;
 }
+*/
+.action-col {
+  .mat-icon-button:nth-of-type(n + 2) {
+    margin-left: 5px;
+  }
+}
 
-.mat-header-cell {
-  font-weight: bold;
+.mat-row,
+.mat-footer-row {
+  height: $mat-row-height;
+}
+
+.mat-header-row {
+  height: $mat-header-row-height;
 }
