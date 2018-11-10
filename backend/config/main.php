@@ -29,9 +29,10 @@ $config = [
                 /* @var \crudschool\common\url\Request $request */
                 $request = Yii::$app->request;
                 if (!$request->isHomePage()) {
-                    if (!$event->sender->data || (is_object($event->sender->data) && get_class($event->sender->data) !=
+                    $data = $event->sender->data ?? $event->sender->content;
+                    if (!$data || (is_object($event->sender->data) && get_class($data) !=
                             \crudschool\api\ApiResult::class)) {
-                        $event->sender->data = new \crudschool\api\ApiResult(Yii::$app->requestedAction, $event->sender->data);
+                        $event->sender->data = new \crudschool\api\ApiResult(Yii::$app->requestedAction, $data);
                     }
                 } else {
                     Yii::$app->response->format = \yii\web\Response::FORMAT_HTML;
