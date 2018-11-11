@@ -169,16 +169,16 @@
         },
         {
             "name": "crudschool/yii2-school",
-            "version": "1.2.18",
+            "version": "1.2.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sergeydudka/crudschool.git",
-                "reference": "02ee6d00faf5954e9f875779fb20ef96298806f8"
+                "reference": "388a4ed3c4d622a105fc114400886e5e01657159"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sergeydudka/crudschool/zipball/02ee6d00faf5954e9f875779fb20ef96298806f8",
-                "reference": "02ee6d00faf5954e9f875779fb20ef96298806f8",
+                "url": "https://api.github.com/repos/sergeydudka/crudschool/zipball/388a4ed3c4d622a105fc114400886e5e01657159",
+                "reference": "388a4ed3c4d622a105fc114400886e5e01657159",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
                 "extension",
                 "yii2"
             ],
-            "time": "2018-11-10T09:57:21+00:00"
+            "time": "2018-11-11T10:25:57+00:00"
         },
         {
             "name": "doctrine/lexer",
