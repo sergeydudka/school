@@ -43,9 +43,10 @@ export class MenuService {
             title: module.label,
             category: cat,
             module: mod,
+            detach: true,
             addToTabs: module.addToTabs !== undefined ? module.addToTabs : true,
             link: `/${cat}/${mod}`,
-            angularModule: module.module || 'BrowseGrid',
+            angularModule: module.module || 'BrowseGrid'
           });
 
           menuItem.children.push(menuSubItem);

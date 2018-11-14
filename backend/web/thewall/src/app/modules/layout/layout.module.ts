@@ -10,7 +10,8 @@ import {
   MatTreeModule,
   MatButtonModule,
   MatTabsModule,
-  MatDialogModule
+  MatDialogModule,
+  MatMenuModule
 } from '@angular/material';
 
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -23,6 +24,7 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 
 import { ActiveModulesComponent } from '../../layout/active-modules/active-modules.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -38,9 +40,11 @@ import { ActiveModulesComponent } from '../../layout/active-modules/active-modul
     CdkTreeModule,
     MatTabsModule,
     MatDialogModule,
+    MatMenuModule,
 
     // app specific
-    LayoutRoutingModule
+    LayoutRoutingModule,
+    SharedModule
   ],
   declarations: [HeaderComponent, MenuComponent, LayoutComponent, ActiveModulesComponent]
 })

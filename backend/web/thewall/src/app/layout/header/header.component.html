@@ -5,12 +5,32 @@
 
   <span class="tb-spacer"></span>
 
-  <button mat-icon-button>
-    <mat-icon>perm_identity</mat-icon>
+  <button mat-icon-button><mat-icon>perm_identity</mat-icon></button>
+
+  <mat-menu #appMenu="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let edition of (editions$ | async)"
+      (click)="changeEdition(edition)"
+    >
+      <span>{{ edition.title }}</span>
+    </button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>outlined_flag</mat-icon>
+    {{ currentEdition?.title }}
   </button>
+
   <button mat-icon-button>
-    <mat-icon matBadge="22" matBadgeColor="accent" matBadgePosition="above before">notifications</mat-icon>
+    <mat-icon
+      matBadge="22"
+      matBadgeColor="accent"
+      matBadgePosition="above before"
+      >notifications_none</mat-icon
+    >
   </button>
+
   <!-- TODO: langs -->
   <button mat-icon-button (click)="onLogoutBtnClick()">
     <mat-icon title="Logout">logout</mat-icon>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { MatPaginator, MatSort, Sort, PageEvent } from '@angular/material';
+import { MatPaginator, MatSort, Sort, PageEvent, MatCheckboxChange } from '@angular/material';
 
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -27,6 +27,11 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
   private initialized: boolean;
   private subscriptions: Subscription;
   private routeData: ModuleConfig;
+
+  private autoRefreshIntervalRef: number;
+  private refreshTrigger: Subject<void>;
+  // TODO: take value from config
+  private autoRefreshInterval = 30000;
 
   loading: boolean = false;
 
@@ -72,6 +77,8 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
     this.routeData = this.route.snapshot.data as ModuleConfig;
     this.activeModules.add(this.routeData);
 
+    this.refreshTrigger = new Subject();
+
     // Updates URL to match grid state
     this.subscriptions = combineLatest(
       this.route.queryParams,
@@ -100,15 +107,16 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
     const gridParamsSubscription = combineLatest(
       this.sort.sortChange,
       this.paginator.page,
-      this.filterRow.filtersChanged
+      this.filterRow.filtersChanged,
+      this.refreshTrigger
     )
       .pipe(
         tap(_ => {
           this.loading = true;
         }),
-        switchMap(([sort, pager, filters]: [Sort, PageEvent, string]) => this.crud.list(sort, pager, filters)),
+        switchMap(([sort, pager, filters]: [Sort, PageEvent, string, void]) => this.crud.list(sort, pager, filters)),
         catchError((...params) => {
-          // TODO: propert error handling
+          // TODO: proper error handling
           console.log('Error on data retrieving => ', params);
           return observableOf([]);
         })
@@ -187,14 +195,14 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
 
     // TODO: proper initial values
     this.filterRow.filtersChanged.next(queryParams.filters);
+
+    this.refreshTrigger.next();
   }
 
   ngOnDestroy() {
     // clean up subscriptions
     const routeSnapshot = this.route.snapshot.data as ModuleConfig;
 
-    // TODO: test removal
-    console.log('routeSnapshot => ', routeSnapshot);
     this.activeModules.remove(routeSnapshot);
 
     this.subscriptions.unsubscribe();
@@ -226,6 +234,20 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
     this.router.navigate(['detail', this.selection.selected[0][this.idProperty]], {
       relativeTo: this.route
     });
+  }
+
+  forceGridRefresh() {
+    this.refreshTrigger.next();
+  }
+
+  onAutoRefreshChanged(value: MatCheckboxChange) {
+    if (value.checked) {
+      this.autoRefreshIntervalRef = window.setInterval(() => {
+        this.forceGridRefresh();
+      }, this.autoRefreshInterval);
+    } else {
+      window.clearInterval(this.autoRefreshIntervalRef);
+    }
   }
 
   onRemove() {

@@ -26,14 +26,25 @@ export class ActiveModulesService {
   }
 
   remove(data: ModuleConfig) {
-    console.log(`Removing module route ${data.uniqueId}`);
     if (!this.modules.has(data.uniqueId)) {
       return console.warn(`Attempt tot remove non-existing route ${data.uniqueId}`);
     }
 
-    console.log(`Removed module route ${data.uniqueId}`);
-
     this.modules.delete(data.uniqueId);
-    this.modulesChanged.next(Array.from(this.modules));
+    this.modulesChanged.next(this.modules);
+  }
+
+  hasModule(uniqueId: string): boolean {
+    return this.modules.has(uniqueId);
+  }
+
+  getModule(uniqueId: string): ModuleConfig | null {
+    let result = null;
+
+    if (this.hasModule(uniqueId)) {
+      result = this.modules.get(uniqueId);
+    }
+
+    return result;
   }
 }

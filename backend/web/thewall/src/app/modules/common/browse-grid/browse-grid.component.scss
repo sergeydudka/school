@@ -52,10 +52,6 @@ sch-search-field {
   }
 }
 
-.mat-paginator-container {
-  justify-content: flex-start;
-}
-
 .mat-cell,
 .mat-header-cell,
 .mat-footer-cell {
@@ -75,15 +71,6 @@ sch-search-field {
   font-weight: bold;
 }
 
-/*
-.action-col {
-  min-width: 0;
-  white-space: nowrap;
-  border-left: 1px solid #e0e0e0;
-  padding: 0 5px !important;
-  color: #666;
-}
-*/
 .action-col {
   .mat-icon-button:nth-of-type(n + 2) {
     margin-left: 5px;
@@ -97,4 +84,14 @@ sch-search-field {
 
 .mat-header-row {
   height: $mat-header-row-height;
+}
+
+mat-paginator {
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+.auto-refresh-wrapper {
+  margin-left: 20px;
 }

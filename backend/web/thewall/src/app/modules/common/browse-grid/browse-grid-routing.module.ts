@@ -17,11 +17,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        component: BrowseGridComponent,
-        data: {
-          // reuse: false,
-          detach: true
-        }
+        component: BrowseGridComponent
       }
     ]
   }

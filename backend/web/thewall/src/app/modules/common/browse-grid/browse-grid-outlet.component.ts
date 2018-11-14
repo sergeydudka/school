@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'sch-browse-grid-outlet',
   template: `
     <router-outlet></router-outlet>
-  `,
+  `
 })
 export class BrowseGridOutletComponent {}

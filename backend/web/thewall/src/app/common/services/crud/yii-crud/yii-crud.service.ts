@@ -8,7 +8,7 @@ import { Sort, PageEvent } from '@angular/material';
 
 // rxjs
 import { throwError, Observable } from 'rxjs';
-import { catchError, delay } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 // application specific
 import { YIIResponse } from 'src/app/common/models/yii/yii-response.model';
@@ -44,11 +44,9 @@ export class YiiCrudService extends CrudBaseService {
       }
     });
 
-    return this.http
-      .get(url, {
-        params: httpParams
-      })
-      .pipe(delay(2000));
+    return this.http.get(url, {
+      params: httpParams
+    });
   }
 
   save(data: Data) {

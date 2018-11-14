@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+
+import { AppConfigService } from './app-config.service';
+
+import { AppConfig } from '../models/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private _api: BehaviorSubject<any>;
-  private apiUrl = 'http://school.local.com/admin/main/menu/';
-  private _apiById;
+  private _api: BehaviorSubject<Params>;
+  private apiById: Params;
+  private baseURL: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: AppConfigService) {}
 
   /**
    * Function gets called on applcation initialization
@@ -23,14 +28,20 @@ export class ApiService {
     }
 
     return new Promise((resolve, reject) => {
-      this.http.get(this.apiUrl).subscribe((response: any) => {
-        const menu = response.result.list;
+      this.configService.config.subscribe((config: AppConfig) => {
+        if (!config) return;
 
-        this._prepareApiById(menu);
+        this.baseURL = `${config.baseUrl}/${config.edition.url}`;
 
-        this._api.next(menu);
+        const apiUrl = this.prepareUrl(config.apiUrl);
 
-        resolve();
+        this.http.get(apiUrl).subscribe((response: any) => {
+          const menu = response.result.list;
+
+          this.prepareApiAndAddApiById(menu);
+          this._api.next(menu);
+          resolve();
+        });
       });
     });
   }
@@ -79,7 +90,7 @@ export class ApiService {
    * @param category category alias
    * @param module module alias
    */
-  getModuleApi(category: string, module: string): {} {
+  getModuleApi(category: string, module: string): Params {
     const api = this._api.getValue(),
       moduleApi = api[category].list[module].actions;
 
@@ -92,7 +103,7 @@ export class ApiService {
    * @param key id property of entity
    */
   getApiById(key: string): string {
-    const result = this._apiById[key];
+    const result = this.apiById[key];
 
     if (!result) {
       throw new Error(`No URL provided for ${key}.`);
@@ -102,12 +113,21 @@ export class ApiService {
   }
 
   /**
+   * Assambles corrent URL based on params
+   *
+   * @param url
+   */
+  private prepareUrl(url: string): string {
+    return this.baseURL + url;
+  }
+
+  /**
    * Prepares map for module URLs by idProperty to have
    * easy access to it later in application
    *
    * @param menu menu config
    */
-  _prepareApiById(menu: {}): void {
+  private prepareApiAndAddApiById(menu: {}): void {
     const apiById = {};
 
     for (const cat in menu) {
@@ -116,11 +136,19 @@ export class ApiService {
       for (const mod in category.list) {
         const module = category.list[mod];
 
+        module.url = this.prepareUrl(module.url);
+
+        for (const act in module.actions) {
+          const action = module.actions[act];
+
+          action.url = this.prepareUrl(action.url);
+        }
+
         apiById[module.primaryKey] = module.url;
       }
     }
 
-    this._apiById = apiById;
+    this.apiById = apiById;
   }
 }
 

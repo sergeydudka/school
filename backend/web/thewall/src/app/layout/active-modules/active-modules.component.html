@@ -1,5 +1,18 @@
 <nav mat-tab-nav-bar backgroundColor="primary">
-  <a mat-tab-link [routerLink]="link.link" *ngFor="let link of links" (click)="activeLink = link.uniqueId" [active]="activeLink === link.uniqueId">
-    {{link.title}}
+  <a
+    mat-tab-link
+    [routerLink]="link.link"
+    *ngFor="let link of links"
+    (click)="activeLink = link.uniqueId"
+    [active]="activeLink === link.uniqueId"
+  >
+    {{ link.title }}
+    <button
+      [style.visibility]="link.uniqueId === activeLink ? 'visible' : 'hidden'"
+      mat-icon-button
+      (click)="closeModule($event, link)"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   </a>
 </nav>

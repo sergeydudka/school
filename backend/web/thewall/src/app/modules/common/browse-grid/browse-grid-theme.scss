@@ -7,4 +7,17 @@
   .action-col {
     border-left: 1px solid mat-color($foreground, divider);
   }
+
+  .refresh-button {
+    color: mat-color($foreground, secondary-text);
+  }
+}
+
+@mixin browse-grid-theme-typography($config) {
+  .auto-refresh {
+    font: {
+      family: mat-font-family($config, caption);
+      size: mat-font-size($config, caption);
+    }
+  }
 }

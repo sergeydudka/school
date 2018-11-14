@@ -7,5 +7,6 @@ export interface ModuleConfig {
   link: string;
   addToTabs: boolean;
   currentUrl?: string;
+  pendingDestroy?: boolean;
   [key: string]: any;
 }

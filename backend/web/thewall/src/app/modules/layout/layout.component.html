@@ -1,18 +1,24 @@
 <div class="container" [class.is-mobile]="mobileQuery.matches">
   <sch-header [navbar]="snav" class="main-toolbar"></sch-header>
 
-  <mat-sidenav-container class="main-container" [style.marginTop.px]="mobileQuery.matches ? headerHeight : 0">
-    <mat-sidenav #snav opened [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-      [fixedTopGap]="headerHeight">
+  <mat-sidenav-container
+    class="main-container"
+    [style.marginTop.px]="mobileQuery.matches ? headerHeight : 0"
+  >
+    <mat-sidenav
+      #snav
+      opened
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      [fixedTopGap]="headerHeight"
+    >
       <sch-menu></sch-menu>
     </mat-sidenav>
 
     <mat-sidenav-content>
       <sch-active-modules></sch-active-modules>
 
-      <div class="content">
-        <router-outlet></router-outlet>
-      </div>
+      <div class="content"><router-outlet></router-outlet></div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

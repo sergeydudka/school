@@ -31,7 +31,15 @@ body {
   .mat-tab-link {
     height: 35px !important;
   }
+  .mat-paginator-container {
+    min-height: 50px !important;
+    height: 50px !important;
+  }
 }
+
+$theme-typography: mat-typography-config();
+
+@include browse-grid-theme-typography($theme-typography);
 
 .light-theme {
   // Include theme styles for Angular Material components.

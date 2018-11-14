@@ -1,9 +1,12 @@
+import { Inject } from '@angular/core';
 import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 
-/**
- * This reuse
- */
+import { ActiveModulesService } from 'src/app/layout/active-modules/active-modules.service';
+import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
+
 export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
+  constructor(@Inject(ActiveModulesService) private activeModulesService: ActiveModulesService) {}
+
   private handlers: { [key: string]: DetachedRouteHandle } = {};
 
   /**
@@ -13,7 +16,15 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     if (!route.routeConfig || route.routeConfig.loadChildren) return false;
 
-    return route.routeConfig.data ? route.routeConfig.data.detach : false;
+    if (route.data.uniqueId && this.activeModulesService.hasModule(route.data.uniqueId)) {
+      const config = this.activeModulesService.getModule(route.data.uniqueId);
+
+      if (config.pendingDestroy) {
+        return false;
+      }
+    }
+
+    return route.data ? route.data.detach : route.routeConfig.data ? route.routeConfig.data.detach : false;
   }
 
   /**
@@ -79,10 +90,6 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
     for (var i in route.params) {
       key += `${index > 0 ? '-' : ''}${i}_${route.params[i]}`;
       index++;
-    }
-
-    if (route.data) {
-      key += JSON.stringify(route.data);
     }
 
     return key;

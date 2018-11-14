@@ -4,11 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { YIIResponse } from '../models/yii/yii-response.model';
 
+import { AppConfig } from '../models/config/app-config.model';
+import { PersistanceService } from './persistance/persistance.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppConfigService {
-  private _config: BehaviorSubject<any>;
+  private _config: BehaviorSubject<AppConfig>;
   get config() {
     return this._config;
   }
@@ -16,7 +19,7 @@ export class AppConfigService {
   // TODO: dynamic value here ???
   private configUrl = 'http://school.local.com/admin/main/config';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private persistanceService: PersistanceService) {
     this.init();
   }
 
@@ -40,10 +43,20 @@ export class AppConfigService {
    * Loads latests config from server
    */
   private fetch() {
-    this.http.get(this.configUrl)
-    .subscribe((response: YIIResponse) => {
-      const menu = response.result.list;
-      this._config.next(menu);
+    this.http.get(this.configUrl).subscribe((response: YIIResponse) => {
+      const config = response.result.list as AppConfig;
+
+      const edition = this.persistanceService.get('edition');
+
+      config.apiUrl = '/main/menu/';
+
+      if (edition) {
+        config.edition = JSON.parse(edition);
+      } else {
+        this.persistanceService.set('edition', JSON.stringify(config.edition));
+      }
+
+      this._config.next(config);
     });
   }
 }
