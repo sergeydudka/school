@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { MatPaginator, MatSort, Sort, PageEvent, MatCheckboxChange } from '@angular/material';
@@ -18,12 +18,16 @@ import { FilterRowDirective } from '../filter-row/filter-row.directive';
 import { ActiveModulesService } from 'src/app/layout/active-modules/active-modules.service';
 import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 
+import { OverlayService } from 'src/app/modules/overlay-module/overlay.service';
+
 @Component({
   selector: 'sch-browse-grid',
   templateUrl: './browse-grid.component.html',
-  styleUrls: ['./browse-grid.component.scss']
+  styleUrls: ['./browse-grid.component.scss'],
+  // each instance should have it's own crud service
+  providers: [YiiCrudService]
 })
-export class BrowseGridComponent implements OnInit, OnDestroy {
+export class BrowseGridComponent implements OnInit, AfterViewInit, OnDestroy {
   private initialized: boolean;
   private subscriptions: Subscription;
   private routeData: ModuleConfig;
@@ -32,9 +36,6 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
   private refreshTrigger: Subject<void>;
   // TODO: take value from config
   private autoRefreshInterval = 30000;
-
-  loading: boolean = false;
-
   idProperty;
 
   selection = new SelectionModel<any>(true, []);
@@ -65,12 +66,14 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
   defaultSortDir: 'asc' | 'desc' = 'asc';
 
   constructor(
+    private elRef: ElementRef,
     private route: ActivatedRoute,
     private router: Router,
     private crud: YiiCrudService,
     private api: ApiService,
     private gridBuilder: GridBuilderService,
-    private activeModules: ActiveModulesService
+    private activeModules: ActiveModulesService,
+    private overlayService: OverlayService
   ) {}
 
   ngOnInit() {
@@ -112,7 +115,12 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
     )
       .pipe(
         tap(_ => {
-          this.loading = true;
+          // TODO: remove timeout hack
+          setTimeout(() => {
+            this.overlayService.show({
+              target: this.elRef
+            });
+          }, 1);
         }),
         switchMap(([sort, pager, filters]: [Sort, PageEvent, string, void]) => this.crud.list(sort, pager, filters)),
         catchError((...params) => {
@@ -131,6 +139,10 @@ export class BrowseGridComponent implements OnInit, OnDestroy {
           this.displayedColumns.unshift('selection');
           this.displayedColumns.push('actions');
         }
+
+        this.overlayService.hide({
+          target: this.elRef
+        });
 
         this.displayedFilterColumns = this.displayedColumns.map(item => 'filter_' + item);
 

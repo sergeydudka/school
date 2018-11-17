@@ -33,6 +33,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 
+import { ComponentOverlayModule } from './modules/overlay-module/overlay.module';
+
 const APP_DATE_FORMATS = {
   parse: {
     dateInput: 'YYYY-MM-DD kk:mm:ss'
@@ -67,6 +69,7 @@ const APP_DATE_FORMATS = {
     // should come before any other modules that have routings
     // to allow auth guard do it's job
     AppRoutingModule,
+    ComponentOverlayModule,
 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
