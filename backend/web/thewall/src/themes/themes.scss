@@ -53,11 +53,11 @@ $theme-typography: mat-typography-config();
 @include app-material-theme($dark-theme);
 // }
 
-.cdk-overlay-backdrop {
+.component-overlay-backdrop {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.cdk-overlay-pane {
+.component-overlay-panel {
   width: 100%;
   height: 100%;
   justify-content: center;

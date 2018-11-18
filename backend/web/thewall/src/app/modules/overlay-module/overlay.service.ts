@@ -86,9 +86,9 @@ export class OverlayService {
 
     const overlayConfig = new OverlayConfig({
       hasBackdrop: true,
-      backdropClass: config.backdropClass,
-      panelClass: config.panelClass,
-      scrollStrategy: this._overlay.scrollStrategies.reposition(),
+      backdropClass: config.backdropClass || 'component-overlay-backdrop',
+      panelClass: config.panelClass || 'component-overlay-panel',
+      // scrollStrategy: this._overlay.scrollStrategies.reposition(),
       positionStrategy
     });
 

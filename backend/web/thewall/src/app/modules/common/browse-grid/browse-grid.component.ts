@@ -140,9 +140,11 @@ export class BrowseGridComponent implements OnInit, AfterViewInit, OnDestroy {
           this.displayedColumns.push('actions');
         }
 
-        this.overlayService.hide({
-          target: this.elRef
-        });
+        setTimeout(() => {
+          this.overlayService.hide({
+            target: this.elRef
+          });
+        }, 1);
 
         this.displayedFilterColumns = this.displayedColumns.map(item => 'filter_' + item);
 
