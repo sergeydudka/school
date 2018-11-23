@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, RoutesRecognized } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 // @angular/material
 import { MatDialog } from '@angular/material';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { ActiveModulesService } from './active-modules.service';
 import { ModuleConfig } from '../menu/module-config.model';
 
+// application specific logic
 import { ActionDialogContentComponent } from 'src/app/common/components/action-dialog-content/action-dialog-content.component';
 
 @Component({
@@ -68,6 +69,12 @@ export class ActiveModulesComponent implements OnInit {
     this.activeLink = link ? link.uniqueId : '';
   }
 
+  /**
+   * Closes specified module tab
+   *
+   * @param event browser event
+   * @param link active module
+   */
   closeModule(event: Event, link: ModuleConfig) {
     event.stopPropagation();
     event.preventDefault();

@@ -25,12 +25,6 @@ mat-sidenav-content {
   flex: 1;
 }
 
-.is-mobile .main-container {
-  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
-     `<body>` to be our scrolling element for mobile layouts. */
-  flex: 1 0 auto;
-}
-
 .is-mobile .main-toolbar {
   position: fixed;
 

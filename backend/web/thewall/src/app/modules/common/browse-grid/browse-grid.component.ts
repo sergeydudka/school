@@ -265,6 +265,21 @@ export class BrowseGridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onRemove() {
-    this.crud.delete(this.selection.selected[0][this.idProperty]).subscribe();
+    this.handleRemove(this.selection.selected[0]);
+  }
+
+  onRemoveSinge(element) {
+    this.handleRemove([element]);
+  }
+
+  private handleRemove(element): void {
+    this.overlayService.show({
+      target: this.elRef
+    });
+    this.crud.delete(element[this.idProperty]).subscribe(result => {
+      this.overlayService.hide({
+        target: this.elRef
+      });
+    });
   }
 }

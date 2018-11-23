@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CrudBaseService } from '../crud-base.service';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Data } from '@angular/router';
 
@@ -11,6 +10,7 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 // application specific
+import { CrudBaseService } from '../crud-base.service';
 import { YIIResponse } from 'src/app/common/models/yii/yii-response.model';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class YiiCrudService extends CrudBaseService {
 
   list(sorting: Sort, pager: PageEvent, filters: string) {
     const url = this.api.index.url,
-      page = '' + pager.pageIndex + 1,
+      page = '' + (pager.pageIndex + 1),
       perPage = '' + pager.pageSize,
       sortDir = sorting.direction === 'desc' ? '-' : '',
       sortField = sorting.active,

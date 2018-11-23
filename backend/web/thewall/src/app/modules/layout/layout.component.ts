@@ -7,7 +7,7 @@ import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-  headerHeight = 56;
+  headerHeight = 50;
   mobileQuery: MediaQueryList;
 
   private _mobileQueryListener: () => void;

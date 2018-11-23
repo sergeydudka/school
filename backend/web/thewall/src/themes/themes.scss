@@ -4,6 +4,8 @@
 @import './light-theme.scss';
 @import './dark-theme.scss';
 
+@import './variables.scss';
+
 @import '../app/modules/common/filter-row/filter-row-theme.scss';
 @import '../app/modules/common/browse-grid/browse-grid-theme.scss';
 
@@ -29,7 +31,7 @@ body {
     height: 50px !important;
   }
   .mat-tab-link {
-    height: 35px !important;
+    height: $toolbar-height;
   }
   .mat-paginator-container {
     min-height: 50px !important;
