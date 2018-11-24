@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 // app specific
-import { AuthService } from '../auth.service';
-import { YIIResponse } from '../common/models/yii/yii-response.model';
+import { AuthService } from '../../../auth.service';
+import { YIIResponse } from '../../models/yii/yii-response.model';
 
 @Component({
   selector: 'sch-login',

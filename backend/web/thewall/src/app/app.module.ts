@@ -23,8 +23,8 @@ import { ApiService, initApiFactory } from './common/services/api.service';
 import { AppConfigService, initConfigFactory } from './common/services/app-config.service';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './common/components/login/login.component';
+import { PageNotFoundComponent } from './common/components/page-not-found/page-not-found.component';
 
 import { setAppInjector } from './app.injector';
 import { RouteReuseStrategy } from '@angular/router';

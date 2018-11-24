@@ -43,10 +43,12 @@ export class MenuService {
             title: module.label,
             category: cat,
             module: mod,
-            detach: true,
+            // don't set detach here
+            // it will be added on data of all routes
+            // detach: true,
             addToTabs: module.addToTabs !== undefined ? module.addToTabs : true,
             link: `/${cat}/${mod}`,
-            angularModule: module.module || 'BrowseGrid'
+            angularModule: module.module || 'DynamicGrid'
           });
 
           menuItem.children.push(menuSubItem);

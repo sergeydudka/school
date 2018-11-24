@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,8 +18,7 @@ export class AppConfigService {
     return this._config;
   }
 
-  // TODO: dynamic value here ???
-  private configUrl = 'http://school.local.com/admin/main/config';
+  private configUrl = environment.configUrl;
 
   constructor(private http: HttpClient, private persistanceService: PersistanceService) {
     this.init();

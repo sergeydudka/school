@@ -19,7 +19,12 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
     if (route.data.uniqueId && this.activeModulesService.hasModule(route.data.uniqueId)) {
       const config = this.activeModulesService.getModule(route.data.uniqueId);
 
+      const uniqueKey = this.getUniqueKey(route, true);
+
       if (config.pendingDestroy) {
+        // remove reference to previously store handle if any
+        // this will prevent error on opening closed modules
+        this.handlers[uniqueKey] = null;
         return false;
       }
     }
@@ -81,17 +86,19 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
    * Returns a unique key for the current route
    * @param route
    */
-  getUniqueKey(route: ActivatedRouteSnapshot): string {
-    if (!route.routeConfig) return;
+  getUniqueKey(route: ActivatedRouteSnapshot, skipDetach?: boolean): string {
+    if (!skipDetach && (!route.routeConfig || !route.data.detach)) return;
 
-    let index = 0,
-      key = '';
+    // let index = 0,
+    //   key = '';
 
-    for (var i in route.params) {
-      key += `${index > 0 ? '-' : ''}${i}_${route.params[i]}`;
-      index++;
-    }
+    // for (var i in route.params) {
+    //   key += `${index > 0 ? '-' : ''}${i}_${route.params[i]}`;
+    //   index++;
+    // }
 
-    return key;
+    // return key;
+
+    return route.data.uniqueId;
   }
 }

@@ -20,6 +20,8 @@ import { ActionDialogContentComponent } from 'src/app/common/components/action-d
   styleUrls: ['./detail-form.component.scss']
 })
 export class DetailFormComponent implements OnInit {
+  category = '';
+  module = '';
   data;
   fields;
   idProperty: string;
@@ -37,11 +39,13 @@ export class DetailFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe(data => {
-      const { category, module } = this.route.parent.parent.snapshot.params,
-        id = data.get('id'),
-        api = this.api.getModuleApi(category, module),
-        idProperty = this.api.getModuleIdProperty(category, module);
+    this.category = this.route.parent.parent.snapshot.data.category;
+    this.module = this.route.parent.parent.snapshot.data.module;
+
+    this.route.params.subscribe(params => {
+      const { id } = params,
+        api = this.api.getModuleApi(this.category, this.module),
+        idProperty = this.api.getModuleIdProperty(this.category, this.module);
 
       this.crud.setApi(api);
       this.crud.setIdProperty(idProperty);
@@ -87,8 +91,6 @@ export class DetailFormComponent implements OnInit {
   }
 
   onClose() {
-    this.router.navigate(this.data ? ['../../'] : ['../../../'], {
-      relativeTo: this.route
-    });
+    this.router.navigate([`/${this.category}/${this.module}`]);
   }
 }

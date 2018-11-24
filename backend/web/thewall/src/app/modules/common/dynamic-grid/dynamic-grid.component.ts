@@ -21,13 +21,13 @@ import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 import { OverlayService } from 'src/app/modules/overlay-module/overlay.service';
 
 @Component({
-  selector: 'sch-browse-grid',
-  templateUrl: './browse-grid.component.html',
-  styleUrls: ['./browse-grid.component.scss'],
+  selector: 'sch-dynamic-grid',
+  templateUrl: './dynamic-grid.component.html',
+  styleUrls: ['./dynamic-grid.component.scss'],
   // each instance should have it's own crud service
   providers: [YiiCrudService]
 })
-export class BrowseGridComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
   private initialized: boolean;
   private subscriptions: Subscription;
   private routeData: ModuleConfig;
@@ -140,6 +140,7 @@ export class BrowseGridComponent implements OnInit, AfterViewInit, OnDestroy {
           this.displayedColumns.push('actions');
         }
 
+        // TODO: remove timeout hack
         setTimeout(() => {
           this.overlayService.hide({
             target: this.elRef
@@ -159,9 +160,7 @@ export class BrowseGridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setInitialValues() {
-    const initialRouteParams = this.route.snapshot.params;
-
-    const { category, module } = initialRouteParams,
+    const { category, module } = this.route.snapshot.data,
       api = this.api.getModuleApi(category, module),
       idProperty = this.api.getModuleIdProperty(category, module);
 

@@ -8,7 +8,7 @@ import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 
 const modules: ModuleConfig[] = AppInjector.get(MenuService).modules;
 
-const gridModules = modules.filter(module => module.angularModule === 'BrowseGrid');
+const gridModules = modules.filter(module => module.angularModule === 'DynamicGrid');
 
 // export required for AOT
 export function urlMatcher(segments: UrlSegment[], group: UrlSegmentGroup, route: Route) {
@@ -28,7 +28,9 @@ export function urlMatcher(segments: UrlSegment[], group: UrlSegmentGroup, route
 
   return {
     // don't consume any parameters, we will use those in module again
-    consumed: []
+    // consumed: [],
+
+    consumed: [segments[0], segments[1]]
   };
 }
 
@@ -42,7 +44,7 @@ const routes: Routes = [
         path: ':category/:module',
         // inline function are not suported by AOT
         matcher: urlMatcher,
-        loadChildren: '../common/browse-grid/browse-grid.module#BrowseGridModule'
+        loadChildren: '../common/browse-grid-detail-form/browse-grid-detail-form.module#BrowseGridDetailFormModule'
       }
       // others...
     ]

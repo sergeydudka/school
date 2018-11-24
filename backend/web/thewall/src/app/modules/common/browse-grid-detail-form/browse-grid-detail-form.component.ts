@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'sch-browse-grid-outlet',
+  selector: 'browse-grid-detail-form',
   template: `
     <router-outlet></router-outlet>
-  `
+  `,
+  styles: []
 })
-export class BrowseGridOutletComponent {}
+export class BrowseGridDetailFormComponent {}

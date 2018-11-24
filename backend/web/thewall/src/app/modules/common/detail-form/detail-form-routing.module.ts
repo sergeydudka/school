@@ -10,15 +10,12 @@ const routes: Routes = [
   {
     path: '',
     component: DetailFormComponent,
-    canDeactivate: [
-      CanDeactivateGuard
-    ]
-  }, {
+    canDeactivate: [CanDeactivateGuard]
+  },
+  {
     path: ':id',
     component: DetailFormComponent,
-    canDeactivate: [
-      CanDeactivateGuard
-    ]
+    canDeactivate: [CanDeactivateGuard]
   }
 ];
 
