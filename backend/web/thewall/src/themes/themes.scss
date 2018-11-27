@@ -23,6 +23,8 @@ body {
   @include filter-row-theme($theme);
   @include dynamic-grid-theme($theme);
 
+  $foreground: map-get($theme, foreground);
+
   .mat-toolbar-multiple-rows {
     min-height: 50px !important;
   }
@@ -36,6 +38,13 @@ body {
   .mat-paginator-container {
     min-height: 50px !important;
     height: 50px !important;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: mat-color($foreground, divider);
+    margin: 0;
   }
 }
 

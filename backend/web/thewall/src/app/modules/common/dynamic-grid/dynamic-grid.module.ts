@@ -14,7 +14,8 @@ import {
   MatAutocompleteModule,
   MatInputModule,
   MatToolbarModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatMenuModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -27,6 +28,7 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { DynamicGridComponent } from './dynamic-grid.component';
 import { DynamicGridOutletComponent } from './dynamic-grid-outlet.component';
+import { ContextMenuDirective } from 'src/app/common/directives/context-menu.directive';
 
 @NgModule({
   imports: [
@@ -47,6 +49,7 @@ import { DynamicGridOutletComponent } from './dynamic-grid-outlet.component';
     MatInputModule,
     MatToolbarModule,
     MatDatepickerModule,
+    MatMenuModule,
 
     CdkTableModule,
 
@@ -57,6 +60,6 @@ import { DynamicGridOutletComponent } from './dynamic-grid-outlet.component';
     DynamicGridRoutingModule
   ],
   providers: [GridBuilderService],
-  declarations: [DynamicGridComponent, DynamicGridOutletComponent]
+  declarations: [DynamicGridComponent, DynamicGridOutletComponent, ContextMenuDirective]
 })
 export class DynamicGridModule {}

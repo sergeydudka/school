@@ -38,6 +38,8 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
   private autoRefreshInterval = 30000;
   idProperty;
 
+  private _hoveredColumn: Column = null;
+
   selection = new SelectionModel<any>(true, []);
 
   columnsCfg: ColumnProps[] = [];
@@ -91,7 +93,7 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
     )
       .pipe(debounceTime(100))
       .subscribe(([queryParams, sorting, pager, filters]: [Params, Sort, PageEvent, Params]) => {
-        const sortDir = (this.defaultSort = sorting.direction === 'desc' ? '-' : '');
+        const sortDir = sorting.direction === 'desc' ? '-' : '';
 
         const mergedQueryParams = Object.assign({}, queryParams, {
           page: this.paginator.pageIndex + 1,
@@ -263,6 +265,29 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  private isColumnActive(column: Column) {
+    return this.displayedColumns.includes(column.name);
+  }
+
+  private isFilterColumnActive(column: Column) {
+    return this.displayedFilterColumns.includes(`filter_${column.name}`);
+  }
+
+  private handleColumnVisibilityChange(column: Column, checked: boolean) {
+    if (!checked) {
+      this.displayedColumns = this.displayedColumns.filter(name => name !== column.name);
+      this.displayedFilterColumns = this.displayedFilterColumns.filter(name => name !== `filter_${column.name}`);
+    } else {
+      this.displayedColumns = [...this.displayedColumns, column.name];
+      this.displayedFilterColumns = [...this.displayedFilterColumns, `filter_${column.name}`];
+    }
+  }
+
+  isSingleColumn() {
+    // column + checkbox + actions
+    return this.displayedColumns.length === 3;
+  }
+
   onRemove() {
     this.handleRemove(this.selection.selected[0]);
   }
@@ -279,6 +304,21 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
       this.overlayService.hide({
         target: this.elRef
       });
+    });
+  }
+
+  private handleHoveredColumnHeaderChanged(column: Column) {
+    this._hoveredColumn = column;
+  }
+
+  private changeSort(sortDir: 'asc' | 'desc') {
+    // skip if already active
+    if (this._hoveredColumn.name === this.sort.active && sortDir === this.sort.direction) return;
+
+    this.sort.sort({
+      id: this._hoveredColumn.name,
+      start: sortDir,
+      disableClear: true
     });
   }
 }

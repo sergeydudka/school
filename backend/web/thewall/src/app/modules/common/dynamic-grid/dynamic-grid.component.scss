@@ -1,6 +1,9 @@
 $mat-row-height: 35px;
 $mat-header-row-height: 35px;
 
+// same as sort action btn styles
+$action-btn-opacity: 0.38;
+
 :host {
   height: 100%;
   display: flex;
@@ -12,6 +15,39 @@ $mat-header-row-height: 35px;
   height: 21px !important;
   font-size: 21px !important;
   line-height: 21px !important;
+
+  .mat-icon {
+    font-size: 21px !important;
+    line-height: 21px !important;
+  }
+}
+
+.mat-icon-button--small {
+  width: 18px !important;
+  height: 18px !important;
+  font-size: 18px !important;
+  line-height: 18px !important;
+
+  .mat-icon {
+    font-size: 18px !important;
+    line-height: 18px !important;
+  }
+}
+
+.column-actions-btn {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  visibility: hidden;
+  transform: translateY(-50%);
+  height: $mat-row-height !important;
+  line-height: $mat-row-height !important;
+  border-radius: 0;
+  opacity: $action-btn-opacity;
+}
+
+.mat-header-cell:hover .column-actions-btn {
+  visibility: visible;
 }
 
 .table-wrapper {
@@ -56,6 +92,9 @@ sch-search-field {
 .mat-header-cell,
 .mat-footer-cell {
   padding: 5px 10px !important;
+}
+.mat-header-cell--with-menu {
+  padding-right: 20px !important;
 }
 
 .mat-column-selection {

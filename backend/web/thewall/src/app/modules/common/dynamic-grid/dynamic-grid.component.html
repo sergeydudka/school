@@ -45,6 +45,29 @@
   </button>
 </div>
 
+<!-- START Header context menu -->
+<mat-menu #headerCellMenu="matMenu">
+  <!-- TODO: langs -->
+  <button mat-menu-item (click)="changeSort('asc')">Sort ASC</button>
+  <!-- TODO: langs -->
+  <button mat-menu-item (click)="changeSort('desc')">Sort DESC</button>
+  <hr />
+  <button mat-menu-item [matMenuTriggerFor]="columnsMenu">Columns</button>
+</mat-menu>
+
+<mat-menu #columnsMenu="matMenu">
+  <div mat-menu-item *ngFor="let col of columnsCfg">
+    <mat-checkbox
+      [checked]="isColumnActive(col)"
+      [disabled]="isSingleColumn()"
+      (change)="handleColumnVisibilityChange(col, $event.checked)"
+      onclick="event.stopPropagation()"
+      >{{ col.label }}</mat-checkbox
+    >
+  </div>
+</mat-menu>
+<!-- END Header context menu -->
+
 <div class="table-wrapper">
   <table
     mat-table
@@ -145,7 +168,25 @@
     <!-- FILTERS end -->
 
     <ng-container *ngFor="let col of columnsCfg" [matColumnDef]="col.name">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ col.label }}</th>
+      <th
+        class="mat-header-cell--with-menu"
+        mat-header-cell
+        [uxmatContextMenu]="headerCellMenu"
+        (mouseover)="handleHoveredColumnHeaderChanged(col)"
+        mat-sort-header
+        *matHeaderCellDef
+      >
+        {{ col.label }}
+        <button
+          mat-icon-button
+          class="column-actions-btn mat-icon-button--small"
+          [matMenuTriggerFor]="headerCellMenu"
+          onclick="event.stopPropagation()"
+        >
+          <!-- TODO: langs -->
+          <mat-icon aria-label="Menu" [inline]="true">more_vert</mat-icon>
+        </button>
+      </th>
 
       <td mat-cell *matCellDef="let element" [ngSwitch]="col.type">
         <span *ngSwitchCase="'integer'"> {{ element[col.name] }} </span>

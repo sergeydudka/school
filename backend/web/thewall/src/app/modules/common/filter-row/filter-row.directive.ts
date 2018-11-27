@@ -82,6 +82,6 @@ export class FilterRowDirective {
       });
     }
 
-    return result.length ? encodeURIComponent(JSON.stringify(result)) : null;
+    return result.length ? JSON.stringify(result) : null;
   }
 }

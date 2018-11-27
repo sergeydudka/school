@@ -41,7 +41,7 @@ export class FilterRowCellComponent implements OnInit, OnDestroy {
 
   filterForm: FormGroup;
 
-  constructor(@Optional() public _filterRow: FilterRowDirective, @Optional() public _cdkColumnDef: CdkColumnDef) {
+  constructor(@Optional() private _filterRow: FilterRowDirective, @Optional() private _cdkColumnDef: CdkColumnDef) {
     if (!_filterRow) {
       throw new Error('No uxmatFilterRow parent directive provided');
     }
