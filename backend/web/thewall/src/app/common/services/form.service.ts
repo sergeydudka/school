@@ -4,6 +4,7 @@ import { AbstractControl, FormGroup, Validators, Form } from '@angular/forms';
 
 import {
   FieldText,
+  FieldTextArea,
   FieldNumber,
   FieldBase,
   FieldBaseProps,
@@ -11,14 +12,14 @@ import {
   FieldDate,
   FieldHidden,
   FieldSearch
-} from '../models/fields/fields.model'
-
+} from '../models/fields/fields.model';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormService {
-  constructor() {}
+  constructor(private api: ApiService) {}
 
   /**
    * Creates field objects to be used in dynamic form
@@ -122,7 +123,7 @@ export class FormService {
   }
 
   private _textField(fieldParams, fieldValue) {
-    return new FieldText({
+    return new FieldTextArea({
       ...this.getBaseParams(fieldParams, fieldValue)
     });
   }
@@ -149,8 +150,9 @@ export class FormService {
   private _searchField(fieldParams, fieldValue) {
     return new FieldSearch({
       ...this.getBaseParams(fieldParams, fieldValue),
-      options: fieldParams.options,
-      url: fieldParams.url,
+      valueField: fieldParams.rel.field,
+      displayField: fieldParams.rel.label,
+      url: this.api.getApiById(fieldParams.rel.field)
     });
   }
 }

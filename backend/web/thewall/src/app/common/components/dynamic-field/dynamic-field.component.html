@@ -1,40 +1,59 @@
 <div [formGroup]="form">
   <div [ngSwitch]="field.type">
     <mat-form-field *ngSwitchCase="'text'">
-      <input [required]="field.required" [readonly]="field.readOnly" matInput [placeholder]="field.label"
-        [formControlName]="field.name">
+      <input
+        [required]="field.required"
+        [readonly]="field.readOnly"
+        matInput
+        [placeholder]="field.label"
+        [formControlName]="field.name"
+      />
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="'textarea'">
-      <input [required]="field.required" [readonly]="field.readOnly" matInput [placeholder]="field.label"
-        [formControlName]="field.name">
+      <textarea
+        matInput
+        [required]="field.required"
+        [readonly]="field.readOnly"
+        [placeholder]="field.label"
+        [formControlName]="field.name"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="'date'">
-      <input matInput [matDatepicker]="picker" [placeholder]="field.label">
+      <input matInput [matDatepicker]="picker" [placeholder]="field.label" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="'number'">
-      <input type="number" [required]="field.required" [readonly]="field.readOnly" matInput [placeholder]="field.label"
-        [formControlName]="field.name">
+      <input
+        type="number"
+        [required]="field.required"
+        [readonly]="field.readOnly"
+        matInput
+        [placeholder]="field.label"
+        [formControlName]="field.name"
+      />
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="'list'">
       <mat-select [placeholder]="field.label" [formControlName]="field.name">
         <mat-option *ngFor="let option of field.options" [value]="option.key">
-          {{option.value}}
+          {{ option.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <!-- TODO: material field
-      <mat-form-field *ngSwitchCase="'search'">
-        <!-- TODO: langs ->
-        <sch-search-field matInput [formControlName]="field.name" [url]="field.url" [valueField]="field.valueField"
-        [displayField]="field.displayField" placeholder="Search..."></sch-search-field>
-      </mat-form-field>
-    -->
+    <mat-form-field *ngSwitchCase="'search'">
+      <sch-search-field
+        matInput
+        [formControlName]="field.name"
+        [url]="field.url"
+        [valueField]="field.valueField"
+        [displayField]="field.displayField"
+        [placeholder]="field.label"
+      ></sch-search-field>
+    </mat-form-field>
   </div>
 </div>

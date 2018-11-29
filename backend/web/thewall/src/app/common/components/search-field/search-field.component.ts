@@ -1,8 +1,12 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, Input, forwardRef, HostBinding, Optional, Self, ElementRef } from '@angular/core';
+import { FormControl, ControlValueAccessor, NgControl } from '@angular/forms';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
-import { map, switchMap, distinctUntilChanged, debounceTime, tap, defaultIfEmpty } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { MatFormFieldControl } from '@angular/material';
+
+import { map, switchMap, distinctUntilChanged, debounceTime, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { YIIResponse } from '../../models/yii/yii-response.model';
 
@@ -14,21 +18,42 @@ import { YIIResponse } from '../../models/yii/yii-response.model';
   styleUrls: ['./search-field.component.scss'],
   providers: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      // SearchFieldComponent not availiable at this point
-      // forwardRef function called when SearchFieldComponent is defined
-      // and this is why we can return instance here
-      // https://blog.thoughtram.io/angular/2015/09/03/forward-references-in-angular-2.html#so-the-class-must-always-be-declared-before-its-usage
-      useExisting: forwardRef(() => SearchFieldComponent),
-      multi: true
+      provide: MatFormFieldControl,
+      useExisting: SearchFieldComponent
     }
   ]
 })
 export class SearchFieldComponent implements OnInit, ControlValueAccessor {
   private _lastValue: string;
+  private focused = false;
+
+  static nextId = 0;
+  @HostBinding()
+  id = `example-tel-input-${SearchFieldComponent.nextId++}`;
+
+  @HostBinding('attr.aria-describedby')
+  describedBy = '';
+
+  @HostBinding('class.floating')
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+
+  setDescribedByIds(ids: string[]) {
+    this.describedBy = ids.join(' ');
+  }
+
+  stateChanges = new Subject<void>();
 
   @Input()
-  placeholder;
+  get placeholder() {
+    return this._placeholder;
+  }
+  set placeholder(plh) {
+    this._placeholder = plh;
+    this.stateChanges.next();
+  }
+  private _placeholder: string;
 
   @Input()
   get value() {
@@ -39,8 +64,20 @@ export class SearchFieldComponent implements OnInit, ControlValueAccessor {
 
     this._value = val;
     this.propagateState(val);
+
+    this.stateChanges.next();
   }
   private _value;
+
+  @Input()
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(dis) {
+    this._disabled = coerceBooleanProperty(dis);
+    this.stateChanges.next();
+  }
+  private _disabled = false;
 
   @Input()
   url;
@@ -54,15 +91,52 @@ export class SearchFieldComponent implements OnInit, ControlValueAccessor {
   @Input()
   delay = 500;
 
+  @Input()
+  get required() {
+    return this._required;
+  }
+  set required(req) {
+    this._required = coerceBooleanProperty(req);
+    this.stateChanges.next();
+  }
+  private _required = false;
+
+  get empty() {
+    return !this.value;
+  }
+
   propagateState: (val) => any;
 
   control = new FormControl('');
   options: { valueField: string; displayField: string }[];
   optionsMap: Map<number, string> = new Map();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private fm: FocusMonitor,
+    private elRef: ElementRef,
+    @Optional()
+    @Self()
+    public ngControl: NgControl
+  ) {
+    if (ngControl != null) {
+      // Setting the value accessor directly (instead of using
+      // the providers) to avoid running into a circular import.
+      ngControl.valueAccessor = this;
+    }
+  }
+
+  ngOnDestroy() {
+    this.stateChanges.complete();
+    this.fm.stopMonitoring(this.elRef.nativeElement);
+  }
 
   ngOnInit() {
+    this.fm.monitor(this.elRef.nativeElement, true).subscribe(origin => {
+      this.focused = !!origin;
+      this.stateChanges.next();
+    });
+
     this.control.valueChanges
       .pipe(
         debounceTime(this.delay),
