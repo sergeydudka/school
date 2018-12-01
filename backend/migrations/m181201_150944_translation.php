@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181104_145817_translation extends Migration
+class m181201_150944_translation extends Migration
 {
 
 public function init()
@@ -37,7 +37,7 @@ $this->createTable(
     'translation_id' => '1',
     'code' => 'translation_id',
     'category' => 'model',
-    'description' => null,
+    'description' => '',
     'ru-RU' => 'ID перевода',
     'uk-UA' => null,
     'en-US' => 'Translation ID',
@@ -828,6 +828,33 @@ $this->createTable(
 	        $this->insert('{{%translation}}',[
     'translation_id' => '89',
     'code' => 'incorrect_username_or_password',
+    'category' => 'yii',
+    'description' => null,
+    'ru-RU' => null,
+    'uk-UA' => null,
+    'en-US' => null,
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '90',
+    'code' => 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.',
+    'category' => 'yii',
+    'description' => null,
+    'ru-RU' => null,
+    'uk-UA' => null,
+    'en-US' => null,
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '91',
+    'code' => 'An internal server error occurred.',
+    'category' => 'yii',
+    'description' => null,
+    'ru-RU' => null,
+    'uk-UA' => null,
+    'en-US' => null,
+]);
+	        $this->insert('{{%translation}}',[
+    'translation_id' => '92',
+    'code' => 'Error',
     'category' => 'yii',
     'description' => null,
     'ru-RU' => null,

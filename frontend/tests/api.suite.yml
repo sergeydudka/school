@@ -1,0 +1,8 @@
+class_name: ApiTester
+modules:
+enabled: [PhpBrowser, REST]
+config:
+  PhpBrowser:
+      url: http://api.yii.lan/
+  REST:
+      url: http://api.yii.lan/v1/

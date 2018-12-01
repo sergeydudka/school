@@ -14,33 +14,19 @@ $config = [
     'components' => [
         'db' => require __DIR__ . '/../../common/config/db.php',
         'request' => [
-            'class' => '\crudschool\common\url\Request',
+            'class' => \crudschool\common\url\Request::class,
             'csrfParam' => '_crud',
             'baseUrl' => '/admin',
             'parsers' => [
-                'application/json' => 'yii\web\JsonParser',
+                'application/json' => \yii\web\JsonParser::class,
             ],
         ],
         'response' => [
-            'class' => 'yii\web\Response',
-            'format' => yii\web\Response::FORMAT_JSON,
+            'class' => \crudschool\common\url\Response::class,
             'charset' => 'UTF-8',
-            'on beforeSend' => function ($event) {
-                /* @var \crudschool\common\url\Request $request */
-                $request = Yii::$app->request;
-                if (!$request->isHomePage()) {
-                    $data = $event->sender->data ?? $event->sender->content;
-                    if (!$data || (is_object($event->sender->data) && get_class($data) !=
-                            \crudschool\api\ApiResult::class)) {
-                        $event->sender->data = new \crudschool\api\ApiResult(Yii::$app->requestedAction, $data);
-                    }
-                } else {
-                    Yii::$app->response->format = \yii\web\Response::FORMAT_HTML;
-                }
-            },
         ],
         'user' => [
-            'identityClass' => 'crudschool\models\BaseUser',
+            'identityClass' => \crudschool\models\BaseUser::class,
             'enableAutoLogin' => false,
             'identityCookie' => ['name' => 'identity'],
         ],
@@ -52,8 +38,8 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'class' => \yii\log\FileTarget::class,
+                    'levels' => ['error'],
                 ],
             ],
         ],
@@ -70,7 +56,7 @@ $config = [
             ],
         ],
         'authManager' => [
-            'class' => 'yii\rbac\DbManager',
+            'class' => \yii\rbac\DbManager::class,
         ],
         'i18n' => [
             'class' => \crudschool\common\translate\TranslateDBSource::class,

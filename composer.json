@@ -32,7 +32,8 @@
     "codeception/base": "^2.2.3",
     "codeception/verify": "~0.3.1",
     "crudschool/yii2-migration-generator": "^1.0.0",
-    "codeception/codeception" : "~2.0.0"
+    "phpunit/phpunit": "^7.4",
+    "guzzlehttp/guzzle": "^6.3"
   },
   "config": {
     "process-timeout": 1800,
@@ -45,5 +46,8 @@
       "type": "composer",
       "url": "https://asset-packagist.org"
     }
-  ]
+  ],
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
+  }
 }
