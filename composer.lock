@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fcd8688b48c058323bd0d32bec9c1fb8",
+    "content-hash": "9a9710105f2966fbba25b11c1c162b1f",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -169,16 +169,16 @@
         },
         {
             "name": "crudschool/yii2-school",
-            "version": "1.2.22",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sergeydudka/crudschool.git",
-                "reference": "33ce08ef896028e7c5ea2c79fdfc4d3ce4f3df63"
+                "reference": "1810cd3a8b627eeec2c6830876b28755a55eea46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sergeydudka/crudschool/zipball/33ce08ef896028e7c5ea2c79fdfc4d3ce4f3df63",
-                "reference": "33ce08ef896028e7c5ea2c79fdfc4d3ce4f3df63",
+                "url": "https://api.github.com/repos/sergeydudka/crudschool/zipball/1810cd3a8b627eeec2c6830876b28755a55eea46",
+                "reference": "1810cd3a8b627eeec2c6830876b28755a55eea46",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
                 "extension",
                 "yii2"
             ],
-            "time": "2018-12-01T15:20:19+00:00"
+            "time": "2018-12-01T15:35:23+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -3493,7 +3493,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "crudschool/yii2-school": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
