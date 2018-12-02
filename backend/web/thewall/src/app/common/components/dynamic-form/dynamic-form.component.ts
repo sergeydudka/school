@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { FieldBase } from '../../models/fields/field-base.model';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'sch-dynamic-form',
@@ -20,13 +21,13 @@ export class DynamicFormComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private formsService: FormService) {}
 
   ngOnInit() {
     const fields = {};
 
     this.fields.forEach(field => {
-      let validators = this.formatValidators(field.validators);
+      let validators = this.formsService.formatValidators(field.validators);
 
       fields[field.name] = [field.value || field.defaultValue, validators];
     });
@@ -34,20 +35,12 @@ export class DynamicFormComponent implements OnInit {
     this.form = this.fb.group(fields);
   }
 
-  formatValidators(validators) {
-    return validators.map(validator => {
-      let validatorFn;
-
-      switch (validator) {
-        default:
-          validatorFn = Validators.required;
-      }
-
-      return validatorFn;
-    });
-  }
-
   onSubmit() {
+    if (this.form.invalid) {
+      this.formsService.showErrors(this.form);
+      return;
+    }
+
     this.formSubmit.emit(this.form);
   }
 

@@ -1,11 +1,22 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <sch-dynamic-field *ngFor="let field of fields" [field]="field" [form]="form"></sch-dynamic-field>
+  <sch-dynamic-field
+    *ngFor="let field of fields"
+    [field]="field"
+    [form]="form"
+  ></sch-dynamic-field>
 
   <div class="buttons">
     <!-- TODO: langs -->
-    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Save</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
 
     <!-- TODO: langs -->
-    <button type="button" (click)="onCancelClick()" mat-raised-button color="warn">Cancel</button>
+    <button
+      type="button"
+      (click)="onCancelClick()"
+      mat-raised-button
+      color="warn"
+    >
+      Cancel
+    </button>
   </div>
 </form>

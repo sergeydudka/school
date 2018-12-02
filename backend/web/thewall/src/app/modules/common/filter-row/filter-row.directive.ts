@@ -1,5 +1,5 @@
-import { Directive, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Directive } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 export interface MatFilter {
   /** The id of the column being filtered. */
   id: string;
+
+  fieldCfg: any;
 }
 
 @Directive({
@@ -19,7 +21,7 @@ export class FilterRowDirective {
     return this._filtered;
   }
 
-  _value: {}; // TODO: proper typings
+  _value: string | null = null;
 
   get value() {
     return this._value;
@@ -27,9 +29,13 @@ export class FilterRowDirective {
 
   filters = new Map<string, MatFilter>();
 
+  // required to restore state from URL on load
+  _initialFilterValues = new Map<string, any>();
+
   filterForm: FormGroup;
 
-  filtersChanged: Subject<any> = new Subject(); // TODO: proper typings
+  filtersChanged: Subject<string | null> = new Subject();
+  filterInvalid: Subject<void> = new Subject();
 
   constructor() {}
 
@@ -38,30 +44,50 @@ export class FilterRowDirective {
   }
 
   apply() {
+    if (this.filterForm.invalid) {
+      this.filterInvalid.next();
+      return;
+    }
+
     this._value = this.getValue();
+
+    if (!this._value) {
+      if (this._filtered) this.clear();
+      return;
+    }
 
     this.filtersChanged.next(this._value);
     this._filtered = true;
+
+    return;
   }
 
   clear() {
     this.filterForm.reset();
     this._value = null;
 
+    this._initialFilterValues.clear();
+
     this.filtersChanged.next(this._value);
     this._filtered = false;
   }
 
   add(filter: MatFilter) {
+    const filterValue = this._initialFilterValues.get(filter.id);
+    const value = filterValue ? filterValue.value : null;
+
     this.filters.set(filter.id, filter);
 
-    this.filterForm.addControl(filter.id, new FormControl(''));
+    const control = new FormControl(value, filter.fieldCfg.filterValidators);
+    if (value) {
+      control.markAsDirty();
+    }
+
+    this.filterForm.addControl(filter.id, control);
   }
 
   remove(filter: MatFilter) {
-    if (!this.filters.has(filter.id)) {
-      throw new Error(`Trying to non-existing filter ${filter.id}`);
-    }
+    if (!this.filters.has(filter.id)) return;
 
     this.filterForm.removeControl(filter.id);
     this.filters.delete(filter.id);
@@ -73,7 +99,7 @@ export class FilterRowDirective {
     for (let key in this.filterForm.controls) {
       const control = this.filterForm.controls[key];
 
-      if (!control.dirty) continue;
+      if (!control.dirty || !control.value) continue;
 
       result.push({
         field: key,
@@ -83,5 +109,23 @@ export class FilterRowDirective {
     }
 
     return result.length ? JSON.stringify(result) : null;
+  }
+
+  setInitialState(filters: string) {
+    if (filters) {
+      this._setInitialValues(filters);
+    }
+
+    this.filtersChanged.next(filters);
+  }
+
+  private _setInitialValues(filters: string) {
+    const parsedFilters = JSON.parse(filters);
+
+    parsedFilters.forEach(filter => {
+      this._initialFilterValues.set(filter.field, filter);
+    });
+
+    this._filtered = true;
   }
 }

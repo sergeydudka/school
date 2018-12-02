@@ -6,6 +6,10 @@
 
 @import './variables.scss';
 
+// 3rd party components
+@import './components/angular2-notifications.scss';
+
+// app components
 @import '../app/modules/common/filter-row/filter-row-theme.scss';
 @import '../app/modules/common/dynamic-grid/dynamic-grid-theme.scss';
 
@@ -22,6 +26,7 @@ body {
   // Include theme styles for your custom components.
   @include filter-row-theme($theme);
   @include dynamic-grid-theme($theme);
+  @include angular2-notifications($theme);
 
   $foreground: map-get($theme, foreground);
 
@@ -51,6 +56,7 @@ body {
 $theme-typography: mat-typography-config();
 
 @include dynamic-grid-theme-typography($theme-typography);
+@include angular2-notifications-typography($theme-typography);
 
 .light-theme {
   // Include theme styles for Angular Material components.

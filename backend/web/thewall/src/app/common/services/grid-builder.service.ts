@@ -10,15 +10,23 @@ import {
 } from '../models/columns/columns.model';
 
 import { ApiService } from './api.service';
+import { FormService } from './form.service';
+import { NormalizeFieldsService } from './yii/normalize-fields.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GridBuilderService {
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private normalizeFieldsService: NormalizeFieldsService,
+    private formService: FormService
+  ) {}
 
   generateColumnsData(data) {
-    return this._createColumns(data.fields);
+    const normalizedFields = this.normalizeFieldsService.normalize(data.fields);
+
+    return this._createColumns(normalizedFields);
   }
 
   /**
@@ -57,13 +65,17 @@ export class GridBuilderService {
       label: col.label,
       name: col.name,
       type: col.type,
-      order: col.order
+      order: col.order,
+      validators: col.validators,
+      filterValidators: this.formService.formatValidators(
+        (col.validators || []).filter(validator => validator.type !== 'required')
+      )
     };
 
     return baseParams;
   }
 
-  private _integerColumn(col) {
+  private _numberColumn(col) {
     return new ColumnInteger({
       ...this._getBaseParams(col)
     });
@@ -81,7 +93,7 @@ export class GridBuilderService {
     });
   }
 
-  private _timestampColumn(col) {
+  private _dateColumn(col) {
     return new ColumnInteger({
       ...this._getBaseParams(col)
     });

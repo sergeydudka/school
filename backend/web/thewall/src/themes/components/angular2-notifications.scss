@@ -1,0 +1,64 @@
+@mixin angular2-notifications($theme) {
+  $base-color: 500;
+  $deep-color: 800;
+
+  simple-notifications {
+    .simple-notification {
+      padding: 10px 15px;
+    }
+
+    .simple-notification.error {
+      background: map-get($mat-red, $base-color);
+      color: map-get(map-get($mat-red, contrast), $base-color);
+
+      .sn-progress-loader span {
+        background: map-get($mat-red, $deep-color);
+      }
+    }
+
+    .simple-notification.alert {
+      background: map-get($mat-yellow, $base-color);
+      color: map-get(map-get($mat-yellow, contrast), $base-color);
+
+      .sn-progress-loader span {
+        background: map-get($mat-yellow, $deep-color);
+      }
+    }
+    .simple-notification.warn {
+      background: map-get($mat-amber, $base-color);
+      color: map-get(map-get($mat-amber, contrast), $base-color);
+
+      .sn-progress-loader span {
+        background: map-get($mat-amber, $deep-color);
+      }
+    }
+    .simple-notification.info {
+      background: map-get($mat-blue, $base-color);
+      color: map-get(map-get($mat-blue, contrast), $base-color);
+
+      .sn-progress-loader span {
+        background: map-get($mat-blue, $deep-color);
+      }
+    }
+    .simple-notification.success {
+      background: map-get($mat-green, $base-color);
+      color: map-get(map-get($mat-green, contrast), $base-color);
+
+      .sn-progress-loader span {
+        background: map-get($mat-green, $deep-color);
+      }
+    }
+  }
+}
+
+@mixin angular2-notifications-typography($config) {
+  simple-notifications {
+    .simple-notification .sn-title {
+      @include mat-typography-level-to-styles($config, subheading-2);
+    }
+
+    .simple-notification .sn-content {
+      @include mat-typography-level-to-styles($config, body-1);
+    }
+  }
+}

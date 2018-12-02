@@ -19,6 +19,7 @@ import { ActiveModulesService } from 'src/app/layout/active-modules/active-modul
 import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 
 import { OverlayService } from 'src/app/modules/overlay-module/overlay.service';
+import { FormService } from 'src/app/common/services/form.service';
 
 @Component({
   selector: 'sch-dynamic-grid',
@@ -74,6 +75,7 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
     private crud: YiiCrudService,
     private api: ApiService,
     private gridBuilder: GridBuilderService,
+    private formService: FormService,
     private activeModules: ActiveModulesService,
     private overlayService: OverlayService
   ) {}
@@ -92,7 +94,7 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterRow.filtersChanged
     )
       .pipe(debounceTime(100))
-      .subscribe(([queryParams, sorting, pager, filters]: [Params, Sort, PageEvent, Params]) => {
+      .subscribe(([queryParams, sorting, pager, filters]: [Params, Sort, PageEvent, string]) => {
         const sortDir = sorting.direction === 'desc' ? '-' : '';
 
         const mergedQueryParams = Object.assign({}, queryParams, {
@@ -158,6 +160,10 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.add(gridParamsSubscription);
 
+    this.filterRow.filterInvalid.subscribe(() => {
+      this.formService.showErrors(this.filterRow.filterForm);
+    });
+
     this.setInitialValues();
   }
 
@@ -209,7 +215,7 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     // TODO: proper initial values
-    this.filterRow.filtersChanged.next(queryParams.filters);
+    this.filterRow.setInitialState(queryParams.filters);
 
     this.refreshTrigger.next();
   }
@@ -293,7 +299,7 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onRemoveSinge(element) {
-    this.handleRemove([element]);
+    this.handleRemove(element);
   }
 
   private handleRemove(element): void {
@@ -311,7 +317,7 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
     this._hoveredColumn = column;
   }
 
-  private changeSort(sortDir: 'asc' | 'desc') {
+  changeSort(sortDir: 'asc' | 'desc') {
     // skip if already active
     if (this._hoveredColumn.name === this.sort.active && sortDir === this.sort.direction) return;
 

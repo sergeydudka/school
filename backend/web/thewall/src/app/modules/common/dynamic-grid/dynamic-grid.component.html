@@ -110,8 +110,12 @@
                 [formControlName]="filter.name"
               />
 
-              <ng-container *ngSwitchCase="'timestamp'">
-                <input matInput [matDatepicker]="picker" />
+              <ng-container *ngSwitchCase="'date'">
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  [formControlName]="filter.name"
+                />
                 <mat-datepicker-toggle
                   matSuffix
                   [for]="picker"
@@ -213,12 +217,10 @@
       <th class="action-col" mat-header-cell *matHeaderCellDef>Actions</th>
       <td class="action-col" mat-cell *matCellDef="let element">
         <button mat-icon-button routerLink="detail/{{element[idProperty]}}">
-          <!-- TODO: langs -->
-          <mat-icon [inline]="true" aria-label="Edit">edit</mat-icon>
+          <mat-icon [inline]="true">edit</mat-icon>
         </button>
         <button mat-icon-button (click)="onRemoveSinge(element)">
-          <!-- TODO: langs -->
-          <mat-icon [inline]="true" aria-label="Remove">delete</mat-icon>
+          <mat-icon [inline]="true">delete</mat-icon>
         </button>
       </td>
     </ng-container>

@@ -53,7 +53,7 @@ export class DetailFormComponent implements OnInit {
       this.idProperty = idProperty;
 
       this.crud.get(+id).subscribe((data: YIIEntityResponse) => {
-        this.fields = this.formService.generateFormData(data);
+        this.fields = this.formService.generateFields(data);
 
         if (id) {
           this.data = data.result.list;

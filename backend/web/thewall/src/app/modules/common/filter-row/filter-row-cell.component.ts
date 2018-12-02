@@ -31,7 +31,7 @@ export class FilterRowCellComponent implements OnInit, OnDestroy {
    * Filter item configuration
    */
   @Input('uxmatFilterCellDef')
-  filter: {};
+  fieldCfg: {};
 
   /**
    * Reference to field template, which will be projected in this component
@@ -52,7 +52,10 @@ export class FilterRowCellComponent implements OnInit, OnDestroy {
       this.id = this._cdkColumnDef.name;
     }
 
-    this._filterRow.add(this);
+    this._filterRow.add({
+      id: this.id,
+      fieldCfg: this.fieldCfg
+    });
 
     this.filterForm = this._filterRow.filterForm;
   }

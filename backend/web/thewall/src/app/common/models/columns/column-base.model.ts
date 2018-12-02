@@ -3,6 +3,8 @@ export interface ColumnBaseProps {
   label: string;
   type: string;
   order: number;
+  validators?: any[];
+  filterValidators?: any[];
 }
 
 export class ColumnBase implements ColumnBaseProps {

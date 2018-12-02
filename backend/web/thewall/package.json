@@ -25,6 +25,7 @@
     "@angular/pwa": "^0.10.3",
     "@angular/router": "^7.0.4",
     "@angular/service-worker": "^7.0.4",
+    "angular2-notifications": "^1.0.4",
     "core-js": "^2.5.7",
     "moment": "^2.22.2",
     "rxjs": "^6.3.3",

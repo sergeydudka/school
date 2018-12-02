@@ -41,7 +41,7 @@ export class AppConfigService {
   }
 
   /**
-   * Loads latests config from server
+   * Loads latest config from server
    */
   private fetch() {
     this.http.get(this.configUrl).subscribe((response: YIIResponse) => {

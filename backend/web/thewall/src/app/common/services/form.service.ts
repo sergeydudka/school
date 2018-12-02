@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { AbstractControl, FormGroup, Validators, Form } from '@angular/forms';
 
+// TODO: langs and move this to some kind of service
+const validationMessages = {
+  required: 'Field cannot be empty',
+  email: 'Please enter valid email address',
+  matDatepickerParse: 'Please enter valid date in format Y-m-d H:i:s' // TODO: take date format from config
+};
+
 import {
   FieldText,
   FieldTextArea,
@@ -14,20 +21,28 @@ import {
   FieldSearch
 } from '../models/fields/fields.model';
 import { ApiService } from './api.service';
+import { NormalizeFieldsService } from './yii/normalize-fields.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormService {
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private normalizeFieldsService: NormalizeFieldsService,
+    private notificationsService: NotificationsService
+  ) {}
 
   /**
    * Creates field objects to be used in dynamic form
    *
    * @param data Fields config recieved from serve
    */
-  generateFormData(data) {
-    return this._createFields(data.fields, data.result.list);
+  generateFields(data) {
+    const normalizedFields = this.normalizeFieldsService.normalize(data.fields);
+
+    return this._createFields(normalizedFields, data.result.list);
   }
 
   getChanges(form: FormGroup): Object {
@@ -66,6 +81,84 @@ export class FormService {
     }
 
     return values;
+  }
+
+  /**
+   * Returns list of errors for each field
+   * Native FormGropup erorrs is broken :(
+   *
+   * @param form target control
+   */
+  getErrors(form: FormGroup): { [key: string]: any } {
+    const errors = {};
+
+    for (const name in form.controls) {
+      const control = form.controls[name];
+
+      if (control.valid) continue;
+
+      errors[name] = control.errors;
+    }
+
+    return errors;
+  }
+
+  /**
+   * Returns formatter error messages
+   *
+   * @param form target control
+   */
+  getErrorMessage(form: FormGroup): string {
+    const messages = [];
+
+    const errorFields = this.getErrors(form);
+
+    for (const name in errorFields) {
+      const errors = errorFields[name];
+
+      messages.push(`<b>${name}:</b>`);
+      for (const errorType in errors) {
+        messages.push(`<div style="padding-left: 15px;">- ${validationMessages[errorType]}</div>`);
+      }
+    }
+
+    return messages.join('');
+  }
+
+  /**
+   * Displays error message for passed control
+   *
+   * @param form target control
+   */
+  showErrors(form: FormGroup): void {
+    const msg = this.getErrorMessage(form);
+
+    // TODO: langs
+    this.notificationsService.error(`Form invalid`, msg);
+  }
+
+  /**
+   * Creates Angular validators from array of validators options
+   *
+   * @param validators validators options
+   */
+  formatValidators(validators: any[]) {
+    return validators.map(validator => {
+      let validatorFn;
+
+      switch (validator.type) {
+        case 'minlength':
+          validatorFn = Validators.minLength(validator.value);
+          break;
+        case 'maxlength':
+          validatorFn = Validators.maxLength(validator.value);
+          break;
+        default:
+          validatorFn = validator.value ? Validators[validator.type](validator.value) : Validators[validator.type];
+      }
+
+      return validatorFn;
+    });
   }
 
   /**
@@ -109,14 +202,14 @@ export class FormService {
       type: fieldParams.type,
       label: fieldParams.label,
       defaultValue: fieldParams.defaultValue,
-      required: !fieldParams.allowNull,
-      validators: []
+      required: fieldParams.required,
+      validators: fieldParams.validators
     };
 
     return baseParams;
   }
 
-  private _integerField(fieldParams, fieldValue) {
+  private _numberField(fieldParams, fieldValue) {
     return new FieldNumber({
       ...this.getBaseParams(fieldParams, fieldValue)
     });
@@ -141,7 +234,7 @@ export class FormService {
     });
   }
 
-  private _timestampField(fieldParams, fieldValue) {
+  private _dateField(fieldParams, fieldValue) {
     return new FieldDate({
       ...this.getBaseParams(fieldParams, fieldValue)
     });

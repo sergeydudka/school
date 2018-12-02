@@ -35,13 +35,15 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 
 import { ComponentOverlayModule } from './modules/overlay-module/overlay.module';
 
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 const APP_DATE_FORMATS = {
   parse: {
-    dateInput: 'YYYY-MM-DD kk:mm:ss'
+    dateInput: 'Y-MM-DD HH:mm:ss'
   },
   display: {
-    dateInput: 'LL',
-    monthYearLabel: 'MMM YYYY',
+    dateInput: 'Y-MM-DD HH:mm:ss',
+    monthYearLabel: 'MMM YYYY', // datepicker top left year/month format
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY'
   }
@@ -70,6 +72,19 @@ const APP_DATE_FORMATS = {
     // to allow auth guard do it's job
     AppRoutingModule,
     ComponentOverlayModule,
+
+    SimpleNotificationsModule.forRoot({
+      position: ['top', 'right'],
+      preventDuplicates: true,
+      timeOut: 5000,
+      icons: {
+        alert: 'bare',
+        error: 'bare',
+        info: 'bare',
+        success: 'bare',
+        warn: 'bare'
+      }
+    }),
 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
