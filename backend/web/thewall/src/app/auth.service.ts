@@ -15,8 +15,7 @@ import { Data, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  // TODO: set this back to false
-  private _isLoggedIn = true;
+  private _isLoggedIn = false;
 
   private loginUrl: string;
   private logoutUrl: string;

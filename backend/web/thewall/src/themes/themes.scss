@@ -10,6 +10,7 @@
 @import './components/angular2-notifications.scss';
 
 // app components
+@import '../app/common/components/login/login-component-theme.scss';
 @import '../app/modules/common/filter-row/filter-row-theme.scss';
 @import '../app/modules/common/dynamic-grid/dynamic-grid-theme.scss';
 
@@ -24,6 +25,7 @@ body {
 
 @mixin app-material-theme($theme) {
   // Include theme styles for your custom components.
+  @include login-component-theme($theme);
   @include filter-row-theme($theme);
   @include dynamic-grid-theme($theme);
   @include angular2-notifications($theme);
