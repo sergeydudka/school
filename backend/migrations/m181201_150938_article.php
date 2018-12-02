@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181104_145811_article extends Migration
+class m181201_150938_article extends Migration
 {
 
 public function init()
@@ -103,8 +103,8 @@ $this->createTable(
     согласно примеру&amp;amp;nbsp;1.1, расширение файла (должно быть html) и путь к
     документу.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;',
     'created_at' => '2018-07-04 22:06:11',
-    'updated_at' => '2018-10-31 22:24:56',
-    'status' => 'waiting',
+    'updated_at' => '2018-12-01 16:19:29',
+    'status' => 'published',
     'article_group_id' => '1',
     'created_by' => '1',
     'updated_by' => '1',

@@ -31,7 +31,6 @@ class IndexController extends Controller {
 		\Yii::$app->response->content = file_get_contents($indexFile);
 		return;
 	}
-	
 	/**
 	 * Login action.
 	 *
