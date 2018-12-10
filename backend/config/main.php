@@ -17,6 +17,9 @@ $config = [
             'class' => \crudschool\common\url\Request::class,
             'csrfParam' => '_crud',
             'baseUrl' => '/admin',
+            'enableCookieValidation' => true,
+            'enableCsrfValidation' => true,
+            'cookieValidationKey' => 'crudschoolcookievalidation',
             'parsers' => [
                 'application/json' => \yii\web\JsonParser::class,
             ],
@@ -27,12 +30,17 @@ $config = [
         ],
         'user' => [
             'identityClass' => \crudschool\models\BaseUser::class,
-            'enableAutoLogin' => false,
-            'identityCookie' => ['name' => 'identity'],
+            'enableAutoLogin' => true,
+            'autoRenewCookie' => true,
+            'enableSession' => true,
+            'identityCookie' => ['name' => '_identity', 'httpOnly' => false],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'SESSID',
+            'name' => 'admin_session',
+            'cookieParams' => [
+                'httpOnly' => true,
+                'path' => '/admin',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
