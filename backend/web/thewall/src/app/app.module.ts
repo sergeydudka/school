@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { RouteReuseStrategy } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // angular material
 import {
@@ -20,7 +20,10 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 
 import { ApiService, initApiFactory } from './common/services/api.service';
-import { AppConfigService, initConfigFactory } from './common/services/app-config.service';
+import {
+  AppConfigService,
+  initConfigFactory
+} from './common/services/app-config.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './common/components/login/login.component';
@@ -36,6 +39,9 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 import { ComponentOverlayModule } from './modules/overlay-module/overlay.module';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { StatefulService } from './stateful';
+import { PersistanceService } from './common/services/persistance/persistance.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 const APP_DATE_FORMATS = {
   parse: {
@@ -86,7 +92,9 @@ const APP_DATE_FORMATS = {
       }
     }),
 
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
   providers: [
     {
@@ -108,6 +116,15 @@ const APP_DATE_FORMATS = {
     {
       provide: MAT_DATE_FORMATS,
       useValue: APP_DATE_FORMATS
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: StatefulService,
+      useExisting: PersistanceService
     }
   ],
   bootstrap: [AppComponent]

@@ -65,7 +65,7 @@ export class AuthService {
 
         this.userService.user = response.result.list;
       }),
-      switchMap((response: YIIResponse) => of(!!response.result.list.length))
+      switchMap((response: YIIResponse) => of(!!response.result.count))
     );
   }
 

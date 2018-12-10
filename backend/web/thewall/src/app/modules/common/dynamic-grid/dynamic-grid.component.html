@@ -37,7 +37,7 @@
     mat-button
     color="primary"
     [disabled]="!selection.hasValue()"
-    (click)="onRemove()"
+    (click)="handleRemove()"
   >
     <mat-icon aria-label="">delete</mat-icon>
     <!-- TODO: title -->
@@ -52,14 +52,15 @@
   <!-- TODO: langs -->
   <button mat-menu-item (click)="changeSort('desc')">Sort DESC</button>
   <hr />
+  <!-- TODO: langs -->
   <button mat-menu-item [matMenuTriggerFor]="columnsMenu">Columns</button>
 </mat-menu>
 
 <mat-menu #columnsMenu="matMenu">
   <div mat-menu-item *ngFor="let col of columnsCfg">
     <mat-checkbox
-      [checked]="isColumnActive(col)"
-      [disabled]="isSingleColumn()"
+      [checked]="isColumnVisible(col)"
+      [disabled]="allowColumnHide(col)"
       (change)="handleColumnVisibilityChange(col, $event.checked)"
       onclick="event.stopPropagation()"
       >{{ col.label }}</mat-checkbox
@@ -219,7 +220,7 @@
         <button mat-icon-button routerLink="detail/{{element[idProperty]}}">
           <mat-icon [inline]="true">edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="onRemoveSinge(element)">
+        <button mat-icon-button (click)="handleRemoveSinge(element)">
           <mat-icon [inline]="true">delete</mat-icon>
         </button>
       </td>

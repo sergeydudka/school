@@ -1,7 +1,19 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ElementRef
+} from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { MatPaginator, MatSort, Sort, PageEvent, MatCheckboxChange } from '@angular/material';
+import {
+  MatPaginator,
+  MatSort,
+  Sort,
+  PageEvent,
+  MatCheckboxChange
+} from '@angular/material';
 
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -12,7 +24,10 @@ import { switchMap, catchError, debounceTime, tap } from 'rxjs/operators';
 import { YIIEntityResponse } from '../../../common/models/yii/yii-entity-response.model';
 import { GridBuilderService } from '../../../common/services/grid-builder.service';
 
-import { Column, ColumnProps } from '../../../common/models/columns/columns.model';
+import {
+  Column,
+  ColumnProps
+} from '../../../common/models/columns/columns.model';
 
 import { FilterRowDirective } from '../filter-row/filter-row.directive';
 import { ActiveModulesService } from 'src/app/layout/active-modules/active-modules.service';
@@ -21,6 +36,10 @@ import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 import { OverlayService } from 'src/app/modules/overlay-module/overlay.service';
 import { FormService } from 'src/app/common/services/form.service';
 
+import { MakeStateful, Stateful, RestoreState } from 'src/app/stateful';
+
+type ColumnsMap = Map<string, ColumnProps>;
+
 @Component({
   selector: 'sch-dynamic-grid',
   templateUrl: './dynamic-grid.component.html',
@@ -28,32 +47,61 @@ import { FormService } from 'src/app/common/services/form.service';
   // each instance should have it's own crud service
   providers: [YiiCrudService]
 })
-export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
+// @MakeStateful({
+//   debug: true,
+//   stateProperties: ['displayedColumns'],
+//   stateTriggers: ['columnsConfigChanged']
+// })
+export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
+  __state;
+
   private initialized: boolean;
-  private subscriptions: Subscription;
+  private subscriptions: Subscription[];
   private routeData: ModuleConfig;
 
   private autoRefreshIntervalRef: number;
   private refreshTrigger: Subject<void>;
+
   // TODO: take value from config
   private autoRefreshInterval = 30000;
   idProperty;
+
+  stateChanged$: Subject<void> = new Subject();
 
   private _hoveredColumn: Column = null;
 
   selection = new SelectionModel<any>(true, []);
 
   columnsCfg: ColumnProps[] = [];
+  columnsCfgMap: ColumnsMap = new Map();
+  columnsConfigChanged: Subject<ColumnProps[]> = new Subject();
+
   displayedColumns: string[] = [];
   displayedFilterColumns: string[] = [];
+
+  /**
+   * List for columns to add at the begging
+   */
+  columnsStart: string[] = ['selection'];
+  /**
+   * List for columns to add at the end
+   */
+  columnsEnd: string[] = ['actions'];
+  /**
+   * List of columns that should be always visible
+   */
+  persistantColumns: string[] = [...this.columnsStart, ...this.columnsEnd];
+  /**
+   * Number of columns that can be hidden
+   * Required to prevent
+   */
+  private hideableColumnsCount: number;
 
   dataSource;
   totalCount: number;
 
   @ViewChild(FilterRowDirective)
   filterRow: FilterRowDirective;
-
-  filtersChanged = new Subject();
 
   // TODO: take those from config
   pageSizeOptions = [10, 20, 50, 100];
@@ -86,32 +134,111 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.refreshTrigger = new Subject();
 
-    // Updates URL to match grid state
-    this.subscriptions = combineLatest(
-      this.route.queryParams,
-      this.sort.sortChange,
-      this.paginator.page,
-      this.filterRow.filtersChanged
-    )
-      .pipe(debounceTime(100))
-      .subscribe(([queryParams, sorting, pager, filters]: [Params, Sort, PageEvent, string]) => {
-        const sortDir = sorting.direction === 'desc' ? '-' : '';
+    this.setupSubscriptions();
+    this.setInitialValues();
+  }
 
-        const mergedQueryParams = Object.assign({}, queryParams, {
-          page: this.paginator.pageIndex + 1,
-          'per-page': this.paginator.pageSize,
-          sort: sortDir + sorting.active,
-          filters
+  ngOnDestroy() {
+    // clean up subscriptions
+    const routeSnapshot = this.route.snapshot.data as ModuleConfig;
+
+    this.activeModules.remove(routeSnapshot);
+
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.forEach(row => {
+          this.selection.select(row);
         });
+  }
 
-        this.router.navigate([], {
-          queryParams: mergedQueryParams,
-          relativeTo: this.route,
-          replaceUrl: true
-        });
-      });
+  onAdd() {
+    this.router.navigate(['detail'], {
+      relativeTo: this.route
+    });
+  }
 
-    const gridParamsSubscription = combineLatest(
+  onEdit() {
+    this.router.navigate(
+      ['detail', this.selection.selected[0][this.idProperty]],
+      {
+        relativeTo: this.route
+      }
+    );
+  }
+
+  forceGridRefresh() {
+    this.refreshTrigger.next();
+  }
+
+  onAutoRefreshChanged(value: MatCheckboxChange) {
+    if (value.checked) {
+      this.autoRefreshIntervalRef = window.setInterval(() => {
+        this.forceGridRefresh();
+      }, this.autoRefreshInterval);
+    } else {
+      window.clearInterval(this.autoRefreshIntervalRef);
+    }
+  }
+
+  allowColumnHide(column: Column) {
+    return (
+      (this.hideableColumnsCount === 1 && !column.hidden) ||
+      this.persistantColumns.includes(column.name)
+    );
+  }
+
+  handleRemove() {
+    this._handleRemove(this.selection.selected[0]);
+  }
+
+  handleRemoveSinge(element) {
+    this._handleRemove(element);
+  }
+
+  changeSort(sortDir: 'asc' | 'desc') {
+    // skip if already active
+    if (
+      this._hoveredColumn.name === this.sort.active &&
+      sortDir === this.sort.direction
+    ) {
+      return;
+    }
+
+    this.sort.sort({
+      id: this._hoveredColumn.name,
+      start: sortDir,
+      disableClear: true
+    });
+  }
+
+  private setupSubscriptions() {
+    this.subscriptions = [
+      this.setupUrlSync(),
+      this.handleColumnsChanged(),
+      this.handleDataLoad()
+    ];
+
+    const filtersInavlidSubscription = this.filterRow.filterInvalid.subscribe(
+      () => {
+        this.formService.showErrors(this.filterRow.filterForm);
+      }
+    );
+
+    this.subscriptions.push(filtersInavlidSubscription);
+  }
+
+  private handleDataLoad(): Subscription {
+    return combineLatest(
       this.sort.sortChange,
       this.paginator.page,
       this.filterRow.filtersChanged,
@@ -126,7 +253,9 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           }, 1);
         }),
-        switchMap(([sort, pager, filters]: [Sort, PageEvent, string, void]) => this.crud.list(sort, pager, filters)),
+        switchMap(([sort, pager, filters]: [Sort, PageEvent, string, void]) =>
+          this.crud.list(sort, pager, filters)
+        ),
         catchError((...params) => {
           // TODO: proper error handling
           console.log('Error on data retrieving => ', params);
@@ -134,14 +263,14 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((result: YIIEntityResponse) => {
+        // we are only interested on intial columns config
+        // no need to rerender columns each time
         if (!this.initialized) {
+          const columnsCfg = this.gridBuilder.generateColumnsData(result);
+
+          this.setColumnsCfg(columnsCfg);
+
           this.initialized = true;
-
-          this.columnsCfg = this.gridBuilder.generateColumnsData(result);
-
-          this.displayedColumns = this.columnsCfg.map((item: Column) => item.name);
-          this.displayedColumns.unshift('selection');
-          this.displayedColumns.push('actions');
         }
 
         // TODO: remove timeout hack
@@ -151,23 +280,80 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         }, 1);
 
-        this.displayedFilterColumns = this.displayedColumns.map(item => 'filter_' + item);
-
         this.dataSource = result.result.list;
-
         this.totalCount = result.result.total;
       });
-
-    this.subscriptions.add(gridParamsSubscription);
-
-    this.filterRow.filterInvalid.subscribe(() => {
-      this.formService.showErrors(this.filterRow.filterForm);
-    });
-
-    this.setInitialValues();
   }
 
-  setInitialValues() {
+  private setColumnsCfg(cfg: ColumnProps[] | ColumnsMap) {
+    if (Array.isArray(cfg)) {
+      this.columnsCfg = cfg;
+      this.columnsCfgMap.clear();
+      cfg.forEach(item => this.columnsCfgMap.set(item.name, item));
+    } else {
+      this.columnsCfgMap = cfg;
+      this.columnsCfg.length = 0;
+      for (const val of this.columnsCfgMap.values()) {
+        this.columnsCfg.push(val);
+      }
+    }
+
+    this.columnsConfigChanged.next();
+  }
+
+  private setupUrlSync(): Subscription {
+    // Updates URL to match grid state
+    return combineLatest(
+      this.route.queryParams,
+      this.sort.sortChange,
+      this.paginator.page,
+      this.filterRow.filtersChanged
+    )
+      .pipe(debounceTime(100))
+      .subscribe(
+        ([queryParams, sorting, pager, filters]: [
+          Params,
+          Sort,
+          PageEvent,
+          string
+        ]) => {
+          const sortDir = sorting.direction === 'desc' ? '-' : '';
+
+          const mergedQueryParams = Object.assign({}, queryParams, {
+            page: this.paginator.pageIndex + 1,
+            'per-page': this.paginator.pageSize,
+            sort: sortDir + sorting.active,
+            filters
+          });
+
+          this.router.navigate([], {
+            queryParams: mergedQueryParams,
+            relativeTo: this.route,
+            replaceUrl: true
+          });
+        }
+      );
+  }
+
+  private handleColumnsChanged(): Subscription {
+    return this.columnsConfigChanged.subscribe(_ => {
+      this.displayedColumns = this.columnsCfg
+        .filter((item: Column) => !item.hidden)
+        .map(item => item.name);
+
+      this.displayedColumns.unshift(...this.columnsStart);
+      this.displayedColumns.push(...this.columnsEnd);
+
+      this.hideableColumnsCount =
+        this.displayedColumns.length - this.persistantColumns.length;
+
+      this.displayedFilterColumns = this.displayedColumns.map(
+        item => 'filter_' + item
+      );
+    });
+  }
+
+  private setInitialValues() {
     const { category, module } = this.route.snapshot.data,
       api = this.api.getModuleApi(category, module),
       idProperty = this.api.getModuleIdProperty(category, module);
@@ -220,89 +406,17 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refreshTrigger.next();
   }
 
-  ngOnDestroy() {
-    // clean up subscriptions
-    const routeSnapshot = this.route.snapshot.data as ModuleConfig;
-
-    this.activeModules.remove(routeSnapshot);
-
-    this.subscriptions.unsubscribe();
-  }
-
-  ngAfterViewInit() {}
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.forEach(row => {
-          this.selection.select(row);
-        });
-  }
-
-  onAdd() {
-    this.router.navigate(['detail'], {
-      relativeTo: this.route
-    });
-  }
-
-  onEdit() {
-    this.router.navigate(['detail', this.selection.selected[0][this.idProperty]], {
-      relativeTo: this.route
-    });
-  }
-
-  forceGridRefresh() {
-    this.refreshTrigger.next();
-  }
-
-  onAutoRefreshChanged(value: MatCheckboxChange) {
-    if (value.checked) {
-      this.autoRefreshIntervalRef = window.setInterval(() => {
-        this.forceGridRefresh();
-      }, this.autoRefreshInterval);
-    } else {
-      window.clearInterval(this.autoRefreshIntervalRef);
-    }
-  }
-
-  private isColumnActive(column: Column) {
-    return this.displayedColumns.includes(column.name);
-  }
-
-  private isFilterColumnActive(column: Column) {
-    return this.displayedFilterColumns.includes(`filter_${column.name}`);
+  isColumnVisible(column: Column) {
+    return !this.columnsCfgMap.get(column.name).hidden;
   }
 
   private handleColumnVisibilityChange(column: Column, checked: boolean) {
-    if (!checked) {
-      this.displayedColumns = this.displayedColumns.filter(name => name !== column.name);
-      this.displayedFilterColumns = this.displayedFilterColumns.filter(name => name !== `filter_${column.name}`);
-    } else {
-      this.displayedColumns = [...this.displayedColumns, column.name];
-      this.displayedFilterColumns = [...this.displayedFilterColumns, `filter_${column.name}`];
-    }
+    this.columnsCfgMap.get(column.name).hidden = !checked;
+
+    this.columnsConfigChanged.next();
   }
 
-  isSingleColumn() {
-    // column + checkbox + actions
-    return this.displayedColumns.length === 3;
-  }
-
-  onRemove() {
-    this.handleRemove(this.selection.selected[0]);
-  }
-
-  onRemoveSinge(element) {
-    this.handleRemove(element);
-  }
-
-  private handleRemove(element): void {
+  private _handleRemove(element): void {
     this.overlayService.show({
       target: this.elRef
     });
@@ -315,16 +429,5 @@ export class DynamicGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private handleHoveredColumnHeaderChanged(column: Column) {
     this._hoveredColumn = column;
-  }
-
-  changeSort(sortDir: 'asc' | 'desc') {
-    // skip if already active
-    if (this._hoveredColumn.name === this.sort.active && sortDir === this.sort.direction) return;
-
-    this.sort.sort({
-      id: this._hoveredColumn.name,
-      start: sortDir,
-      disableClear: true
-    });
   }
 }

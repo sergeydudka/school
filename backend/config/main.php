@@ -38,7 +38,7 @@ $config = [
         'session' => [
             'name' => 'admin_session',
             'cookieParams' => [
-                'httpOnly' => true,
+                'httpOnly' => false,
                 'path' => '/admin',
             ],
         ],

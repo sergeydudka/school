@@ -4,6 +4,7 @@ export interface ColumnBaseProps {
   type: string;
   order: number;
   validators?: any[];
+  hidden?: boolean;
   filterValidators?: any[];
 }
 
@@ -12,9 +13,10 @@ export class ColumnBase implements ColumnBaseProps {
   label;
   type;
   order;
+  hidden;
 
   constructor(options: ColumnBaseProps) {
-    for (let k in options) {
+    for (const k in options) {
       this[k] = options[k];
     }
   }
