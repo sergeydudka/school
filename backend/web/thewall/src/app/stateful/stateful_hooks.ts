@@ -4,13 +4,79 @@ export interface Params {
   [key: string]: any;
 }
 
+export interface CalculatedState {
+  type: string;
+  value: any;
+}
+
 export interface Stateful {
+  /**
+   * Special Subject to signalize that component state has changed
+   *
+   * @usageNotes
+   * stateChanged$ automatically added to list of stateTriggers, don't add it there
+   */
   stateChanged$: Subject<void>;
+
+  /**
+   * User defined method to return unique stateKey for this component
+   * By default components constructor name is used
+   */
+  calculateStateKey?: () => string;
 
   /**
    * Holds last saved state
    */
-  __state: Params;
+  __state?: Params;
+}
+
+export enum ArrayStateCheckMethod {
+  Length = 'length',
+  Strict = 'strict'
+}
+
+export interface StorableStateConfig {
+  /**
+   * Name of property which is being calculated
+   */
+  prop: string;
+
+  /**
+   * Defines custom property type, which requires to implement
+   * calculate[Type]State method
+   */
+  type?: string;
+
+  /**
+   * Defines the way Array or Set equality is checked.
+   * Defaults to ArrayStateCheckMethod.Strict
+   */
+  arrayCheckType?: ArrayStateCheckMethod;
+
+  /**
+   * Array of properties or Function which returns array of properties
+   * to extract in case when calculated state value is
+   * Object, Object[] or Map<string, Object>
+   */
+  keys?: ((value: any) => string[]) | string[];
+
+  /**
+   * Which of key should be considere as property key.
+   *
+   * @usageNotes
+   * Required only if value is an object or has multiple nested objects
+   */
+  primaryKey?: string;
+
+  /**
+   * Function that overrides default state calculation method
+   */
+  calculateFn?: (
+    value: any,
+    prop: string,
+    config: StorableStateConfig,
+    initialValue: any
+  ) => CalculatedState;
 }
 
 export interface StatefulConfig {
@@ -19,13 +85,16 @@ export interface StatefulConfig {
    */
   stateKey?: string;
 
-  // TODO: do we need this?
-  // preventRestoreOnInit?: boolean;
-
   /**
    * Properties that should be stored as state
    */
-  stateProperties?: string[];
+  stateProperties?: (string | StorableStateConfig)[];
+
+  /**
+   * If set to true, will prevent initial state store/restore on init
+   * It will be delayed until "stateChanged$" event triggered by user
+   */
+  asyncInitialState?: boolean;
 
   /**
    * @description
@@ -49,12 +118,16 @@ export interface StatefulConfig {
   debug?: boolean;
 }
 
-export interface GetState {
+export interface CalculateState {
   /**
    * Collects and returns component state
    * @param props properties passed by config
+   * @param initialState previously stored initial state, if not set, we should calculate initial state instead of state difference
    */
-  getState(props: string[]): Params;
+  calculateState(
+    props: (string | StorableStateConfig)[],
+    initialState?: Params
+  ): Params;
 }
 
 export interface StoreState {
@@ -77,11 +150,11 @@ export interface RestoreState {
   /**
    * Restores component to it's previously stored state
    */
-  restoreState(state: Params): void;
+  restoreState(state: Params, props: (string | StorableStateConfig)[]): void;
 }
 
 export type StatefulClass = Stateful &
-  GetState &
+  CalculateState &
   StoreState &
   RetrieveState &
   RestoreState;

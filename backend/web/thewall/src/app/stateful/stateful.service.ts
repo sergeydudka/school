@@ -8,7 +8,7 @@ export class StatefulService {
     try {
       localStorage.setItem(key, JSON.stringify(data));
     } catch (e) {
-      console.error('Error saving to localStorage', e);
+      console.warn(`Cannot save "${key}" to localStorage`, e);
     }
   }
 
@@ -16,8 +16,16 @@ export class StatefulService {
     try {
       return JSON.parse(localStorage.getItem(key));
     } catch (e) {
-      console.error('Error getting data from localStorage', e);
+      console.warn(`Cannot retrieve ${key} from localStorage`, e);
       return null;
+    }
+  }
+
+  remove(key: string) {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      console.warn(`Cannot remove "${key}" from localStorage`, e);
     }
   }
 }

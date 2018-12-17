@@ -36,7 +36,7 @@ export class GridBuilderService {
   private _createColumns(cols: {}) {
     const columns: ColumnProps[] = [];
 
-    for (var i in cols) {
+    for (let i in cols) {
       const col = cols[i];
 
       if (!col.display) continue;
@@ -55,7 +55,9 @@ export class GridBuilderService {
   private _createColumn(col) {
     const methodName = `_${col.type.toLowerCase()}Column`;
 
-    if (!this[methodName]) throw new Error(`No constructor provided for "${methodName}"`);
+    if (!this[methodName]) {
+      throw new Error(`No constructor provided for "${methodName}"`);
+    }
 
     return this[methodName](col);
   }
@@ -67,8 +69,11 @@ export class GridBuilderService {
       type: col.type,
       order: col.order,
       validators: col.validators,
+      hidden: false,
       filterValidators: this.formService.formatValidators(
-        (col.validators || []).filter(validator => validator.type !== 'required')
+        (col.validators || []).filter(
+          validator => validator.type !== 'required'
+        )
       )
     };
 

@@ -47,14 +47,19 @@ type ColumnsMap = Map<string, ColumnProps>;
   // each instance should have it's own crud service
   providers: [YiiCrudService]
 })
-// @MakeStateful({
-//   debug: true,
-//   stateProperties: ['displayedColumns'],
-//   stateTriggers: ['columnsConfigChanged']
-// })
+@MakeStateful({
+  // debug: true,
+  asyncInitialState: true,
+  stateProperties: [
+    {
+      prop: 'columnsCfg',
+      keys: ['hidden'],
+      primaryKey: 'name'
+    }
+  ],
+  stateTriggers: ['columnsConfigChanged']
+})
 export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
-  __state;
-
   private initialized: boolean;
   private subscriptions: Subscription[];
   private routeData: ModuleConfig;
@@ -269,6 +274,13 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
           const columnsCfg = this.gridBuilder.generateColumnsData(result);
 
           this.setColumnsCfg(columnsCfg);
+
+          // required by Stateful decorator, to signalize that component
+          // is ready for state restoration
+          this.stateChanged$.next();
+
+          // we need to call one more time once state is restored
+          this.setColumnsCfg(this.columnsCfg);
 
           this.initialized = true;
         }

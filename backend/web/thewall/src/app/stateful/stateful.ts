@@ -1,20 +1,35 @@
-import { isDevMode, OnInit } from '@angular/core';
+import { isDevMode, OnInit, Component } from '@angular/core';
 
-import { combineLatest, of as observableOf, Subject, interval } from 'rxjs';
-import { switchMap, debounceTime } from 'rxjs/operators';
+import { combineLatest, of as observableOf } from 'rxjs';
+import { switchMap, debounceTime, take, tap } from 'rxjs/operators';
 
 import { AppInjector } from '../app.injector';
 import { StatefulService } from './stateful.service';
-import { StatefulConfig, Params, StatefulClass } from './stateful_hooks';
-import { Component } from '@angular/compiler/src/core';
+import {
+  StatefulConfig,
+  Params,
+  StatefulClass,
+  StorableStateConfig,
+  CalculatedState
+} from './stateful_hooks';
+import { StateManagementService } from './state-management.service';
 
 export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
   return function(ctor: Function) {
+    if (isDevMode() && stateParams.stateTriggers.includes('stateChanged$')) {
+      throw new Error(
+        `Subject "stateChanged$" shouldn't be included in list of stateTriggers, it's added automatically`
+      );
+    }
+
     const stateConfig: StatefulConfig = {
       delay: 1000,
       stateKey: ctor.name,
-      ...stateParams
+      ...stateParams,
+      stateTriggers: [...stateParams.stateTriggers, 'stateChanged$']
     };
+
+    let initialState: Params = null;
 
     const proto: StatefulClass & OnInit = ctor.prototype;
 
@@ -24,13 +39,16 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
     // store reference to application vide state service
     let statefulService: StatefulService;
 
+    // store reference to application vide state calculation service
+    let stateManagementService: StateManagementService;
+
     const onInit = proto.ngOnInit;
     proto.ngOnInit = function(...args) {
       cmp = this;
 
-      init();
-
       onInit && onInit.apply(this, args);
+
+      init();
     };
 
     /**
@@ -39,13 +57,43 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
     function init() {
       cmp.__state = null;
 
+      if (
+        cmp.calculateStateKey &&
+        typeof cmp.calculateStateKey === 'function'
+      ) {
+        stateConfig.stateKey = cmp.calculateStateKey();
+      }
+
       statefulService = AppInjector.get(StatefulService);
+      stateManagementService = AppInjector.get(StateManagementService);
 
-      const state = cmp.retrieveState();
+      if (!stateConfig.asyncInitialState) {
+        setupInitialState();
+        initStateListeners();
+        triggerStateRestore();
+      } else {
+        // we subscribe to stateChanged$ independently to mark a point
+        // where it's safe to start using/restoring state
+        cmp.stateChanged$
+          .pipe(
+            take(1),
+            tap(() => {
+              setupInitialState();
+              triggerStateRestore();
+              initStateListeners();
+            })
+          )
+          .subscribe();
+      }
+    }
 
-      cmp.restoreState(state);
-
-      initStateListeners();
+    /**
+     * Helper method to check whether it's initial state store
+     *
+     * @param state new state
+     */
+    function setupInitialState(): void {
+      initialState = cmp.calculateState(stateConfig.stateProperties);
     }
 
     /**
@@ -54,6 +102,8 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
     function initStateListeners() {
       if (!stateConfig.stateTriggers) return;
 
+      // allow state triggers that are nested inside component structure
+      // for example sorters.sortChanged
       const observers = stateConfig.stateTriggers.map(key => {
         const keySplit = key.split('.');
         return keySplit.reduce((acc, val) => acc[val], cmp);
@@ -62,23 +112,42 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
       combineLatest(...observers)
         .pipe(
           debounceTime(stateConfig.delay || 1000),
-          switchMap(data => {
-            console.log('data => ', data);
-            return observableOf(cmp.getState(stateConfig.stateProperties));
-          })
+          switchMap(data =>
+            observableOf(
+              cmp.calculateState(stateConfig.stateProperties, initialState)
+            )
+          )
         )
         .subscribe(cmp.storeState);
+
+      // we need to manually trigger this event first time
+      // to make combineLatest work
+      cmp.stateChanged$.next();
     }
 
-    proto.getState =
-      proto.getState ||
-      function(props: string[]): Params {
-        return props.reduce((acc, prop) => {
-          if (!componentHasProperty(prop)) return acc;
+    /**
+     * Helper method to trigger state restore
+     */
+    function triggerStateRestore() {
+      const state = cmp.retrieveState();
 
-          acc[prop] = cmp[prop];
-          return acc;
-        }, {});
+      if (!state) return;
+
+      cmp.restoreState(state, stateConfig.stateProperties);
+    }
+
+    proto.calculateState =
+      proto.calculateState ||
+      function(
+        props: (string | StorableStateConfig)[],
+        initialState?: Params
+      ): Params {
+        return stateManagementService.calculateState(
+          ctor,
+          cmp,
+          props,
+          initialState
+        );
       };
 
     proto.storeState =
@@ -90,7 +159,11 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
 
         cmp.__state = state;
 
-        statefulService.set(stateConfig.stateKey, state);
+        if (state) {
+          statefulService.set(stateConfig.stateKey, state);
+        } else {
+          statefulService.remove(stateConfig.stateKey);
+        }
       };
 
     proto.retrieveState =
@@ -101,43 +174,23 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
 
     proto.restoreState =
       proto.restoreState ||
-      function(state: Params): void {
+      function(
+        state: { [key: string]: CalculatedState },
+        props: (string | StorableStateConfig)[]
+      ): void {
         if (stateConfig.debug) {
           console.log('restoreState => ', state);
         }
 
         cmp.__state = state;
 
-        for (const prop in state) {
-          const value = state[prop];
-
-          if (!componentHasProperty(prop)) continue;
-
-          cmp[prop] = value;
-        }
-      };
-
-    /**
-     * Checks whether component has this property
-     *
-     * @param prop property to check
-     * @param searchInPrototype whether we should search down on prototype chaing or not
-     */
-    function componentHasProperty(
-      prop: string,
-      searchInPrototype?: boolean
-    ): boolean {
-      const result = searchInPrototype ? cmp[prop] : cmp.hasOwnProperty(prop);
-
-      if (!result && isDevMode()) {
-        console.warn(
-          `Compoent "${ctor.name}" doesn't have ${
-            searchInPrototype ? '' : 'own'
-          } property "${prop}"`
+        stateManagementService.restoreState(
+          ctor,
+          cmp,
+          state,
+          initialState,
+          props
         );
-      }
-
-      return result;
-    }
+      };
   };
 }
