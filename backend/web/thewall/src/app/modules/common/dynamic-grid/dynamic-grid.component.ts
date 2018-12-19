@@ -36,7 +36,7 @@ import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 import { OverlayService } from 'src/app/modules/overlay-module/overlay.service';
 import { FormService } from 'src/app/common/services/form.service';
 
-import { MakeStateful, Stateful, RestoreState } from 'src/app/stateful';
+import { MakeStateful, Stateful } from 'src/app/stateful';
 
 type ColumnsMap = Map<string, ColumnProps>;
 
@@ -60,6 +60,8 @@ type ColumnsMap = Map<string, ColumnProps>;
   stateTriggers: ['columnsConfigChanged']
 })
 export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
+  stateChanged$: Subject<void> = new Subject();
+
   private initialized: boolean;
   private subscriptions: Subscription[];
   private routeData: ModuleConfig;
@@ -70,8 +72,6 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
   // TODO: take value from config
   private autoRefreshInterval = 30000;
   idProperty;
-
-  stateChanged$: Subject<void> = new Subject();
 
   private _hoveredColumn: Column = null;
 
@@ -135,6 +135,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
 
   ngOnInit() {
     this.routeData = this.route.snapshot.data as ModuleConfig;
+
     this.activeModules.add(this.routeData);
 
     this.refreshTrigger = new Subject();
@@ -208,6 +209,10 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
 
   handleRemoveSinge(element) {
     this._handleRemove(element);
+  }
+
+  calculateStateKey() {
+    return this.routeData.module + this.constructor.name;
   }
 
   changeSort(sortDir: 'asc' | 'desc') {

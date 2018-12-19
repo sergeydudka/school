@@ -7,7 +7,8 @@
   >
     <mat-sidenav
       #snav
-      opened
+      (openedChange)="handleSidenavToggle($event)"
+      [opened]="sidenavOpened"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches"
       [fixedTopGap]="headerHeight"

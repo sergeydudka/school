@@ -15,12 +15,15 @@ export interface Stateful {
    *
    * @usageNotes
    * stateChanged$ automatically added to list of stateTriggers, don't add it there
+   *
+   * @important
+   * make sure this subject comes before any stateful properties
    */
-  stateChanged$: Subject<void>;
+  stateChanged$: Subject<void | string>;
 
   /**
-   * User defined method to return unique stateKey for this component
-   * By default components constructor name is used
+   * User defined method to return unique stateKey for this component.
+   * By default class constructor name is used
    */
   calculateStateKey?: () => string;
 
@@ -35,6 +38,7 @@ export enum ArrayStateCheckMethod {
   Strict = 'strict'
 }
 
+// Don't rely on and don't make required any properties except prop
 export interface StorableStateConfig {
   /**
    * Name of property which is being calculated
@@ -116,6 +120,11 @@ export interface StatefulConfig {
    * Show debug infromation
    */
   debug?: boolean;
+
+  /**
+   * Allow additional parameters
+   */
+  [key: string]: any;
 }
 
 export interface CalculateState {
@@ -123,10 +132,12 @@ export interface CalculateState {
    * Collects and returns component state
    * @param props properties passed by config
    * @param initialState previously stored initial state, if not set, we should calculate initial state instead of state difference
+   * @param property narrow state calculation to only this property (if provided)
    */
   calculateState(
     props: (string | StorableStateConfig)[],
-    initialState?: Params
+    initialState?: Params,
+    property?: string
   ): Params;
 }
 
@@ -135,8 +146,9 @@ export interface StoreState {
    * Stores current component state
    *
    * @param state new state
+   * @param property property which state has been calculated (if partial state caclulated)
    */
-  storeState(state: Params): void;
+  storeState(state: Params, property?: string): void;
 }
 
 export interface RetrieveState {

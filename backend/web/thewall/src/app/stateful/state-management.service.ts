@@ -49,7 +49,12 @@ export class StateManagementService {
 
       const proto: StatefulClass & OnInit = ctor.prototype;
 
-      if (!state[prop] || !this.getClassProperty(cmp, prop)) return;
+      if (
+        state[prop] === undefined ||
+        this.getClassProperty(cmp, prop) === undefined
+      ) {
+        return;
+      }
 
       const config = typeof params !== 'string' ? params : null;
 
@@ -70,7 +75,8 @@ export class StateManagementService {
     ctor: Function,
     cmp: Component & StatefulClass,
     props: (string | StorableStateConfig)[],
-    initialState?: Params
+    initialState?: Params,
+    property?: string
   ): Params {
     let hasState = false;
 
@@ -79,7 +85,9 @@ export class StateManagementService {
     const state = props.reduce((acc, params) => {
       const prop = typeof params === 'string' ? params : params.prop;
 
-      if (!this.getClassProperty(cmp, prop)) return acc;
+      if (property && prop !== property) return acc;
+
+      if (this.getClassProperty(cmp, prop) === undefined) return acc;
 
       const config = typeof params !== 'string' ? params : null;
 
@@ -151,7 +159,7 @@ export class StateManagementService {
       calculatedValue = config.calculateFn(value, prop, config, initialValue);
     } else {
       const type =
-        config && config.type ? config.type : this.getValueType(value, config);
+        config && config.type ? config.type : this.getValueType(value, prop);
 
       const funcName = `${type}StateCalculator`;
 
@@ -190,13 +198,13 @@ export class StateManagementService {
    * Determine value type so we know how to handle it
    *
    * @param value what to check
-   * @param config user passed config
+   * @param prop property name
    */
-  protected getValueType(value: any, config: StorableStateConfig): string {
+  protected getValueType(value: any, prop: string): string {
     const type = typeof value;
     const typeToString = this.toString.call(value);
 
-    if (['string', 'number'].includes(type)) {
+    if (['string', 'number', 'boolean'].includes(type)) {
       return type;
     } else if (value instanceof Date) {
       return 'date';
@@ -216,7 +224,7 @@ export class StateManagementService {
     }
 
     throw new Error(
-      `Cannot determine value type for property "${config}" with value "${value}"`
+      `Cannot determine value type for property "${prop}" with value "${value}"`
     );
   }
 
@@ -656,10 +664,10 @@ export class StateManagementService {
    * @param prop property to check
    * @param searchInPrototype whether we should search down on prototype chaing or not
    */
-  getClassProperty(cmp, prop: string, searchInPrototype?: boolean): boolean {
+  getClassProperty(cmp, prop: string, searchInPrototype = true): boolean {
     const result = searchInPrototype ? cmp[prop] : cmp.hasOwnProperty(prop);
 
-    if (!result && isDevMode()) {
+    if (result === undefined && isDevMode()) {
       console.warn(
         `Compoent "${cmp.constructor.name}" doesn't have ${
           searchInPrototype ? '' : 'own'

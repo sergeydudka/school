@@ -1,6 +1,8 @@
+import 'reflect-metadata';
+
 import { isDevMode, OnInit, Component } from '@angular/core';
 
-import { combineLatest, of as observableOf } from 'rxjs';
+import { combineLatest, of as observableOf, Subject } from 'rxjs';
 import { switchMap, debounceTime, take, tap } from 'rxjs/operators';
 
 import { AppInjector } from '../app.injector';
@@ -15,7 +17,22 @@ import {
 import { StateManagementService } from './state-management.service';
 
 export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
-  return function(ctor: Function) {
+  const statefulPropertyKey = 'stateful-property';
+
+  return function(ctor: Function, ...args) {
+    // TODO: use those values somehow
+    const meta = Reflect.getOwnMetadata(statefulPropertyKey, ctor.prototype);
+
+    stateParams.stateProperties = [
+      ...(Array.isArray(meta) ? meta : []),
+      ...(Array.isArray(stateParams.stateProperties)
+        ? stateParams.stateProperties
+        : [])
+    ];
+
+    if (!stateParams.stateProperties.length) return;
+
+    stateParams.stateTriggers = stateParams.stateTriggers || [];
     if (isDevMode() && stateParams.stateTriggers.includes('stateChanged$')) {
       throw new Error(
         `Subject "stateChanged$" shouldn't be included in list of stateTriggers, it's added automatically`
@@ -26,7 +43,8 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
       delay: 1000,
       stateKey: ctor.name,
       ...stateParams,
-      stateTriggers: [...stateParams.stateTriggers, 'stateChanged$']
+      // we need stateChanged$ event on the first place
+      stateTriggers: ['stateChanged$', ...stateParams.stateTriggers]
     };
 
     let initialState: Params = null;
@@ -55,7 +73,9 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
      * Initializes decorator when component ready
      */
     function init() {
-      cmp.__state = null;
+      cmp.__state = {};
+
+      if (!isValid()) return;
 
       if (
         cmp.calculateStateKey &&
@@ -87,6 +107,21 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
       }
     }
 
+    function isValid() {
+      let isValid = true;
+
+      if (!cmp.stateChanged$ || !(cmp.stateChanged$ instanceof Subject)) {
+        isValid = false;
+        console.warn(
+          `One or more required properties is missing or have incorrect type to make class "${
+            ctor.name
+          }" stateful, make sure class implements "Stateful" interface`
+        );
+      }
+
+      return isValid;
+    }
+
     /**
      * Helper method to check whether it's initial state store
      *
@@ -109,16 +144,28 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
         return keySplit.reduce((acc, val) => acc[val], cmp);
       });
 
+      let narrowStateToProp;
+
       combineLatest(...observers)
         .pipe(
           debounceTime(stateConfig.delay || 1000),
-          switchMap(data =>
-            observableOf(
-              cmp.calculateState(stateConfig.stateProperties, initialState)
-            )
-          )
+          switchMap(data => {
+            narrowStateToProp = data[0] as string;
+
+            return observableOf(
+              cmp.calculateState(
+                stateConfig.stateProperties,
+                initialState,
+                // force string, since we know that first item is
+                // awlays stateChanged$ observable
+                narrowStateToProp
+              )
+            );
+          })
         )
-        .subscribe(cmp.storeState);
+        .subscribe(data => {
+          cmp.storeState(data, narrowStateToProp);
+        });
 
       // we need to manually trigger this event first time
       // to make combineLatest work
@@ -140,27 +187,42 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
       proto.calculateState ||
       function(
         props: (string | StorableStateConfig)[],
-        initialState?: Params
+        initialState?: Params,
+        property?: string
       ): Params {
         return stateManagementService.calculateState(
           ctor,
           cmp,
           props,
-          initialState
+          initialState,
+          property
         );
       };
 
     proto.storeState =
       proto.storeState ||
-      function(state: Params): void {
+      function(state: Params, property?: string): void {
         if (stateConfig.debug) {
           console.log('storeState => ', state);
         }
 
-        cmp.__state = state;
+        // if only single property changed
+        if (property) {
+          // if property state same as initial, remove it
+          if (state === undefined) {
+            delete cmp.__state[property];
+            // otherwise update
+          } else {
+            cmp.__state[property] = state[property];
+          }
+        } else {
+          cmp.__state = state || {};
+        }
 
-        if (state) {
-          statefulService.set(stateConfig.stateKey, state);
+        const count = Object.keys(cmp.__state).length;
+
+        if (count) {
+          statefulService.set(stateConfig.stateKey, this.__state);
         } else {
           statefulService.remove(stateConfig.stateKey);
         }
