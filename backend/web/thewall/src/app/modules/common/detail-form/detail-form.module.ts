@@ -12,7 +12,7 @@ import {
 } from '@angular/material';
 
 // project components
-import { DynamicFormComponent } from '../../../common/components/dynamic-form/dynamic-form.component';
+import { DynamicFormGroupComponent } from '../../../common/components/dynamic-form-group/dynamic-form-group.component';
 import { DynamicFieldComponent } from '../../../common/components/dynamic-field/dynamic-field.component';
 import { DetailFormComponent } from './detail-form.component';
 import { DetailFormRoutingModule } from './detail-form-routing.module';
@@ -34,8 +34,18 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     DetailFormRoutingModule
   ],
-  exports: [MatInputModule, MatSelectModule, ReactiveFormsModule, DynamicFormComponent, DynamicFieldComponent],
-  declarations: [DynamicFormComponent, DynamicFieldComponent, DetailFormComponent],
+  exports: [
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    DynamicFormGroupComponent,
+    DynamicFieldComponent
+  ],
+  declarations: [
+    DynamicFormGroupComponent,
+    DynamicFieldComponent,
+    DetailFormComponent
+  ],
   providers: [YiiCrudService]
 })
 export class DetailFormModule {}

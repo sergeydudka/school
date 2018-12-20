@@ -11,8 +11,9 @@ import { FieldBase } from '../../models/fields/field-base.model';
 export class DynamicFieldComponent implements OnInit {
   @Input()
   field: FieldBase<any>;
+
   @Input()
-  form: FormGroup;
+  group: FormGroup;
 
   constructor() {}
 

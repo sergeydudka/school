@@ -1,0 +1,7 @@
+<div [formGroup]="formGroup">
+  <sch-dynamic-field
+    *ngFor="let field of fields"
+    [field]="field"
+    [group]="formGroup"
+  ></sch-dynamic-field>
+</div>

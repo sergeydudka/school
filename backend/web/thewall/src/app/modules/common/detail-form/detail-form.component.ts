@@ -10,9 +10,9 @@ import { FormService } from '../../../common/services/form.service';
 import { YiiCrudService } from '../../../common/services/crud/yii-crud/yii-crud.service';
 import { ApiService } from '../../../common/services/api.service';
 import { YIIEntityResponse } from '../../../common/models/yii/yii-entity-response.model';
-import { DynamicFormComponent } from 'src/app/common/components/dynamic-form/dynamic-form.component';
 
 import { ActionDialogContentComponent } from 'src/app/common/components/action-dialog-content/action-dialog-content.component';
+import { FieldBase } from 'src/app/common/models/fields/fields.model';
 
 @Component({
   selector: 'sch-detail-form',
@@ -23,11 +23,13 @@ export class DetailFormComponent implements OnInit {
   category = '';
   module = '';
   data;
-  fields;
+  fields: FieldBase<any>[];
   idProperty: string;
 
-  @ViewChild('form')
-  form: DynamicFormComponent;
+  form: FormGroup;
+
+  closeOnSave = false;
+  isSubmiting = false;
 
   constructor(
     private router: Router,
@@ -39,6 +41,8 @@ export class DetailFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.form = new FormGroup({});
+
     this.category = this.route.parent.parent.snapshot.data.category;
     this.module = this.route.parent.parent.snapshot.data.module;
 
@@ -64,7 +68,7 @@ export class DetailFormComponent implements OnInit {
 
   canDeactivate() {
     // this.form can be empty on initial redirect
-    if (!this.form || !this.form.form.dirty) return true;
+    if (!this.form || !this.form.dirty) return true;
 
     // TODO: consider creating custom reusable modal dialogs
     const dialogRef = this.dialog.open(ActionDialogContentComponent, {
@@ -77,8 +81,15 @@ export class DetailFormComponent implements OnInit {
     return dialogRef.afterClosed();
   }
 
-  onSubmit(form: FormGroup) {
-    const values = this.formService.getChanges(form);
+  onSubmit() {
+    if (this.form.invalid) {
+      this.formService.showErrors(this.form);
+      return;
+    }
+
+    this.isSubmiting = true;
+
+    const values = this.formService.getChanges(this.form);
 
     this.crud
       .save({
@@ -86,11 +97,31 @@ export class DetailFormComponent implements OnInit {
         [this.idProperty]: this.data ? this.data[this.idProperty] : null
       })
       .subscribe(result => {
+        this.isSubmiting = false;
+
+        // TODO: redirect if success and has this.closeOnSave === true
+        // TODO: is success and not save on close mark as prestine
         console.log('submitted => ', result);
       });
   }
 
-  onClose() {
+  resetChanges() {
+    const dialogRef = this.dialog.open(ActionDialogContentComponent, {
+      data: {
+        // TODO: langs
+        content: 'Reset values?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (!data) return;
+
+      this.form.patchValue(this.data);
+      this.form.markAsPristine();
+    });
+  }
+
+  onCancelClick() {
     this.router.navigate([`/${this.category}/${this.module}`]);
   }
 }
