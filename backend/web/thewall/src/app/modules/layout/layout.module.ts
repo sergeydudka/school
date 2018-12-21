@@ -46,6 +46,11 @@ import { SharedModule } from '../shared/shared.module';
     LayoutRoutingModule,
     SharedModule
   ],
-  declarations: [HeaderComponent, MenuComponent, LayoutComponent, ActiveModulesComponent]
+  declarations: [
+    HeaderComponent,
+    MenuComponent,
+    LayoutComponent,
+    ActiveModulesComponent
+  ]
 })
 export class LayoutModule {}

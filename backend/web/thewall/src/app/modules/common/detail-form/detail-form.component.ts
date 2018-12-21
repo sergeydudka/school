@@ -13,6 +13,7 @@ import { YIIEntityResponse } from '../../../common/models/yii/yii-entity-respons
 
 import { ActionDialogContentComponent } from 'src/app/common/components/action-dialog-content/action-dialog-content.component';
 import { FieldBase } from 'src/app/common/models/fields/fields.model';
+import { GlobalEventsService } from 'src/app/common/services/global-events/global-events.service';
 
 @Component({
   selector: 'sch-detail-form',
@@ -37,7 +38,8 @@ export class DetailFormComponent implements OnInit {
     private formService: FormService,
     private api: ApiService,
     private crud: YiiCrudService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private globalEventsService: GlobalEventsService
   ) {}
 
   ngOnInit() {
@@ -89,12 +91,13 @@ export class DetailFormComponent implements OnInit {
 
     this.isSubmiting = true;
 
+    const isUpdate = !!this.data;
     const values = this.formService.getChanges(this.form);
 
     this.crud
       .save({
         ...values,
-        [this.idProperty]: this.data ? this.data[this.idProperty] : null
+        [this.idProperty]: isUpdate ? this.data[this.idProperty] : null
       })
       .subscribe(result => {
         this.isSubmiting = false;
@@ -102,6 +105,12 @@ export class DetailFormComponent implements OnInit {
         // TODO: redirect if success and has this.closeOnSave === true
         // TODO: is success and not save on close mark as prestine
         console.log('submitted => ', result);
+
+        // notify other components that entity has changed
+        this.globalEventsService.entityChanged$.next({
+          type: this.module,
+          action: isUpdate ? 'update' : 'create'
+        });
       });
   }
 

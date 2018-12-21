@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'browse-grid-detail-form',
   template: `
-    <router-outlet></router-outlet>
+    <uxrouter-outlet></uxrouter-outlet>
   `,
   styles: []
 })

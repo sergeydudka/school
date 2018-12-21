@@ -1,11 +1,18 @@
 import { Inject } from '@angular/core';
-import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
+import {
+  RouteReuseStrategy,
+  ActivatedRouteSnapshot,
+  DetachedRouteHandle
+} from '@angular/router';
 
 import { ActiveModulesService } from 'src/app/layout/active-modules/active-modules.service';
 import { ModuleConfig } from 'src/app/layout/menu/module-config.model';
 
 export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
-  constructor(@Inject(ActiveModulesService) private activeModulesService: ActiveModulesService) {}
+  constructor(
+    @Inject(ActiveModulesService)
+    private activeModulesService: ActiveModulesService
+  ) {}
 
   private handlers: { [key: string]: DetachedRouteHandle } = {};
 
@@ -16,7 +23,10 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     if (!route.routeConfig || route.routeConfig.loadChildren) return false;
 
-    if (route.data.uniqueId && this.activeModulesService.hasModule(route.data.uniqueId)) {
+    if (
+      route.data.uniqueId &&
+      this.activeModulesService.hasModule(route.data.uniqueId)
+    ) {
       const config = this.activeModulesService.getModule(route.data.uniqueId);
 
       const uniqueKey = this.getUniqueKey(route, true);
@@ -29,7 +39,11 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
       }
     }
 
-    return route.data ? route.data.detach : route.routeConfig.data ? route.routeConfig.data.detach : false;
+    return route.data
+      ? route.data.detach
+      : route.routeConfig.data
+        ? route.routeConfig.data.detach
+        : false;
   }
 
   /**
@@ -63,10 +77,20 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
    * @param future
    * @param current
    */
-  shouldReuseRoute(future: ActivatedRouteSnapshot, current: ActivatedRouteSnapshot): boolean {
+  shouldReuseRoute(
+    future: ActivatedRouteSnapshot,
+    current: ActivatedRouteSnapshot
+  ): boolean {
     let reuse;
 
-    if (future && future.data && future.data.uniqueId && current && current.data && current.data.uniqueId) {
+    if (
+      future &&
+      future.data &&
+      future.data.uniqueId &&
+      current &&
+      current.data &&
+      current.data.uniqueId
+    ) {
       // reuse = future.data.reuse;
       reuse = future.data.uniqueId === current.data.uniqueId;
     }
@@ -79,7 +103,9 @@ export class CustomDetachReuseRouterStrategy implements RouteReuseStrategy {
      * @see https://github.com/angular/angular/blob/6.0.0/packages/router/src/route_reuse_strategy.ts#L71
      *
      */
-    return reuse !== undefined ? reuse : future.routeConfig === current.routeConfig;
+    return reuse !== undefined
+      ? reuse
+      : future.routeConfig === current.routeConfig;
   }
 
   /**

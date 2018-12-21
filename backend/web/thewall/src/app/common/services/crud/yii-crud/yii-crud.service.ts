@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams
+} from '@angular/common/http';
 import { Data } from '@angular/router';
 
 // @angular/material
@@ -24,7 +28,9 @@ export class YiiCrudService extends CrudBaseService {
   }
 
   get(id: number) {
-    return id ? this.http.get(this.api.view.url + `?id=${id}`) : this.http.options(this.api.view.url);
+    return id
+      ? this.http.get(this.api.view.url + `?id=${id}`)
+      : this.http.options(this.api.view.url);
   }
 
   list(sorting: Sort, pager: PageEvent, filters: string) {
@@ -62,7 +68,9 @@ export class YiiCrudService extends CrudBaseService {
   protected create(data: Data) {
     console.log('create => ', data);
 
-    return this.http.post(this.api.create.url, data).pipe(catchError(this.handleError)) as Observable<YIIResponse>;
+    return this.http
+      .post(this.api.create.url, data)
+      .pipe(catchError(this.handleError));
   }
 
   protected update(data: Data) {
@@ -70,15 +78,15 @@ export class YiiCrudService extends CrudBaseService {
 
     return this.http
       .post(`${this.api.update.url}?id=${data[this.idProperty]}`, data)
-      .pipe(catchError(this.handleError)) as Observable<YIIResponse>;
+      .pipe(catchError(this.handleError));
   }
 
   delete(id: number) {
     console.log('id => ', id);
 
-    return this.http.delete(`${this.api.delete.url}?id=${id}`).pipe(catchError(this.handleError)) as Observable<
-      YIIResponse
-    >;
+    return this.http
+      .delete(`${this.api.delete.url}?id=${id}`)
+      .pipe(catchError(this.handleError));
   }
 
   protected handleError(error: HttpErrorResponse) {
@@ -88,7 +96,9 @@ export class YiiCrudService extends CrudBaseService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+      console.error(
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+      );
     }
     // return an observable with a user-facing error message
     return throwError('Something bad happened; please try again later.');

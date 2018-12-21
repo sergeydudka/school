@@ -1,7 +1,6 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-
 export abstract class CrudBaseService {
   protected idProperty: string;
+  protected entity: string;
 
   protected api: {
     index?: {
@@ -32,6 +31,10 @@ export abstract class CrudBaseService {
 
   setIdProperty(idProperty: string): void {
     this.idProperty = idProperty;
+  }
+
+  setEntity(entity: string) {
+    this.entity = entity;
   }
 
   /**

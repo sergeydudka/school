@@ -18,9 +18,13 @@ import { ActionDialogContentComponent } from 'src/app/common/components/action-d
 })
 export class ActiveModulesComponent implements OnInit {
   links: ModuleConfig[] = [];
-  activeLink: string = '';
+  activeLink = '';
 
-  constructor(private activeModulseService: ActiveModulesService, private router: Router, private dialog: MatDialog) {}
+  constructor(
+    private activeModulseService: ActiveModulesService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.router.events.subscribe(event => {
@@ -29,13 +33,15 @@ export class ActiveModulesComponent implements OnInit {
       }
     });
 
-    this.activeModulseService.modulesChanged.subscribe((links: Map<string, ModuleConfig>) => {
-      this.links = Array.from(links.values());
+    this.activeModulseService.modulesChanged.subscribe(
+      (links: Map<string, ModuleConfig>) => {
+        this.links = Array.from(links.values());
 
-      if (!links.size) return;
+        if (!links.size) return;
 
-      this.activeLink = this.links[this.links.length - 1].uniqueId;
-    });
+        this.activeLink = this.links[this.links.length - 1].uniqueId;
+      }
+    );
   }
 
   /**

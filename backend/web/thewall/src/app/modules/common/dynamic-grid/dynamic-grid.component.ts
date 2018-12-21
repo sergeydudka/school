@@ -37,6 +37,7 @@ import { OverlayService } from 'src/app/modules/overlay-module/overlay.service';
 import { FormService } from 'src/app/common/services/form.service';
 
 import { MakeStateful, Stateful } from 'src/app/stateful';
+import { GlobalEventsService } from 'src/app/common/services/global-events/global-events.service';
 
 type ColumnsMap = Map<string, ColumnProps>;
 
@@ -121,6 +122,12 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
   defaultSort: string;
   defaultSortDir: 'asc' | 'desc' = 'asc';
 
+  /**
+   * Flag to know whether grid should be refresh on activation
+   * Required to keep grids in fresh state after CUD operations
+   */
+  private reloadOnActivate = false;
+
   constructor(
     private elRef: ElementRef,
     private route: ActivatedRoute,
@@ -130,7 +137,8 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     private gridBuilder: GridBuilderService,
     private formService: FormService,
     private activeModules: ActiveModulesService,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private globalEventsService: GlobalEventsService
   ) {}
 
   ngOnInit() {
@@ -142,6 +150,16 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
 
     this.setupSubscriptions();
     this.setInitialValues();
+  }
+
+  /**
+   * Custom event triggered by uxrouter-outlet
+   * allows user to take action when component reattached after detach
+   */
+  nguxAttached() {
+    if (this.reloadOnActivate) {
+      this.forceGridRefresh();
+    }
   }
 
   ngOnDestroy() {
@@ -238,13 +256,20 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
       this.handleDataLoad()
     ];
 
-    const filtersInavlidSubscription = this.filterRow.filterInvalid.subscribe(
-      () => {
-        this.formService.showErrors(this.filterRow.filterForm);
+    const filtersInavlid = this.filterRow.filterInvalid.subscribe(() => {
+      this.formService.showErrors(this.filterRow.filterForm);
+    });
+
+    // subscribe to global entity action events
+    const entityChanged = this.globalEventsService.entityChanged$.subscribe(
+      data => {
+        if (this.routeData.module !== data.type) return;
+
+        this.reloadOnActivate = true;
       }
     );
 
-    this.subscriptions.push(filtersInavlidSubscription);
+    this.subscriptions.push(filtersInavlid, entityChanged);
   }
 
   private handleDataLoad(): Subscription {
@@ -377,6 +402,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
 
     this.crud.setApi(api);
     this.crud.setIdProperty(idProperty);
+    this.crud.setEntity(module);
 
     this.idProperty = idProperty;
 
