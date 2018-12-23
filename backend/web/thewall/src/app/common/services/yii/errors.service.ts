@@ -23,6 +23,6 @@ export class ErrorsService {
     }
 
     // TODO: langs
-    this.notificationsService.error(`Error`, msg);
+    this.notificationsService.error(`CRUD Error`, msg);
   }
 }

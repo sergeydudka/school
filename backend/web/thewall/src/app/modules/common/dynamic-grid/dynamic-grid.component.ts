@@ -39,6 +39,7 @@ import { FormService } from 'src/app/common/services/form.service';
 import { MakeStateful, Stateful } from 'src/app/stateful';
 import { GlobalEventsService } from 'src/app/common/services/global-events/global-events.service';
 import { AppConfigService } from 'src/app/common/services/app-config.service';
+import { YIIResponse } from 'src/app/common/models/yii/yii-response.model';
 
 type ColumnsMap = Map<string, ColumnProps>;
 
@@ -134,6 +135,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
    * Required to keep grids in fresh state after CUD operations
    */
   private reloadOnActivate = false;
+  private isActive = false;
 
   constructor(
     private elRef: ElementRef,
@@ -150,6 +152,8 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
   ) {}
 
   ngOnInit() {
+    this.isActive = true;
+
     this.routeData = this.route.snapshot.data as ModuleConfig;
 
     this.activeModules.add(this.routeData);
@@ -165,9 +169,18 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
    * allows user to take action when component reattached after detach
    */
   nguxAttached() {
+    this.isActive = true;
     if (this.reloadOnActivate) {
       this.forceGridRefresh();
     }
+  }
+
+  /**
+   * Custom event triggered by uxrouter-outlet
+   * allows user to take action when component detached
+   */
+  nguxDetached() {
+    this.isActive = false;
   }
 
   ngOnDestroy() {
@@ -306,7 +319,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     // subscribe to global entity action events
     const entityChanged = this.globalEventsService.entityChanged$.subscribe(
       data => {
-        if (this.routeData.module !== data.type) return;
+        if (this.isActive || this.routeData.module !== data.type) return;
 
         this.reloadOnActivate = true;
       }
@@ -324,26 +337,11 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
       this.paginator.page,
       this.filterRow.filtersChanged,
       this.refreshTrigger$
-    )
-      .pipe(
-        tap(_ => {
-          // TODO: remove timeout hack
-          setTimeout(() => {
-            this.overlayService.show({
-              target: this.elRef
-            });
-          }, 1);
-        }),
-        switchMap(([sort, pager, filters]: [Sort, PageEvent, string, void]) =>
-          this.crud.list(sort, pager, filters)
-        ),
-        catchError((...params) => {
-          // TODO: proper error handling
-          console.log('Error on data retrieving => ', params);
-          return observableOf([]);
-        })
-      )
-      .subscribe((result: YIIEntityResponse) => {
+    ).subscribe(([sort, pager, filters]: [Sort, PageEvent, string, void]) =>
+      this.crud.list(sort, pager, filters, (result?: YIIResponse) => {
+        // in case of an error
+        if (!result) return;
+
         // we are only interested on intial columns config
         // no need to rerender columns each time
         if (!this.initialized) {
@@ -362,16 +360,10 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
           this.initialized = true;
         }
 
-        // TODO: remove timeout hack
-        setTimeout(() => {
-          this.overlayService.hide({
-            target: this.elRef
-          });
-        }, 1);
-
         this.dataSource = result.result.list;
         this.totalCount = result.result.total;
-      });
+      })
+    );
   }
 
   /**
@@ -461,9 +453,11 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
       api = this.api.getModuleApi(category, module),
       idProperty = this.api.getModuleIdProperty(category, module);
 
-    this.crud.setApi(api);
-    this.crud.setIdProperty(idProperty);
-    this.crud.setEntity(module);
+    this.crud
+      .setTarget(this.elRef)
+      .setApi(api)
+      .setIdProperty(idProperty)
+      .setEntity(module);
 
     this.idProperty = idProperty;
 
@@ -525,13 +519,10 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
   }
 
   private _handleRemove(element): void {
-    this.overlayService.show({
-      target: this.elRef
-    });
-    this.crud.delete(element[this.idProperty]).subscribe(result => {
-      this.overlayService.hide({
-        target: this.elRef
-      });
+    this.crud.delete(element[this.idProperty], result => {
+      if (!result) return;
+
+      this.forceGridRefresh();
     });
   }
 }

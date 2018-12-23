@@ -49,5 +49,17 @@
     >
       Cancel
     </button>
+
+    <!-- TODO: langs -->
+    <button
+      *ngIf="data"
+      type="button"
+      (click)="handleRemove()"
+      mat-raised-button
+      [disabled]="isSubmiting"
+      color="warn"
+    >
+      Remove
+    </button>
   </mat-toolbar>
 </form>

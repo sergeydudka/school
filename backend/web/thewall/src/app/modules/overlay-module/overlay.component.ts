@@ -22,7 +22,7 @@ interface OverlaycomponentOptions {
       }
 
       p {
-        font-family: Roboto, 'Helvetica Neue', sans-serif;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
         margin-top: 15px;
         color: #fff;
         margin: 10px 0 0;
@@ -34,7 +34,10 @@ export class OverlayComponent {
   color = 'primary';
   diameter = 50;
 
-  constructor(@Inject(COMPONENT_OVERLAY_LOADER_OPTIONS) public options: OverlaycomponentOptions) {
+  constructor(
+    @Inject(COMPONENT_OVERLAY_LOADER_OPTIONS)
+    public options: OverlaycomponentOptions
+  ) {
     if (options.color) {
       this.color = options.color;
     }

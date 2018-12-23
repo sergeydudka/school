@@ -1,4 +1,10 @@
-import { Injectable, InjectionToken, Optional, Inject, Injector, ComponentRef, ElementRef } from '@angular/core';
+import {
+  Injectable,
+  Optional,
+  Inject,
+  Injector,
+  ElementRef
+} from '@angular/core';
 
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
@@ -10,11 +16,17 @@ import { ComponentConnectedPoisitionStrategy } from './component-connected-posit
 import { ComponentOverlayConfig } from './overlay-config';
 import { OverlayComponentRef } from './overlay-component.ref';
 
-import { COMPONENT_OVERLAY_DEFAULT_OPTIONS, COMPONENT_OVERLAY_LOADER_OPTIONS } from './overlay-component.tokens';
+import {
+  COMPONENT_OVERLAY_DEFAULT_OPTIONS,
+  COMPONENT_OVERLAY_LOADER_OPTIONS
+} from './overlay-component.tokens';
 
 @Injectable()
 export class OverlayService {
-  private overlaysMap: Map<ElementRef | HTMLElement, OverlayComponentRef> = new Map();
+  private overlaysMap: Map<
+    ElementRef | HTMLElement,
+    OverlayComponentRef
+  > = new Map();
 
   constructor(
     private _overlay: Overlay,
@@ -25,7 +37,9 @@ export class OverlayService {
     private _defaultOptions: ComponentOverlayConfig
   ) {}
 
-  show(config: ComponentOverlayConfig = { loaderConfig: {} }): OverlayComponentRef {
+  show(
+    config: ComponentOverlayConfig = { loaderConfig: {} }
+  ): OverlayComponentRef {
     // Override default configuration
     const dialogConfig = _mergeConfigs(
       {
@@ -103,7 +117,11 @@ export class OverlayService {
     const injector = this._createInjector(config, overlayComponentRef);
 
     // Create ComponentPortal that can be attached to a PortalHost
-    const containerPortal = new ComponentPortal(config.component, null, injector);
+    const containerPortal = new ComponentPortal(
+      config.component,
+      null,
+      injector
+    );
 
     // Attach ComponentPortal to PortalHost
     const containerRef = overlayRef.attach(containerPortal);
@@ -111,7 +129,10 @@ export class OverlayService {
     return containerRef.instance;
   }
 
-  private _createInjector(config: ComponentOverlayConfig, overlayComponentRef: OverlayComponentRef) {
+  private _createInjector(
+    config: ComponentOverlayConfig,
+    overlayComponentRef: OverlayComponentRef
+  ) {
     const injectionTokens = new WeakMap();
 
     // injectionTokens.set(OverlayComponentRef, overlayComponentRef);
@@ -121,6 +142,9 @@ export class OverlayService {
   }
 }
 
-function _mergeConfigs(defaults?: ComponentOverlayConfig, config?: ComponentOverlayConfig): ComponentOverlayConfig {
+function _mergeConfigs(
+  defaults?: ComponentOverlayConfig,
+  config?: ComponentOverlayConfig
+): ComponentOverlayConfig {
   return { ...defaults, ...config };
 }

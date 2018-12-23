@@ -1,6 +1,9 @@
+import { ElementRef } from '@angular/core';
+
 export abstract class CrudBaseService {
   protected idProperty: string;
   protected entity: string;
+  protected target: ElementRef;
 
   protected api: {
     index?: {
@@ -25,16 +28,24 @@ export abstract class CrudBaseService {
     };
   };
 
-  setApi(api: {}): void {
+  setApi(api: {}) {
     this.api = api;
+    return this;
   }
 
-  setIdProperty(idProperty: string): void {
+  setIdProperty(idProperty: string) {
     this.idProperty = idProperty;
+    return this;
   }
 
   setEntity(entity: string) {
     this.entity = entity;
+    return this;
+  }
+
+  setTarget(element: ElementRef) {
+    this.target = element;
+    return this;
   }
 
   /**
