@@ -7,7 +7,6 @@ import { ViewportRuler } from '@angular/cdk/scrolling';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { Platform } from '@angular/cdk/platform';
 
-// TODO: change this?????
 /** Class to be added to the overlay bounding box. */
 const boundingBoxClass = 'cdk-overlay-connected-position-bounding-box';
 
@@ -34,7 +33,10 @@ export class ComponentConnectedPoisitionStrategy implements PositionStrategy {
    */
   private _boundingBox: HTMLElement | null;
 
-  constructor(private _viewportRuler: ViewportRuler, private _platform?: Platform) {}
+  constructor(
+    private _viewportRuler: ViewportRuler,
+    private _platform?: Platform
+  ) {}
 
   /**
    * Specifies target element for overlay
@@ -69,7 +71,6 @@ export class ComponentConnectedPoisitionStrategy implements PositionStrategy {
    * @docs-private
    */
   apply(): void {
-    // TODO: platform????
     if (this._isDisposed || (this._platform && !this._platform.isBrowser)) {
       return;
     }
@@ -126,8 +127,11 @@ export class ComponentConnectedPoisitionStrategy implements PositionStrategy {
 }
 
 // helper function to apply styles to component
-function extendStyles(dest: CSSStyleDeclaration, source: CSSStyleDeclaration): CSSStyleDeclaration {
-  for (let key in source) {
+function extendStyles(
+  dest: CSSStyleDeclaration,
+  source: CSSStyleDeclaration
+): CSSStyleDeclaration {
+  for (const key in source) {
     if (source.hasOwnProperty(key)) {
       dest[key] = source[key];
     }

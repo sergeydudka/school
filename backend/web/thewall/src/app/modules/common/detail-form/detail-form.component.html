@@ -1,7 +1,12 @@
 <form *ngIf="fields" (ngSubmit)="onSubmit()" [formGroup]="form">
-  <dynamic-form-group [fields]="fields" [formGroup]="form"></dynamic-form-group>
+  <div class="form-group-wrapper">
+    <dynamic-form-group
+      [fields]="fields"
+      [formGroup]="form"
+    ></dynamic-form-group>
+  </div>
 
-  <div class="buttons">
+  <mat-toolbar>
     <!-- TODO: langs -->
     <button
       mat-raised-button
@@ -37,12 +42,12 @@
     <!-- TODO: langs -->
     <button
       type="button"
-      (click)="onCancelClick()"
+      (click)="closeEdit()"
       mat-raised-button
       [disabled]="isSubmiting"
       color="warn"
     >
       Cancel
     </button>
-  </div>
+  </mat-toolbar>
 </form>

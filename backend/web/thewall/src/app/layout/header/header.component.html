@@ -7,7 +7,7 @@
 
   <button mat-icon-button><mat-icon>perm_identity</mat-icon></button>
 
-  <mat-menu #appMenu="matMenu">
+  <mat-menu #editionsMenu="matMenu">
     <button
       mat-menu-item
       *ngFor="let edition of (editions$ | async)"
@@ -17,9 +17,25 @@
     </button>
   </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="appMenu">
+  <button mat-button [matMenuTriggerFor]="editionsMenu">
     <mat-icon>outlined_flag</mat-icon>
     {{ currentEdition?.title }}
+  </button>
+
+  <mat-menu #themesMenu="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let theme of themes"
+      (click)="changeTheme(theme)"
+    >
+      <span>{{ theme.title }}</span>
+    </button>
+  </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="themesMenu">
+    <!-- TODO: update icon -->
+    <mat-icon>color_lens</mat-icon>
+    <!-- {{ theme.title }} -->
   </button>
 
   <button mat-icon-button>

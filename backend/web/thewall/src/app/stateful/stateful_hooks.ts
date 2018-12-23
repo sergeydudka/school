@@ -22,6 +22,11 @@ export interface Stateful {
   stateChanged$: Subject<void | string>;
 
   /**
+   * Calback which called after state successfully restored
+   */
+  stateRestored?: () => void;
+
+  /**
    * User defined method to return unique stateKey for this component.
    * By default class constructor name is used
    */

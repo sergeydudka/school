@@ -20,7 +20,6 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
   const statefulPropertyKey = 'stateful-property';
 
   return function(ctor: Function, ...args) {
-    // TODO: use those values somehow
     const meta = Reflect.getOwnMetadata(statefulPropertyKey, ctor.prototype);
 
     stateParams.stateProperties = [
@@ -181,6 +180,10 @@ export function MakeStateful(stateParams: StatefulConfig = {}): ClassDecorator {
       if (!state) return;
 
       cmp.restoreState(state, stateConfig.stateProperties);
+
+      if (cmp.stateRestored && typeof cmp.stateRestored === 'function') {
+        cmp.stateRestored();
+      }
     }
 
     proto.calculateState =

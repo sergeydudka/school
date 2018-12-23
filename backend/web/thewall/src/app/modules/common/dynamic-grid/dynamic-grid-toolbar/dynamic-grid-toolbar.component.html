@@ -1,0 +1,44 @@
+<button mat-button color="primary" (click)="filterRow.apply()">
+  <mat-icon aria-label="">filter_list</mat-icon>
+  <!-- TODO: langs -->
+  Apply Filter
+</button>
+
+<button
+  mat-button
+  color="primary"
+  [disabled]="!filterRow.filtered"
+  (click)="filterRow.clear()"
+>
+  <mat-icon aria-label="">clear</mat-icon>
+  <!-- TODO: langs -->
+  Clear Filter
+</button>
+
+<button mat-button color="primary" (click)="grid.onAdd()">
+  <mat-icon aria-label="">add</mat-icon>
+  <!-- TODO: langs -->
+  Add
+</button>
+
+<button
+  mat-button
+  color="primary"
+  [disabled]="!grid.selection.hasValue()"
+  (click)="grid.onEdit()"
+>
+  <mat-icon aria-label="">edit</mat-icon>
+  <!-- TODO: langs -->
+  Edit
+</button>
+
+<button
+  mat-button
+  color="primary"
+  [disabled]="!grid.selection.hasValue()"
+  (click)="grid.handleRemove()"
+>
+  <mat-icon aria-label="">delete</mat-icon>
+  <!-- TODO: langs -->
+  Delete
+</button>

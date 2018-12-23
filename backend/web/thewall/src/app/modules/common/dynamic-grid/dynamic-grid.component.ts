@@ -38,6 +38,7 @@ import { FormService } from 'src/app/common/services/form.service';
 
 import { MakeStateful, Stateful } from 'src/app/stateful';
 import { GlobalEventsService } from 'src/app/common/services/global-events/global-events.service';
+import { AppConfigService } from 'src/app/common/services/app-config.service';
 
 type ColumnsMap = Map<string, ColumnProps>;
 
@@ -67,14 +68,21 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
   private subscriptions: Subscription[];
   private routeData: ModuleConfig;
 
+  private autoRefreshInterval: number;
   private autoRefreshIntervalRef: number;
-  private refreshTrigger: Subject<void>;
+  private refreshTrigger$: Subject<void>;
 
-  // TODO: take value from config
-  private autoRefreshInterval = 30000;
-  idProperty;
+  idProperty: string;
 
-  private _hoveredColumn: Column = null;
+  /**
+   * Currently active column, required to show column menu
+   */
+  activeColumn: Column = null;
+
+  /**
+   * Current record, required to have reference to record on context menu
+   */
+  activeRecord: Column = null;
 
   selection = new SelectionModel<any>(true, []);
 
@@ -109,9 +117,8 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
   @ViewChild(FilterRowDirective)
   filterRow: FilterRowDirective;
 
-  // TODO: take those from config
-  pageSizeOptions = [10, 20, 50, 100];
-  pageSize = this.pageSizeOptions[0];
+  pageSizeOptions: number[];
+  pageSize: number;
 
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
@@ -134,6 +141,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     private router: Router,
     private crud: YiiCrudService,
     private api: ApiService,
+    private configService: AppConfigService,
     private gridBuilder: GridBuilderService,
     private formService: FormService,
     private activeModules: ActiveModulesService,
@@ -146,7 +154,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
 
     this.activeModules.add(this.routeData);
 
-    this.refreshTrigger = new Subject();
+    this.refreshTrigger$ = new Subject();
 
     this.setupSubscriptions();
     this.setInitialValues();
@@ -171,12 +179,18 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  isAllSelected() {
+  /**
+   * Whether all grid items selected or not
+   */
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.length;
     return numSelected === numRows;
   }
 
+  /**
+   * Togggles selection all/none
+   */
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
@@ -200,11 +214,14 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     );
   }
 
+  /**
+   * Forces grid refresh even if nothing has changed
+   */
   forceGridRefresh() {
-    this.refreshTrigger.next();
+    this.refreshTrigger$.next();
   }
 
-  onAutoRefreshChanged(value: MatCheckboxChange) {
+  handleAutoRefreshChanged(value: MatCheckboxChange) {
     if (value.checked) {
       this.autoRefreshIntervalRef = window.setInterval(() => {
         this.forceGridRefresh();
@@ -214,7 +231,12 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     }
   }
 
-  allowColumnHide(column: Column) {
+  /**
+   * Whether it's allow to hide this column or not
+   *
+   * @param column current column config
+   */
+  allowColumnHide(column: Column): boolean {
     return (
       (this.hideableColumnsCount === 1 && !column.hidden) ||
       this.persistantColumns.includes(column.name)
@@ -233,22 +255,43 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     return this.routeData.module + this.constructor.name;
   }
 
-  changeSort(sortDir: 'asc' | 'desc') {
+  /**
+   * Changes sorting for currently active or for provided column
+   *
+   * If there is no active column or user didn't provided one
+   * sorting will be make by `idProperty` column
+   *
+   * @param sortDir new sort direction
+   * @param column target column
+   */
+  changeSort(sortDir: 'asc' | 'desc', column?: Column) {
+    const name = column
+      ? column.name
+      : this.activeColumn
+        ? this.activeColumn.name
+        : this.idProperty;
+
     // skip if already active
-    if (
-      this._hoveredColumn.name === this.sort.active &&
-      sortDir === this.sort.direction
-    ) {
+    if (name === this.sort.active && sortDir === this.sort.direction) {
       return;
     }
 
     this.sort.sort({
-      id: this._hoveredColumn.name,
+      id: name,
       start: sortDir,
       disableClear: true
     });
   }
 
+  isColumnVisible(column: Column) {
+    return !this.columnsCfgMap.get(column.name).hidden;
+  }
+
+  /**
+   * Setup all necessary subscription on grid init.
+   * This way it's easier to control from which subscriptions
+   * we need to unsubscribe on destroy
+   */
   private setupSubscriptions() {
     this.subscriptions = [
       this.setupUrlSync(),
@@ -272,12 +315,15 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     this.subscriptions.push(filtersInavlid, entityChanged);
   }
 
+  /**
+   * Method responsible for loading data on parameters change
+   */
   private handleDataLoad(): Subscription {
     return combineLatest(
       this.sort.sortChange,
       this.paginator.page,
       this.filterRow.filtersChanged,
-      this.refreshTrigger
+      this.refreshTrigger$
     )
       .pipe(
         tap(_ => {
@@ -303,6 +349,7 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
         if (!this.initialized) {
           const columnsCfg = this.gridBuilder.generateColumnsData(result);
 
+          // we set initial values to allow initial state calculation
           this.setColumnsCfg(columnsCfg);
 
           // required by Stateful decorator, to signalize that component
@@ -327,6 +374,11 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
       });
   }
 
+  /**
+   * Helper method to set both columnsCfg and columnsCfgMap by providing either of those
+   *
+   * @param cfg new columns config
+   */
   private setColumnsCfg(cfg: ColumnProps[] | ColumnsMap) {
     if (Array.isArray(cfg)) {
       this.columnsCfg = cfg;
@@ -343,6 +395,9 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     this.columnsConfigChanged.next();
   }
 
+  /**
+   * Method responsible for kipping URL in sync with current application state
+   */
   private setupUrlSync(): Subscription {
     // Updates URL to match grid state
     return combineLatest(
@@ -377,6 +432,9 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
       );
   }
 
+  /**
+   * Helper method to set grid columns on config change
+   */
   private handleColumnsChanged(): Subscription {
     return this.columnsConfigChanged.subscribe(_ => {
       this.displayedColumns = this.columnsCfg
@@ -395,6 +453,9 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     });
   }
 
+  /**
+   * Sets default grid config values using provided user config and URL parameters
+   */
   private setInitialValues() {
     const { category, module } = this.route.snapshot.data,
       api = this.api.getModuleApi(category, module),
@@ -405,6 +466,12 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     this.crud.setEntity(module);
 
     this.idProperty = idProperty;
+
+    this.configService.config.subscribe(data => {
+      this.pageSizeOptions = data.pagination.pageSizes;
+      this.pageSize = data.pagination.perPage;
+      this.autoRefreshInterval = data.pagination.autoRefreshInterval;
+    });
 
     const { queryParams } = this.route.snapshot;
 
@@ -446,11 +513,9 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
     // TODO: proper initial values
     this.filterRow.setInitialState(queryParams.filters);
 
-    this.refreshTrigger.next();
-  }
-
-  isColumnVisible(column: Column) {
-    return !this.columnsCfgMap.get(column.name).hidden;
+    // trigger initial value, otherwise load would not happed due to
+    // how combineLatest works
+    this.refreshTrigger$.next();
   }
 
   private handleColumnVisibilityChange(column: Column, checked: boolean) {
@@ -468,9 +533,5 @@ export class DynamicGridComponent implements OnInit, OnDestroy, Stateful {
         target: this.elRef
       });
     });
-  }
-
-  private handleHoveredColumnHeaderChanged(column: Column) {
-    this._hoveredColumn = column;
   }
 }

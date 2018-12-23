@@ -1,73 +1,12 @@
-<div class="buttons-wrapper">
-  <button mat-button color="primary" (click)="filterRow.apply()">
-    <mat-icon aria-label="">filter_list</mat-icon>
-    <!-- TODO: title -->
-    Apply Filter
-  </button>
+<sch-dynamic-grid-toolbar
+  [filterRow]="filterRow"
+  [grid]="this"
+></sch-dynamic-grid-toolbar>
 
-  <button
-    mat-button
-    color="primary"
-    [disabled]="!filterRow.filtered"
-    (click)="filterRow.clear()"
-  >
-    <mat-icon aria-label="">clear</mat-icon>
-    <!-- TODO: title -->
-    Clear Filter
-  </button>
-
-  <button mat-button color="primary" (click)="onAdd()">
-    <mat-icon aria-label="">add</mat-icon>
-    <!-- TODO: title -->
-    Add
-  </button>
-
-  <button
-    mat-button
-    color="primary"
-    [disabled]="!selection.hasValue()"
-    (click)="onEdit()"
-  >
-    <mat-icon aria-label="">edit</mat-icon>
-    <!-- TODO: title -->
-    Edit
-  </button>
-
-  <button
-    mat-button
-    color="primary"
-    [disabled]="!selection.hasValue()"
-    (click)="handleRemove()"
-  >
-    <mat-icon aria-label="">delete</mat-icon>
-    <!-- TODO: title -->
-    Delete
-  </button>
-</div>
-
-<!-- START Header context menu -->
-<mat-menu #headerCellMenu="matMenu">
-  <!-- TODO: langs -->
-  <button mat-menu-item (click)="changeSort('asc')">Sort ASC</button>
-  <!-- TODO: langs -->
-  <button mat-menu-item (click)="changeSort('desc')">Sort DESC</button>
-  <hr />
-  <!-- TODO: langs -->
-  <button mat-menu-item [matMenuTriggerFor]="columnsMenu">Columns</button>
-</mat-menu>
-
-<mat-menu #columnsMenu="matMenu">
-  <div mat-menu-item *ngFor="let col of columnsCfg">
-    <mat-checkbox
-      [checked]="isColumnVisible(col)"
-      [disabled]="allowColumnHide(col)"
-      (change)="handleColumnVisibilityChange(col, $event.checked)"
-      onclick="event.stopPropagation()"
-      >{{ col.label }}</mat-checkbox
-    >
-  </div>
-</mat-menu>
-<!-- END Header context menu -->
+<sch-column-menu
+  #headerCellMenu="gridColumnMenu"
+  [grid]="this"
+></sch-column-menu>
 
 <div class="table-wrapper">
   <table
@@ -86,70 +25,10 @@
       *ngFor="let filter of columnsCfg"
       [matColumnDef]="'filter_' + filter.name"
     >
-      <td mat-cell *matHeaderCellDef [ngSwitch]="filter.type">
-        <uxmat-filter-row-cell
-          [uxmatFilterCellDef]="filter"
-          [uxmatFilterName]="filter.name"
-        >
-          <ng-template let-form="form">
-            <ng-container [formGroup]="form">
-              <input
-                *ngSwitchCase="'integer'"
-                type="number"
-                [formControlName]="filter.name"
-              />
-
-              <input
-                *ngSwitchCase="'text'"
-                type="text"
-                [formControlName]="filter.name"
-              />
-
-              <input
-                *ngSwitchCase="'string'"
-                type="text"
-                [formControlName]="filter.name"
-              />
-
-              <ng-container *ngSwitchCase="'date'">
-                <input
-                  matInput
-                  [matDatepicker]="picker"
-                  [formControlName]="filter.name"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </ng-container>
-
-              <!-- TODO: langs -->
-              <mat-select
-                *ngSwitchCase="'list'"
-                placeholder="Any"
-                [formControlName]="filter.name"
-              >
-                <mat-option
-                  *ngFor="let option of filter.options"
-                  [value]="option.key"
-                >
-                  {{ option.value }}
-                </mat-option>
-              </mat-select>
-
-              <!-- TODO: langs -->
-              <sch-search-field
-                [formControlName]="filter.name"
-                *ngSwitchCase="'search'"
-                [url]="filter.url"
-                [valueField]="filter.valueField"
-                [displayField]="filter.displayField"
-                placeholder="Search..."
-              ></sch-search-field>
-            </ng-container>
-          </ng-template>
-        </uxmat-filter-row-cell>
+      <td mat-cell *matHeaderCellDef>
+        <sch-dynamic-filter-row-cell
+          [filter]="filter"
+        ></sch-dynamic-filter-row-cell>
       </td>
     </ng-container>
 
@@ -176,17 +55,17 @@
       <th
         class="mat-header-cell--with-menu"
         mat-header-cell
-        [uxmatContextMenu]="headerCellMenu"
-        (mouseover)="handleHoveredColumnHeaderChanged(col)"
+        [uxmatContextMenu]="headerCellMenu.menu"
         mat-sort-header
+        (contextmenu)="this.activeColumn = col"
         *matHeaderCellDef
       >
         {{ col.label }}
         <button
           mat-icon-button
           class="column-actions-btn mat-icon-button--small"
-          [matMenuTriggerFor]="headerCellMenu"
-          onclick="event.stopPropagation()"
+          [matMenuTriggerFor]="headerCellMenu.menu"
+          (click)="$event.stopPropagation(); this.activeColumn = col"
         >
           <!-- TODO: langs -->
           <mat-icon aria-label="Menu" [inline]="true">more_vert</mat-icon>
@@ -194,21 +73,13 @@
       </th>
 
       <td mat-cell *matCellDef="let element" [ngSwitch]="col.type">
-        <span *ngSwitchCase="'integer'"> {{ element[col.name] }} </span>
-
-        <span *ngSwitchCase="'text'"> {{ element[col.name] }} </span>
-
-        <span *ngSwitchCase="'string'"> {{ element[col.name] }} </span>
-
-        <span *ngSwitchCase="'timestamp'"> {{ element[col.name] }} </span>
-
-        <span *ngSwitchCase="'list'"> {{ element[col.name] }} </span>
-
         <span *ngSwitchCase="'search'">
           <ng-container *ngIf="element[col.name]">
             {{ element[col.name][col.displayField] }}
           </ng-container>
         </span>
+
+        <span *ngSwitchDefault> {{ element[col.name] }} </span>
       </td>
     </ng-container>
 
@@ -217,7 +88,7 @@
       <!-- TODO: langs -->
       <th class="action-col" mat-header-cell *matHeaderCellDef>Actions</th>
       <td class="action-col" mat-cell *matCellDef="let element">
-        <button mat-icon-button routerLink="detail/{{element[idProperty]}}">
+        <button mat-icon-button routerLink="detail/{{ element[idProperty] }}">
           <mat-icon [inline]="true">edit</mat-icon>
         </button>
         <button mat-icon-button (click)="handleRemoveSinge(element)">
@@ -248,7 +119,13 @@
     </ng-container>
     <!-- Selections END -->
 
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-row
+      (contextmenu)="activeRecord = row"
+      [uxmatContextMenu]="rowContextMenu"
+      uxmatContextMenuPositionGlobal
+      *matRowDef="let row; columns: displayedColumns"
+    ></tr>
   </table>
 </div>
 
@@ -265,8 +142,26 @@
 
   <div class="auto-refresh-wrapper">
     <!-- TODO: langs -->
-    <mat-checkbox class="auto-refresh" (change)="onAutoRefreshChanged($event)"
+    <mat-checkbox
+      class="auto-refresh"
+      (change)="handleAutoRefreshChanged($event)"
       >Auto refresh</mat-checkbox
     >
   </div>
 </mat-toolbar>
+
+<mat-menu #rowContextMenu="matMenu">
+  <!-- TODO: langs -->
+  <button
+    mat-menu-item
+    *ngIf="activeRecord"
+    routerLink="detail/{{ activeRecord[idProperty] }}"
+  >
+    Edit
+  </button>
+
+  <!-- TODO: langs -->
+  <button mat-menu-item (click)="handleRemoveSinge(activeRecord)">
+    Remove
+  </button>
+</mat-menu>

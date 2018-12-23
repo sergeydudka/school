@@ -28,7 +28,13 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { DynamicGridComponent } from './dynamic-grid.component';
 import { DynamicGridOutletComponent } from './dynamic-grid-outlet.component';
-import { ContextMenuDirective } from 'src/app/common/directives/context-menu.directive';
+import {
+  ContextMenuDirective,
+  ContextMenuDirectivePositionGlobal
+} from 'src/app/common/directives/context-menu.directive';
+import { ColumnMenuComponent } from './column-menu/column-menu.component';
+import { DynamicFilterRowCellComponent } from './dynamic-filter-row-cell/dynamic-filter-row-cell.component';
+import { DynamicGridToolbarComponent } from './dynamic-grid-toolbar/dynamic-grid-toolbar.component';
 
 @NgModule({
   imports: [
@@ -60,6 +66,14 @@ import { ContextMenuDirective } from 'src/app/common/directives/context-menu.dir
     DynamicGridRoutingModule
   ],
   providers: [GridBuilderService],
-  declarations: [DynamicGridComponent, DynamicGridOutletComponent, ContextMenuDirective]
+  declarations: [
+    DynamicGridComponent,
+    DynamicGridOutletComponent,
+    ContextMenuDirective,
+    ContextMenuDirectivePositionGlobal,
+    ColumnMenuComponent,
+    DynamicFilterRowCellComponent,
+    DynamicGridToolbarComponent
+  ]
 })
 export class DynamicGridModule {}

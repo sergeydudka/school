@@ -8,7 +8,8 @@ import {
   MatNativeDateModule,
   MatSelectModule,
   MatButtonModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatToolbarModule
 } from '@angular/material';
 
 // project components
@@ -28,6 +29,7 @@ import { SharedModule } from '../../shared/shared.module';
     MatButtonModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatToolbarModule,
 
     ReactiveFormsModule,
 

@@ -1,0 +1,65 @@
+<ng-container [ngSwitch]="filter.type">
+  <uxmat-filter-row-cell
+    [uxmatFilterCellDef]="filter"
+    [uxmatFilterName]="filter.name"
+  >
+    <ng-template let-form="form">
+      <ng-container [formGroup]="form">
+        <input
+          *ngSwitchCase="'integer'"
+          type="number"
+          [formControlName]="filter.name"
+        />
+
+        <input
+          *ngSwitchCase="'text'"
+          type="text"
+          [formControlName]="filter.name"
+        />
+
+        <input
+          *ngSwitchCase="'string'"
+          type="text"
+          [formControlName]="filter.name"
+        />
+
+        <ng-container *ngSwitchCase="'date'">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControlName]="filter.name"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </ng-container>
+
+        <!-- TODO: langs -->
+        <mat-select
+          *ngSwitchCase="'list'"
+          placeholder="Any"
+          [formControlName]="filter.name"
+        >
+          <mat-option
+            *ngFor="let option of filter.options"
+            [value]="option.key"
+          >
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+
+        <!-- TODO: langs -->
+        <sch-search-field
+          [formControlName]="filter.name"
+          *ngSwitchCase="'search'"
+          [url]="filter.url"
+          [valueField]="filter.valueField"
+          [displayField]="filter.displayField"
+          placeholder="Search..."
+        ></sch-search-field>
+      </ng-container>
+    </ng-template>
+  </uxmat-filter-row-cell>
+</ng-container>

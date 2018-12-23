@@ -1,0 +1,21 @@
+<mat-menu #menu>
+  <!-- TODO: langs -->
+  <button mat-menu-item (click)="grid.changeSort('asc')">Sort ASC</button>
+  <!-- TODO: langs -->
+  <button mat-menu-item (click)="grid.changeSort('desc')">Sort DESC</button>
+  <hr />
+  <!-- TODO: langs -->
+  <button mat-menu-item [matMenuTriggerFor]="columnsMenu">Columns</button>
+</mat-menu>
+
+<mat-menu #columnsMenu="matMenu">
+  <div mat-menu-item *ngFor="let col of grid.columnsCfg">
+    <mat-checkbox
+      [checked]="grid.isColumnVisible(col)"
+      [disabled]="grid.allowColumnHide(col)"
+      (change)="grid.handleColumnVisibilityChange(col, $event.checked)"
+      onclick="event.stopPropagation()"
+      >{{ col.label }}</mat-checkbox
+    >
+  </div>
+</mat-menu>

@@ -99,18 +99,22 @@ export class DetailFormComponent implements OnInit {
         ...values,
         [this.idProperty]: isUpdate ? this.data[this.idProperty] : null
       })
-      .subscribe(result => {
+      .subscribe((result: YIIEntityResponse) => {
         this.isSubmiting = false;
 
-        // TODO: redirect if success and has this.closeOnSave === true
-        // TODO: is success and not save on close mark as prestine
-        console.log('submitted => ', result);
+        if (!result.status) return this.crud.showServerErrors(result);
+
+        this.form.markAsPristine();
 
         // notify other components that entity has changed
         this.globalEventsService.entityChanged$.next({
           type: this.module,
           action: isUpdate ? 'update' : 'create'
         });
+
+        if (this.closeOnSave) {
+          this.closeEdit();
+        }
       });
   }
 
@@ -130,7 +134,7 @@ export class DetailFormComponent implements OnInit {
     });
   }
 
-  onCancelClick() {
+  closeEdit() {
     this.router.navigate([`/${this.category}/${this.module}`]);
   }
 }

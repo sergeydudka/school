@@ -16,10 +16,11 @@ import { catchError } from 'rxjs/operators';
 // application specific
 import { CrudBaseService } from '../crud-base.service';
 import { YIIResponse } from 'src/app/common/models/yii/yii-response.model';
+import { ErrorsService } from '../../yii/errors.service';
 
 @Injectable()
 export class YiiCrudService extends CrudBaseService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private errorsService: ErrorsService) {
     super();
   }
 
@@ -56,8 +57,6 @@ export class YiiCrudService extends CrudBaseService {
   }
 
   save(data: Data) {
-    console.log('save => ', data);
-
     if (!data[this.idProperty]) {
       return this.create(data);
     } else {
@@ -66,27 +65,25 @@ export class YiiCrudService extends CrudBaseService {
   }
 
   protected create(data: Data) {
-    console.log('create => ', data);
-
     return this.http
       .post(this.api.create.url, data)
       .pipe(catchError(this.handleError));
   }
 
   protected update(data: Data) {
-    console.log('update => ', data);
-
     return this.http
       .post(`${this.api.update.url}?id=${data[this.idProperty]}`, data)
       .pipe(catchError(this.handleError));
   }
 
   delete(id: number) {
-    console.log('id => ', id);
-
     return this.http
       .delete(`${this.api.delete.url}?id=${id}`)
       .pipe(catchError(this.handleError));
+  }
+
+  showServerErrors(response: YIIResponse): void {
+    this.errorsService.showServerErrors(response);
   }
 
   protected handleError(error: HttpErrorResponse) {

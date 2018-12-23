@@ -14,13 +14,17 @@ import { PersistanceService } from './persistance/persistance.service';
 })
 export class AppConfigService {
   private _config: BehaviorSubject<AppConfig>;
+
   get config() {
     return this._config;
   }
 
   private configUrl = environment.configUrl;
 
-  constructor(private http: HttpClient, private persistanceService: PersistanceService) {
+  constructor(
+    private http: HttpClient,
+    private persistanceService: PersistanceService
+  ) {
     this.init();
   }
 

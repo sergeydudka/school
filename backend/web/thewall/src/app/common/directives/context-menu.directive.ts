@@ -20,6 +20,7 @@ import {
   OverlayConfig,
   ScrollStrategy
 } from '@angular/cdk/overlay';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { FocusOrigin, FocusMonitor } from '@angular/cdk/a11y';
 import { Directionality, Direction } from '@angular/cdk/bidi';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -38,6 +39,15 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 /** Default top padding of the menu panel. */
 export const MENU_PANEL_TOP_PADDING = 8;
 
+/**
+ * Special directive that switches uxmatContextMenu
+ * to global positioning strategy
+ */
+@Directive({
+  selector: '[uxmatContextMenuPositionGlobal]'
+})
+export class ContextMenuDirectivePositionGlobal {}
+
 @Directive({
   selector: '[uxmatContextMenu]',
   host: {
@@ -51,12 +61,19 @@ export const MENU_PANEL_TOP_PADDING = 8;
 export class ContextMenuDirective implements OnDestroy {
   private _portal: TemplatePortal;
   private _overlayRef: OverlayRef | null = null;
-  private _menuOpen: boolean = false;
+  private _menuOpen = false;
   private _closeSubscription = Subscription.EMPTY;
   private _hoverSubscription = Subscription.EMPTY;
   private _menuCloseSubscription = Subscription.EMPTY;
   private _scrollStrategy: () => ScrollStrategy;
-  private _preventBrowserContextMenu: boolean = false;
+  private _preventBrowserContextMenu = false;
+
+  /**
+   * Attibutes required for global positioning
+   */
+  private _isGlobalPositioning;
+  private globalOffsetLeft: number;
+  private globalOffsetTop: number;
 
   // Tracking input type is necessary so it's possible to only auto-focus
   // the first item of the list when the menu is opened via the keyboard
@@ -97,9 +114,11 @@ export class ContextMenuDirective implements OnDestroy {
     @Self()
     private _menuItemInstance: MatMenuItem,
     @Optional() private _dir: Directionality,
+    @Optional() isGlobalPositioning: ContextMenuDirectivePositionGlobal,
     private _focusMonitor?: FocusMonitor
   ) {
     this._scrollStrategy = scrollStrategy;
+    this._isGlobalPositioning = isGlobalPositioning;
   }
 
   ngOnDestroy() {
@@ -137,25 +156,32 @@ export class ContextMenuDirective implements OnDestroy {
     this._menuCloseSubscription.unsubscribe();
 
     if (this.menu) {
-      this._menuCloseSubscription = this.menu.close.asObservable().subscribe(reason => {
-        this._destroyMenu();
+      this._menuCloseSubscription = this.menu.close
+        .asObservable()
+        .subscribe(reason => {
+          this._destroyMenu();
 
-        // If a click closed the menu, we should close the entire chain of nested menus.
-        if ((reason === 'click' || reason === 'tab') && this._parentMenu) {
-          this._parentMenu.closed.emit(reason);
-        }
-      });
+          // If a click closed the menu, we should close the entire chain of nested menus.
+          if ((reason === 'click' || reason === 'tab') && this._parentMenu) {
+            this._parentMenu.closed.emit(reason);
+          }
+        });
     }
 
     const overlayRef = this._createOverlay();
-    this._setPosition(overlayRef.getConfig().positionStrategy as FlexibleConnectedPositionStrategy);
+    if (!this._isGlobalPositioning) {
+      this._setPosition(overlayRef.getConfig()
+        .positionStrategy as FlexibleConnectedPositionStrategy);
+    }
     overlayRef.attach(this._getPortal());
 
     if (this.menu.lazyContent) {
       this.menu.lazyContent.attach(this.menuData);
     }
 
-    this._closeSubscription = this._menuClosingActions().subscribe(() => this.closeMenu());
+    this._closeSubscription = this._menuClosingActions().subscribe(() =>
+      this.closeMenu()
+    );
     this._initMenu();
 
     if (this.menu instanceof MatMenu) {
@@ -257,6 +283,9 @@ export class ContextMenuDirective implements OnDestroy {
     event.preventDefault();
     event.stopPropagation();
 
+    this.globalOffsetTop = event.pageY;
+    this.globalOffsetLeft = event.pageX;
+
     this.toggleMenu();
 
     // hack prevenst browser context menu which is shown simetimes
@@ -275,14 +304,30 @@ export class ContextMenuDirective implements OnDestroy {
    * @returns OverlayConfig
    */
   private _getOverlayConfig(): OverlayConfig {
-    return new OverlayConfig({
-      positionStrategy: this._overlay
+    let positionStrategy;
+
+    if (this._isGlobalPositioning) {
+      positionStrategy = this._overlay
+        .position()
+        .global()
+        .left(coerceCssPixelValue(this.globalOffsetLeft))
+        .top(coerceCssPixelValue(this.globalOffsetTop));
+    } else {
+      positionStrategy = this._overlay
         .position()
         .flexibleConnectedTo(this._element)
         .withLockedPosition()
-        .withTransformOriginOn('.mat-menu-panel'),
-      hasBackdrop: this.menu.hasBackdrop == null ? !this.triggersSubmenu() : this.menu.hasBackdrop,
-      backdropClass: this.menu.backdropClass || 'cdk-overlay-transparent-backdrop',
+        .withTransformOriginOn('.mat-menu-panel');
+    }
+
+    return new OverlayConfig({
+      positionStrategy,
+      hasBackdrop:
+        this.menu.hasBackdrop == null
+          ? !this.triggersSubmenu()
+          : this.menu.hasBackdrop,
+      backdropClass:
+        this.menu.backdropClass || 'cdk-overlay-transparent-backdrop',
       scrollStrategy: this._scrollStrategy(),
       direction: this._dir
     });
@@ -296,7 +341,11 @@ export class ContextMenuDirective implements OnDestroy {
     if (!this._overlayRef) {
       const config = this._getOverlayConfig();
 
-      this._subscribeToPositions(config.positionStrategy as FlexibleConnectedPositionStrategy);
+      if (!this._isGlobalPositioning) {
+        this._subscribeToPositions(
+          config.positionStrategy as FlexibleConnectedPositionStrategy
+        );
+      }
       this._overlayRef = this._overlay.create(config);
 
       // Consume the `keydownEvents` in order to prevent them from going to another overlay.
@@ -313,7 +362,9 @@ export class ContextMenuDirective implements OnDestroy {
    * the menu was opened via the keyboard.
    */
   private _initMenu(): void {
-    this.menu.parentMenu = this.triggersSubmenu() ? this._parentMenu : undefined;
+    this.menu.parentMenu = this.triggersSubmenu()
+      ? this._parentMenu
+      : undefined;
     this.menu.direction = this.dir;
     this._setMenuElevation();
     this._setIsMenuOpen(true);
@@ -354,7 +405,7 @@ export class ContextMenuDirective implements OnDestroy {
     let [originX, originFallbackX]: HorizontalConnectionPos[] =
       this.menu.xPosition === 'before' ? ['end', 'start'] : ['start', 'end'];
 
-    let [overlayY, overlayFallbackY]: VerticalConnectionPos[] =
+    const [overlayY, overlayFallbackY]: VerticalConnectionPos[] =
       this.menu.yPosition === 'above' ? ['bottom', 'top'] : ['top', 'bottom'];
 
     let [originY, originFallbackY] = [overlayY, overlayFallbackY];
@@ -364,9 +415,13 @@ export class ContextMenuDirective implements OnDestroy {
     if (this.triggersSubmenu()) {
       // When the menu is a sub-menu, it should always align itself
       // to the edges of the trigger, instead of overlapping it.
-      overlayFallbackX = originX = this.menu.xPosition === 'before' ? 'start' : 'end';
+      overlayFallbackX = originX =
+        this.menu.xPosition === 'before' ? 'start' : 'end';
       originFallbackX = overlayX = originX === 'end' ? 'start' : 'end';
-      offsetY = overlayY === 'bottom' ? MENU_PANEL_TOP_PADDING : -MENU_PANEL_TOP_PADDING;
+      offsetY =
+        overlayY === 'bottom'
+          ? MENU_PANEL_TOP_PADDING
+          : -MENU_PANEL_TOP_PADDING;
     } else if (!this.menu.overlapTrigger) {
       originY = overlayY === 'top' ? 'bottom' : 'top';
       originFallbackY = overlayFallbackY === 'top' ? 'bottom' : 'top';
@@ -374,7 +429,13 @@ export class ContextMenuDirective implements OnDestroy {
 
     positionStrategy.withPositions([
       { originX, originY, overlayX, overlayY, offsetY },
-      { originX: originFallbackX, originY, overlayX: overlayFallbackX, overlayY, offsetY },
+      {
+        originX: originFallbackX,
+        originY,
+        overlayX: overlayFallbackX,
+        overlayY,
+        offsetY
+      },
       {
         originX,
         originY: originFallbackY,
@@ -397,11 +458,15 @@ export class ContextMenuDirective implements OnDestroy {
    * on the menu based on the new position. This ensures the animation origin is always
    * correct, even if a fallback position is used for the overlay.
    */
-  private _subscribeToPositions(position: FlexibleConnectedPositionStrategy): void {
+  private _subscribeToPositions(
+    position: FlexibleConnectedPositionStrategy
+  ): void {
     if (this.menu.setPositionClasses) {
       position.positionChanges.subscribe(change => {
-        const posX: MenuPositionX = change.connectionPair.overlayX === 'start' ? 'after' : 'before';
-        const posY: MenuPositionY = change.connectionPair.overlayY === 'top' ? 'below' : 'above';
+        const posX: MenuPositionX =
+          change.connectionPair.overlayX === 'start' ? 'after' : 'before';
+        const posY: MenuPositionY =
+          change.connectionPair.overlayY === 'top' ? 'below' : 'above';
 
         this.menu.setPositionClasses!(posX, posY);
       });
@@ -412,7 +477,9 @@ export class ContextMenuDirective implements OnDestroy {
   private _menuClosingActions() {
     const backdrop = this._overlayRef!.backdropClick();
     const detachments = this._overlayRef!.detachments();
-    const parentClose = this._parentMenu ? this._parentMenu.closed : observableOf();
+    const parentClose = this._parentMenu
+      ? this._parentMenu.closed
+      : observableOf();
     const hover = this._parentMenu
       ? this._parentMenu._hovered().pipe(
           filter(active => active !== this._menuItemInstance),
@@ -429,7 +496,10 @@ export class ContextMenuDirective implements OnDestroy {
     // While it would be cleaner, we'd have to introduce another required method on
     // `MatMenuPanel`, making it harder to consume.
     if (!this._portal || this._portal.templateRef !== this.menu.templateRef) {
-      this._portal = new TemplatePortal(this.menu.templateRef, this._viewContainerRef);
+      this._portal = new TemplatePortal(
+        this.menu.templateRef,
+        this._viewContainerRef
+      );
     }
 
     return this._portal;
